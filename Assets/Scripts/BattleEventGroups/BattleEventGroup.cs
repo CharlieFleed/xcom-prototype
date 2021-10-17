@@ -1,0 +1,39 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class BattleEventGroup
+{
+    List<BattleEvent> _battleEvents = new List<BattleEvent>();
+    List<BattleEvent> _newBattleEvents = new List<BattleEvent>();
+    List<BattleEvent> _endedBattleEvents = new List<BattleEvent>();
+
+    public void Run()
+    {
+        foreach (var battleEvent in _battleEvents)
+        {
+            battleEvent.Run();
+            if (battleEvent.ended)
+            {
+                _endedBattleEvents.Add(battleEvent);
+            }
+        }
+        foreach (var battleEvent in _endedBattleEvents)
+        {
+            _battleEvents.Remove(battleEvent);
+        }
+        _endedBattleEvents.Clear();
+        _battleEvents.AddRange(_newBattleEvents);
+        _newBattleEvents.Clear();
+    }
+
+    public void AddBattleEvent(BattleEvent battleEvent)
+    {
+        _newBattleEvents.Add(battleEvent);
+    }
+
+    public bool IsComplete()
+    {
+        return _battleEvents.Count == 0;
+    }
+}
