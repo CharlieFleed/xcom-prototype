@@ -35,13 +35,13 @@ public class PanCameraController : MonoBehaviour
             // check that the follow target exists, it hasn't changed or moved
             if (_cameraDirector.WorldCamera.m_Follow != null && _cameraDirector.WorldCamera.m_Follow == _savedCameraFollow && _cameraDirector.WorldCamera.m_Follow.position == _savedCameraFollowPosition)
             {
-                Debug.Log("CheckPan");
+                //Debug.Log("CheckPan");
                 CheckPan();
             }
             else
             {
-                Debug.Log($"_cameraDirector.WorldCamera.m_Follow: {_cameraDirector.WorldCamera.m_Follow}");
-                Debug.Log($"_savedCameraFollow: {_savedCameraFollow}");
+                //Debug.Log($"_cameraDirector.WorldCamera.m_Follow: {_cameraDirector.WorldCamera.m_Follow}");
+                //Debug.Log($"_savedCameraFollow: {_savedCameraFollow}");
                 Align();
                 Deactivate();
             }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class MatchManager : MonoBehaviour
 {
@@ -91,6 +92,7 @@ public class MatchManager : MonoBehaviour
                 // register events
                 gameObject.GetComponent<Character>().OnActionComplete += HandleCharacter_ActionComplete;
                 gameObject.GetComponent<Character>().OnPass += HandleCharacter_Pass;
+                gameObject.GetComponent<Character>().OnEndTurn += HandleCharacter_EndTurn;
             }
             _teams.Enqueue(team);
         }
@@ -118,7 +120,7 @@ public class MatchManager : MonoBehaviour
         }
         if (_teams.Count == 0)
         {
-            Application.LoadLevel(Application.loadedLevel);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             return;
         }
         _activeCharacter.Activate();
@@ -134,6 +136,15 @@ public class MatchManager : MonoBehaviour
     {
         _activeCharacter = null;
         _teams.Peek().RotateReadyCharacters();
+    }
+
+    void HandleCharacter_EndTurn()
+    {
+        _activeCharacter = null;
+        Team team = _teams.Dequeue();
+        team.EndTurn();
+        _teams.Enqueue(team);
+        StartTeamTurn();
     }
 
     public List<T> GetEnemiesAs<T>(Character character)

@@ -27,6 +27,7 @@ public class Character : MonoBehaviour
     public event Action OnActionConfirmed = delegate { };
     public event Action OnActionComplete = delegate { };
     public event Action OnPass = delegate { };
+    public event Action OnEndTurn = delegate { };
 
     bool _isActionActive;
 
@@ -252,6 +253,10 @@ public class Character : MonoBehaviour
         ShowFirstShooterTargets();
     }
 
+    #endregion
+
+    #region GUI
+
     public void HandleTargetClick(ShotStats target)
     {
         if (IsActive && !_isActionActive)
@@ -287,6 +292,24 @@ public class Character : MonoBehaviour
             //Debug.Log("Character HandleMouseExitTarget - " + gameObject.name + " target: " + target.Character.gameObject.name);
             target.Target.IsSoftTargeted = false;
             OnMouseExitTarget(target);
+        }
+    }
+
+    public void HandlePass()
+    {
+        if (IsActive && !_isActionActive)
+        {
+            Cancel();
+            OnPass();
+        }
+    }
+
+    public void HandleEndTurn()
+    {
+        if (IsActive && !_isActionActive)
+        {
+            Cancel();
+            OnEndTurn();
         }
     }
 
