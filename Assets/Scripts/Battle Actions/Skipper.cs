@@ -18,7 +18,7 @@ public class Skipper : BattleAction
         Skip();
     }
 
-    void Skip()
+    public void Skip()
     {
         InvokeActionConfirmed(this);
         Deactivate();

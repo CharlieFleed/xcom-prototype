@@ -28,7 +28,6 @@ public class TrajectoryPredictor : MonoBehaviour
         public Vector3 impulse;
     }
     Dictionary<Vector3, TrajectoryInfo> _trajectoryCache = new Dictionary<Vector3, TrajectoryInfo>();
-    Coroutine _CoTrajectoryToTarget;
 
     #endregion
 
@@ -55,28 +54,6 @@ public class TrajectoryPredictor : MonoBehaviour
         _lineRenderer = obj.GetComponent<LineRenderer>();
         _lineRenderer.material.color = Color.red;
         _lineRenderer.loop = false;
-
-        MatchManager.Instance.OnCharacterActivated += Instance_OnCharacterActivated;
-
-    }
-
-    private void Instance_OnCharacterActivated(Character character)
-    {
-        if (_CoTrajectoryToTarget != null)
-            StopCoroutine(_CoTrajectoryToTarget);
-        ClearGrenades();
-        _trajectoryCache.Clear();
-        return;
-        GridEntity gridEntity = character.GetComponent<GridEntity>();
-        List<GridNode> targets = new List<GridNode>();
-        foreach (GridNode target in GridManager.Instance.GetGrid())
-        {
-            if (target.HasFloor && GridNode.EuclideanDistance(gridEntity.CurrentNode, target) < 10)
-            {
-                targets.Add(target);
-            }
-        }        
-        _CoTrajectoryToTarget = StartCoroutine(CoTrajectoryToTarget(gridEntity, targets));
     }
 
     private void CloneColliders()
@@ -126,13 +103,6 @@ public class TrajectoryPredictor : MonoBehaviour
             trajectory = _trajectoryCache[target].trajectory;
             origin = _trajectoryCache[target].origin;
             return _trajectoryCache[target].available;
-        }
-        else
-        {
-            //Debug.Log("Stop");
-            if (_CoTrajectoryToTarget != null)
-                StopCoroutine(_CoTrajectoryToTarget);
-            ClearGrenades();
         }
 
         UnityEngine.Profiling.Profiler.BeginSample("TrajectoryToTarget1");
@@ -194,68 +164,6 @@ public class TrajectoryPredictor : MonoBehaviour
         UnityEngine.Profiling.Profiler.EndSample();
 
         return hit;
-    }
-
-    IEnumerator CoTrajectoryToTarget(GridEntity gridEntity, List<GridNode> targets)
-    {
-        foreach (GridNode target in targets)
-        {
-            List<Vector3> origins = new List<Vector3>() { gridEntity.CurrentNode.FloorPosition + 2 * Vector3.up };
-            foreach (var sidestep in GridCoverManager.Instance.SideSteps(gridEntity, target))
-            {
-                origins.Add(sidestep.FloorPosition + 2 * Vector3.up);
-            }
-            for (int o = 0; o < origins.Count; o++)
-            {
-                Vector3 direction = target.FloorPosition - origins[o];
-                direction.y = 0;
-                Vector3 impulse = direction.normalized;
-                if (direction.magnitude > 0)
-                {
-                    Vector3 rotationAxis = Quaternion.AngleAxis(90, Vector3.up) * direction;
-                    for (int a = 75; a > 0; a -= 15)
-                    {
-                        for (int f = 20; f > 0; f -= 5)
-                        {
-                            impulse = Quaternion.AngleAxis(-a, rotationAxis) * (f * direction.normalized);
-                            // instantiate the grenade
-                            GameObject grenadeObject = Instantiate(_grenadePrefab, Vector3.zero, Quaternion.identity);
-                            GrenadeSim grenade = grenadeObject.GetComponent<GrenadeSim>();
-                            grenade.enabled = false;
-                            grenade.Impulse = impulse;
-                            grenade.Origin = origins[o];
-                            grenade.Target = target.FloorPosition;
-                            grenade.Init(150);
-                            SceneManager.MoveGameObjectToScene(grenadeObject, _predictionScene);
-                            grenadeObject.transform.position = origins[o];
-                            grenadeObject.GetComponent<Rigidbody>().AddForce(impulse, ForceMode.Impulse);
-                            //
-                            _grenades.Add(grenade);
-                        }
-                    }
-                }
-            }
-        }
-        // simulate
-        for (int i = 0; i < 15; i++)
-        {
-            for (int j = 0; j < 10; j++)
-            {
-                _predictionPhysicsScene.Simulate(Time.fixedDeltaTime);
-                foreach (var grenade in _grenades)
-                {
-                    grenade.AddPoint(grenade.transform.position);
-                    if ((grenade.transform.position - grenade.Target).magnitude < 0.5f)
-                    {
-                        Debug.Log($"Trajectory found!");
-                        CacheTrajectory(grenade.Target, true, grenade.Impulse, grenade.Trajectory, grenade.Origin);
-                        break;
-                    }
-                }
-            }
-            yield return null;
-        }
-        ClearGrenades();
     }
 
     private void CacheTrajectory(Vector3 target, bool hit, Vector3 impulse, Vector3[] trajectory, Vector3 origin)

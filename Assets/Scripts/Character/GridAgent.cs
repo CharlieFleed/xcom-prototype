@@ -42,10 +42,10 @@ public class GridAgent : MonoBehaviour
     private void Awake()
     {
         Walker.OnDestinationReached += HandleWalker_OnDestinationReached;
-        MatchManager.Instance.OnCharacterActivated += HandleMatchManager_OnCharacterActivated;
+        MatchManager.Instance.OnNewTurn += HandleMatchManager_OnNewTurn;
     }
 
-    void HandleMatchManager_OnCharacterActivated(Character obj)
+    void HandleMatchManager_OnNewTurn()
     {
         UpdateCover();
     }
@@ -64,6 +64,6 @@ public class GridAgent : MonoBehaviour
     private void OnDestroy()
     {
         Walker.OnDestinationReached -= HandleWalker_OnDestinationReached;
-        MatchManager.Instance.OnCharacterActivated -= HandleMatchManager_OnCharacterActivated;
+        MatchManager.Instance.OnNewTurn -= HandleMatchManager_OnNewTurn;
     }
 }

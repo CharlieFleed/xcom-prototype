@@ -12,15 +12,25 @@ public class ActiveCharacterPanel : MonoBehaviour
     {
         _cg = GetComponent<CanvasGroup>();
         _text = GetComponentInChildren<Text>(true);
+        Character.OnActiveChanged += HandleCharacter_OnActiveChanged;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void HandleCharacter_OnActiveChanged(Character character, bool active)
     {
-        _cg.alpha = (MatchManager.Instance.ActiveCharacter != null) ? 1 : 0;
-        if (MatchManager.Instance.ActiveCharacter != null)
+        if (active)
         {
-            _text.text = MatchManager.Instance.ActiveCharacter.name;
-        }     
+            _text.text = character.name;
+            _cg.alpha = 1;
+        }
+        else
+        {
+            _text.text = ""; ;
+            _cg.alpha = 0;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        Character.OnActiveChanged -= HandleCharacter_OnActiveChanged;
     }
 }

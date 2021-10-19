@@ -11,7 +11,7 @@ public class Overwatcher : BattleAction
 
     bool _isOverwatching;
     // used by LookAtTarget
-    public event Action<Shooter, Character> OnShoot = delegate { };
+    public event Action<Shooter, GridEntity> OnShoot = delegate { };
 
     public override string ActionName { get { return _shooter.Weapon.Name + " " + base.ActionName; } }
     public override string ConfirmText { get { return _shooter.Weapon.Name + " " + base.ActionName; } }
@@ -31,7 +31,7 @@ public class Overwatcher : BattleAction
             {
                 if (Vector3.Distance(transform.position, walker.transform.position) <= _shooter.Weapon.Range)
                 {
-                    OverwatchShoot(walker.GetComponent<GridAgent>());
+                    OverwatchShoot(walker.GetComponent<GridEntity>());
                 }
             }
         }
@@ -66,16 +66,16 @@ public class Overwatcher : BattleAction
         InvokeActionComplete(this);
     }
 
-    void OverwatchShoot(GridAgent gridAgent)
+    void OverwatchShoot(GridEntity gridEntity)
     {
         //Debug.Log($"OverwatchShoot {name} in position {gridAgent.CurrentNode.X},{gridAgent.CurrentNode.Y},{gridAgent.CurrentNode.Z}");
         ShotStats shotStats = new ShotStats();
-        shotStats.Target = gridAgent.GetComponent<GridEntity>();
+        shotStats.Target = gridEntity;
         shotStats.HitChance = 100 + _shooter.Weapon.HitChanceBonus(shotStats.Target);
         shotStats.HitChance = Mathf.Clamp(shotStats.HitChance, 0, 100);
         BattleEventShot shot = new BattleEventShot(_shooter, shotStats);
         MatchManager.Instance.AddBattleEvent(shot, true);
-        OnShoot(_shooter, gridAgent.GetComponent<Character>());
+        OnShoot(_shooter, gridEntity);
         ClearOverwatch();
     }
 

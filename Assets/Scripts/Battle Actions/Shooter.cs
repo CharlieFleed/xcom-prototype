@@ -218,6 +218,22 @@ public class Shooter : BattleAction
         }
     }
 
+    public void ShootRandomTarget()
+    {
+        List<ShotStats> availableShots = new List<ShotStats>();
+        foreach (var shot in _targets)
+        {
+            if (shot.Available)
+                availableShots.Add(shot);
+        }
+        ShotStats selectedShot = availableShots[UnityEngine.Random.RandomRange(0, availableShots.Count)];
+        _targets.Clear();
+        _targets.Enqueue(selectedShot);
+        OnTargetSelected(this, selectedShot.Target);
+        OnTargetingEnd();
+        Shoot();
+    }
+
     public void HandleTargetClick(ShotStats target)
     {
         if (IsActive)

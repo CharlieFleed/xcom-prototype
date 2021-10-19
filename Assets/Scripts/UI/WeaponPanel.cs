@@ -17,29 +17,27 @@ public class WeaponPanel : MonoBehaviour
     private void Awake()
     {
         _cg = GetComponent<CanvasGroup>();
+        Character.OnActiveChanged += HandleCharacter_OnActiveChanged;
     }
 
-    private void Start()
+    private void HandleCharacter_OnActiveChanged(Character character, bool active)
     {
-        MatchManager.Instance.OnCharacterActivated += HandleMatchManager_CharacterActivated;
-    }
-
-    private void HandleMatchManager_CharacterActivated(Character character)
-    {
-        if (_weapon != null)
+        if (active)
         {
-            _weapon.OnAmmunitionsChanged -= HandleWeapon_AmmunitionsChanged;
+            if (_weapon != null)
+            {
+                _weapon.OnAmmunitionsChanged -= HandleWeapon_AmmunitionsChanged;
+            }
+            _weapon = character.Weapon;
+            _weapon.OnAmmunitionsChanged += HandleWeapon_AmmunitionsChanged;
+            _image.sprite = _weapon.Image;
+            SetAmmunitions(_weapon.Bullets, _weapon.ClipSize);
+            _cg.alpha = 1;
         }
-        _weapon = character.Weapon;
-        _weapon.OnAmmunitionsChanged += HandleWeapon_AmmunitionsChanged;
-        _image.sprite = _weapon.Image;
-        SetAmmunitions(_weapon.Bullets, _weapon.ClipSize);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        _cg.alpha = (MatchManager.Instance.ActiveCharacter != null) ? 1 : 0;
+        else
+        {
+            _cg.alpha = 0;
+        }
     }
 
     void HandleWeapon_AmmunitionsChanged(int bullets, int clipSize)
@@ -52,5 +50,10 @@ public class WeaponPanel : MonoBehaviour
         _slider.maxValue = clipSize;
         _slider.value = bullets;
         _segments.uvRect = new Rect(0, 0, clipSize, 1);
+    }
+
+    private void OnDestroy()
+    {
+        Character.OnActiveChanged -= HandleCharacter_OnActiveChanged;
     }
 }

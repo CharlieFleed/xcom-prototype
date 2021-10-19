@@ -18,7 +18,7 @@ public class LookAtTarget : MonoBehaviour
         Overwatcher[] overwatchers = GetComponents<Overwatcher>();
         for (int i = 0; i < overwatchers.Length; i++)
         {
-            overwatchers[i].OnShoot += HandleShooter_Shoot;
+            overwatchers[i].OnShoot += HandleOverwatcher_Shoot;
         }
         Thrower[] throwers = GetComponents<Thrower>();
         for (int i = 0; i < throwers.Length; i++)
@@ -33,7 +33,7 @@ public class LookAtTarget : MonoBehaviour
         _direction.y = 0;
     }
 
-    void HandleShooter_Shoot(Shooter arg1, Character arg2)
+    void HandleOverwatcher_Shoot(Shooter arg1, GridEntity arg2)
     {
         _direction = arg2.transform.position - arg1.transform.position;
         _direction.y = 0;

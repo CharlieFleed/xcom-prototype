@@ -62,6 +62,13 @@ public class GridPathSelector : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        _pathfinder = Pathfinder.Instance;
+        _gridManager = GridManager.Instance;
+        _gridRegionHighlighter = GridRegionHighlighter.Instance;
+    }
+
     private void HandleCameraController_OnLevelChanged()
     {
         if (IsActive)
@@ -70,13 +77,6 @@ public class GridPathSelector : MonoBehaviour
             UpdateRanges(maxDistance - _gridAgent.WalkRange, maxDistance);
             _cachedNode = null; // to force an update
         }
-    }
-
-    private void Start()
-    {
-        _pathfinder = Pathfinder.Instance;
-        _gridManager = GridManager.Instance;
-        _gridRegionHighlighter = GridRegionHighlighter.Instance;
     }
 
     bool IsNodeAvailable(GridNode node)

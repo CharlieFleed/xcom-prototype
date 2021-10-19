@@ -41,7 +41,7 @@ public class ActionDetailsPanel : MonoBehaviour
 
     private void HandleActionActivated(BattleAction battleAction)
     {
-        Debug.Log($"HandleActionActivated");
+        //Debug.Log($"HandleActionActivated");
         battleAction.OnActionConfirmed += HandleActionConfirmed;
         battleAction.OnActionCancelled += HandleActionCancelled;
         gameObject.SetActive(true);

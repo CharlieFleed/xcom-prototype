@@ -26,6 +26,7 @@ public class CameraDirector : MonoBehaviour
         // register to static events
         Character.OnCharacterAdded += HandleCharacterAdded;
         Character.OnCharacterRemoved += HandleCharacterRemoved;
+        Character.OnActiveChanged += HandleCharacter_OnActiveChanged;
         GridEntity.OnGridEntityAdded += HandleGridEntityAdded;
         GridEntity.OnGridEntityRemoved += HandleGridEntityRemoved;
         Shooter.OnShooterAdded += HandleShooterAdded;
@@ -35,10 +36,24 @@ public class CameraDirector : MonoBehaviour
         BattleEventExplosion.OnExploding += HandleBattleEventExplosion_OnExploding;
         BattleEventExplosion.OnExplodingEnd += HandleBattleEventExplosion_OnExplodingEnd;
         //
-        _matchManager.OnCharacterActivated += HandleCharacterActivated;
-        //
         _activeEntityCamera = _worldCamera;
         _lastActivatedCharacterCamera = _worldCamera;
+        //
+        _matchManager.OnNewTurn += HandleMatchManager_OnNewTurn;
+    }
+
+    private void HandleMatchManager_OnNewTurn()
+    {
+        // disable any active camera
+        _actionCamera.gameObject.SetActive(false);
+        _activeEntityCamera.gameObject.SetActive(false);
+        //
+        _activeEntityCamera = _entityCameras[_matchManager.CurrentCharacter.GetComponent<GridEntity>()];
+        _activeEntityCamera.gameObject.SetActive(true);
+        _lastActivatedCharacterCamera = _activeEntityCamera;
+        _aimingCamera.m_Follow = _matchManager.CurrentCharacter.transform;
+        _actionCameraTargetGroup.m_Targets = new CinemachineTargetGroup.Target[0];
+        _actionCameraTargetGroup.AddMember(_matchManager.CurrentCharacter.transform, 1, 5); // pre-align action camera with current character
     }
 
     void HandleBattleEventShot_OnShooting(Shooter shooter, GridEntity target)
@@ -141,33 +156,35 @@ public class CameraDirector : MonoBehaviour
         shooter.OnTargetingEnd -= HandleTargetingEnd;
     }
 
-    void HandleCharacterActivated(Character character)
+    void HandleCharacter_OnActiveChanged(Character character, bool active)
     {
-        // disable any active camera
-        _actionCamera.gameObject.SetActive(false);
-        //_aimingCamera.gameObject.SetActive(false);
-        _activeEntityCamera.gameObject.SetActive(false);
-        //
-        _activeEntityCamera = _entityCameras[character.GetComponent<GridEntity>()];
-        _activeEntityCamera.gameObject.SetActive(true);
-        _lastActivatedCharacterCamera = _activeEntityCamera;
-        _aimingCamera.m_Follow = character.transform;
+        if (active)
+        {
+            // disable any active camera
+            _actionCamera.gameObject.SetActive(false);
+            _activeEntityCamera.gameObject.SetActive(false);
+            //
+            _activeEntityCamera = _entityCameras[character.GetComponent<GridEntity>()];
+            _activeEntityCamera.gameObject.SetActive(true);
+            _lastActivatedCharacterCamera = _activeEntityCamera;
+            _aimingCamera.m_Follow = character.transform;
+        }
     }
 
     void HandleTargetSelected(Shooter shooter, GridEntity target)
     {
         _activeEntityCamera.gameObject.SetActive(false);
         _aimingCamera.gameObject.SetActive(true);
-        _aimingCamera.LookAt = target.transform;
         OnAimingCameraActiveChanged(true);
+        _aimingCamera.LookAt = target.transform;
     }
 
     void HandleTargetingEnd()
     {
-        _activeEntityCamera = _lastActivatedCharacterCamera;
-        _lastActivatedCharacterCamera.gameObject.SetActive(true);
         _aimingCamera.gameObject.SetActive(false);
         OnAimingCameraActiveChanged(false);
+        _activeEntityCamera = _lastActivatedCharacterCamera;
+        _lastActivatedCharacterCamera.gameObject.SetActive(true);
     }
 
     void HandleMouseOverTarget(ShotStats target)
@@ -189,6 +206,7 @@ public class CameraDirector : MonoBehaviour
         // unregister to static events
         Character.OnCharacterAdded -= HandleCharacterAdded;
         Character.OnCharacterRemoved -= HandleCharacterRemoved;
+        Character.OnActiveChanged -= HandleCharacter_OnActiveChanged;
         GridEntity.OnGridEntityAdded -= HandleGridEntityAdded;
         GridEntity.OnGridEntityRemoved -= HandleGridEntityRemoved;
         Shooter.OnShooterAdded -= HandleShooterAdded;

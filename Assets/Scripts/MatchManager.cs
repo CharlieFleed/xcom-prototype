@@ -9,17 +9,18 @@ public class MatchManager : MonoBehaviour
 {
     #region Fields
 
-    [SerializeField] GameObject _playerPrefab;
-    [SerializeField] int _NumOfTeams = 3;
-    [SerializeField] int _NumOfPlayers = 3;
+    [SerializeField] GameObject _unitPrefab;
+    [SerializeField] int _NumOfUnits = 3;
+    [SerializeField] Player[] _players;
 
-    public event Action<Character> OnCharacterActivated = delegate { };
+    public event Action OnNewTurn = delegate { };
 
     Queue<Team> _teams = new Queue<Team>();
-    Character _activeCharacter;
+    Character _currentCharacter;
     Queue<BattleEventGroup> _battleEventGroups = new Queue<BattleEventGroup>();
 
-    public Character ActiveCharacter { get { return _activeCharacter; } }
+    public Character CurrentCharacter { get { return _currentCharacter; } }
+    public Team ActiveTeam { get { return _teams.Peek(); } }
 
     #endregion
 
@@ -33,22 +34,31 @@ public class MatchManager : MonoBehaviour
     {
         GenerateTeams();
         GridManager.Instance.PositionPlayers(_teams);
-        StartTeamTurn();
+        ActiveTeam.StartTurn();
     }
 
     private void Update()
     {
-        UpdateBattlePhases();
+        UpdateBattleEvents();
         if (_battleEventGroups.Count == 0)
         {
-            if (_activeCharacter == null)
+            if (_currentCharacter == null)
             {
-                ActivateNextCharacter();
+                SelectNextCharacter();
+                if (_currentCharacter != null)
+                {
+                    OnNewTurn();
+                    ActiveTeam.Owner.Activate();
+                }
+                if (_teams.Count == 0)
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                }
             }
         }
     }
 
-    void UpdateBattlePhases()
+    void UpdateBattleEvents()
     {
         if (_battleEventGroups.Count > 0)
         {
@@ -78,73 +88,69 @@ public class MatchManager : MonoBehaviour
     {
         _teams.Clear();
         Color[] teamColors = new Color[3] { Color.cyan, Color.red, Color.green };
-        for (int t = 0; t < _NumOfTeams; t++)
+        for (int t = 0; t < _players.Length; t++)
         {
             Team team = new Team();
-            for (int c = 0; c < _NumOfPlayers; c++)
+            team.Owner = _players[t];
+            _players[t].OnActionComplete += HandlePlayer_ActionComplete;
+            for (int c = 0; c < _NumOfUnits; c++)
             {
-                GameObject gameObject = Instantiate(_playerPrefab, Vector3.zero, Quaternion.identity);
-                gameObject.name = t + "-" + c;
-                if (t == 0 && c == 0) gameObject.name = "Col. Ian McCaskill";
-                team.Characters.Add(gameObject.GetComponent<Character>());
-                gameObject.GetComponent<Character>().Team = team;
-                gameObject.GetComponentInChildren<MeshRenderer>().material.color = teamColors[t];
+                GameObject unit = Instantiate(_unitPrefab, Vector3.zero, Quaternion.identity);
+                unit.name = t + "-" + c;
+                if (t == 0 && c == 0) unit.name = "Col. Ian McCaskill";
+                team.Characters.Add(unit.GetComponent<Character>());
+                unit.GetComponent<Character>().Team = team;
+                unit.GetComponentInChildren<MeshRenderer>().material.color = teamColors[t];
                 // register events
-                gameObject.GetComponent<Character>().OnActionComplete += HandleCharacter_ActionComplete;
-                gameObject.GetComponent<Character>().OnPass += HandleCharacter_Pass;
-                gameObject.GetComponent<Character>().OnEndTurn += HandleCharacter_EndTurn;
+                unit.GetComponent<Character>().OnActionComplete += HandleCharacter_ActionComplete;
+                unit.GetComponent<Character>().OnPass += HandleCharacter_Pass;
+                unit.GetComponent<Character>().OnEndTurn += HandleCharacter_EndTurn;
             }
             _teams.Enqueue(team);
         }
     }
 
-    void StartTeamTurn()
+    void SelectNextCharacter()
     {
-        _teams.Peek().StartTurn();
-    }
-
-    void ActivateNextCharacter()
-    {
-        _activeCharacter = _teams.Peek().GetFirstReadyCharacter();
-        while (_activeCharacter == null && _teams.Count > 0)
+        _currentCharacter = ActiveTeam.GetFirstReadyCharacter();
+        if (_currentCharacter == null)
         {
             Team team = _teams.Dequeue();
             team.EndTurn();
             _teams.Enqueue(team);
-            StartTeamTurn();
-            _activeCharacter = _teams.Peek().GetFirstReadyCharacter();
-            if (_activeCharacter == null)
+            ActiveTeam.StartTurn();
+            _currentCharacter = ActiveTeam.GetFirstReadyCharacter();
+            if (_currentCharacter == null)
             {
                 _teams.Dequeue();
             }
-        }
-        if (_teams.Count == 0)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            return;
-        }
-        _activeCharacter.Activate();
-        OnCharacterActivated(_activeCharacter);
+        }               
+    }
+
+    void HandlePlayer_ActionComplete()
+    {
+        _currentCharacter = null;
+        ActiveTeam.Owner.Deactivate();
     }
 
     void HandleCharacter_ActionComplete()
     {
-        _activeCharacter = null;
+        _currentCharacter = null;
+        ActiveTeam.Owner.Deactivate();
     }
 
     void HandleCharacter_Pass()
     {
-        _activeCharacter = null;
-        _teams.Peek().RotateReadyCharacters();
+        _currentCharacter = null;
+        ActiveTeam.Owner.Deactivate();
+        ActiveTeam.RotateReadyCharacters();
     }
 
     void HandleCharacter_EndTurn()
     {
-        _activeCharacter = null;
-        Team team = _teams.Dequeue();
-        team.EndTurn();
-        _teams.Enqueue(team);
-        StartTeamTurn();
+        _currentCharacter = null;
+        ActiveTeam.Owner.Deactivate();
+        ActiveTeam.EndTurn();
     }
 
     public List<T> GetEnemiesAs<T>(Character character)
@@ -175,17 +181,17 @@ public class MatchManager : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (_activeCharacter != null)
+        if (_currentCharacter != null)
         {
             foreach (Team team in _teams)
             {
-                if (!team.Characters.Contains(_activeCharacter))
+                if (!team.Characters.Contains(_currentCharacter))
                 {
                     foreach (Character character in team.Characters)
                     {
                         Ray ray;
                         float rayLength;
-                        if (GridCoverManager.Instance.LineOfSight(_activeCharacter.GetComponent<GridEntity>(), character.GetComponent<GridEntity>(), out ray, out rayLength, new List<GridNode[]>()))
+                        if (GridCoverManager.Instance.LineOfSight(_currentCharacter.GetComponent<GridEntity>(), character.GetComponent<GridEntity>(), out ray, out rayLength, new List<GridNode[]>()))
                         {
                             Gizmos.color = Color.green;
                             Gizmos.DrawRay(ray.origin, ray.direction * rayLength);

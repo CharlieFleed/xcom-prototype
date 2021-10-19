@@ -13,8 +13,8 @@ public class Character : MonoBehaviour
     [SerializeField] List<BattleAction> _battleActions;
 
     private bool _isActive;
-    public bool IsActive { get { return _isActive; } private set { _isActive = value; OnActiveChanged(_isActive); } }
-    public event Action<bool> OnActiveChanged = delegate { };
+    public bool IsActive { get { return _isActive; } private set { _isActive = value; OnActiveChanged(this, _isActive); } }
+    public static event Action<Character, bool> OnActiveChanged = delegate { };
 
     private int _numActions;
     public int NumActions { get { return _numActions; } private set { _numActions = value; OnNumActionsChanged(_numActions); } }
@@ -35,6 +35,18 @@ public class Character : MonoBehaviour
     public event Action<ShotStats> OnMouseExitTarget = delegate { };
 
     public Team Team { set; get; }
+
+    public Shooter MainShooter()
+    {
+        foreach (var item in _battleActions)
+        {
+            if (item is Shooter)
+            {
+                return (Shooter)item;
+            }
+        }
+        return null;
+    }
 
     #endregion
 
@@ -115,21 +127,21 @@ public class Character : MonoBehaviour
                 battleAction.Init(NumActions);
                 OnActionAdded(battleAction);
             }
-            ShowFirstShooterTargets();
+            ShowMainShooterTargets();
         }
     }
 
     void Deactivate()
     {
         IsActive = false;
-        HideFirstShooterTargets();
+        HideMainShooterTargets();
         OnActionsCleared();
     }
 
     /// <summary>
     /// Show targets for the first shooter found.
     /// </summary>
-    private void ShowFirstShooterTargets()
+    private void ShowMainShooterTargets()
     {
         //Debug.Log("Character Show Targets");
         foreach (var item in _battleActions)
@@ -145,7 +157,7 @@ public class Character : MonoBehaviour
     /// <summary>
     /// Hide targets for the first shooter found.
     /// </summary>
-    private void HideFirstShooterTargets()
+    private void HideMainShooterTargets()
     {
         //Debug.Log("Character Hide Targets");
         foreach (var item in _battleActions)
@@ -173,7 +185,7 @@ public class Character : MonoBehaviour
         if (_walker.IsActive)
         {
             _walker.Cancel();
-            HideFirstShooterTargets();
+            HideMainShooterTargets();
         }
         battleAction.Activate();
         _isActionActive = true;
@@ -219,9 +231,10 @@ public class Character : MonoBehaviour
 
     void HandleActionConfirmed(BattleAction battleAction)
     {
+        //Debug.Log("HandleActionConfirmed");
         if (_walker.IsActive)
         {
-            HideFirstShooterTargets();
+            HideMainShooterTargets();
         }
         if (battleAction.EndsTurn)
         {
@@ -250,7 +263,7 @@ public class Character : MonoBehaviour
         //Debug.Log("Character - HandleActionCancelled");
         _isActionActive = false;
         _walker.Activate();
-        ShowFirstShooterTargets();
+        ShowMainShooterTargets();
     }
 
     #endregion

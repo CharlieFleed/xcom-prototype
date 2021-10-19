@@ -203,10 +203,10 @@ public class Movement : MonoBehaviour
     {
         if (_isClimbingTurn)
         {
-            Debug.Log($"_isClimbingTurn");
+            //Debug.Log($"_isClimbingTurn");
             if (_lookAtDirection == Vector3.zero)
             {
-                Debug.Log($"_isClimbingClimb true");
+                //Debug.Log($"_isClimbingClimb true");
                 _isClimbingTurn = false;
                 _isClimbingClimb = true;
                 _animator.SetTrigger("Climbing");
@@ -214,14 +214,14 @@ public class Movement : MonoBehaviour
         }
         else if (_isClimbingClimb)
         {
-            Debug.Log($"_isClimbingClimb");
+            //Debug.Log($"_isClimbingClimb");
             _t += Time.deltaTime / _timeToReachTarget;
             _newPosition.y = Mathf.Lerp(_startPosition.y, _targetPosition.y - 2.7f, _t);
             // check if reached the edge
             if (_newPosition.y >= _targetPosition.y - 2.75f)
             {
                 _isClimbingClimb = false;
-                Debug.Log($"_isClimbingToTop true");
+                //Debug.Log($"_isClimbingToTop true");
                 _newPosition.y = _targetPosition.y - 2.7f;
                 _isClimbingToTop = true;
                 _animator.SetTrigger("ClimbingToTop");
@@ -234,7 +234,7 @@ public class Movement : MonoBehaviour
         }
         else if (_isClimbingToTop)
         {
-            Debug.Log($"_isClimbingToTop");
+            //Debug.Log($"_isClimbingToTop");
             if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Run") && !_animator.GetAnimatorTransitionInfo(0).IsName("Run -> Climbing"))
             {
                 _animator.applyRootMotion = false;
@@ -249,7 +249,7 @@ public class Movement : MonoBehaviour
                 _t = 0;
                 _isClimbingToTop = false;
                 _isClimbingRun = true;
-                Debug.Log($"_isClimbingRun true");
+                //Debug.Log($"_isClimbingRun true");
             }
         }
         else if (_isClimbingRun)
