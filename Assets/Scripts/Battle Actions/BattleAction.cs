@@ -2,8 +2,9 @@
 using System.Collections;
 using System;
 using UnityEngine.UI;
+using Mirror;
 
-public class BattleAction : MonoBehaviour
+public class BattleAction : NetworkBehaviour
 {
     [SerializeField] string _actionName;
     public virtual string ActionName { get { return _actionName; } }

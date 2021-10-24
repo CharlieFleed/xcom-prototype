@@ -21,7 +21,7 @@ public class Explosive : MonoBehaviour
     private void HandleExplosive_OnDied()
     {
         BattleEventExplosion _explosion = new BattleEventExplosion(this);
-        MatchManager.Instance.AddBattleEvent(_explosion, true);
+        NetworkMatchManager.Instance.AddBattleEvent(_explosion, true);
     }
 
     public void Detonate()

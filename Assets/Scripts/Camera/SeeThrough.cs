@@ -23,6 +23,7 @@ public class SeeThrough : MonoBehaviour
     }
     bool _hidden;
     bool _prevHidden;
+
     [SerializeField] Material[] _materials;
 
     Renderer[] _renderers;
@@ -40,7 +41,16 @@ public class SeeThrough : MonoBehaviour
         {
             _group = parent.GetComponent<SeeThroughGroup>();
         }
+    }
+
+    private void OnEnable()
+    {
         CameraDirector.OnAimingCameraActiveChanged += CameraDirector_OnAimingCameraActiveChanged;
+    }
+
+    private void OnDisable()
+    {
+        CameraDirector.OnAimingCameraActiveChanged -= CameraDirector_OnAimingCameraActiveChanged;
     }
 
     private void CameraDirector_OnAimingCameraActiveChanged(bool active)
@@ -91,7 +101,6 @@ public class SeeThrough : MonoBehaviour
                         _renderers[i].materials = _materials;
                     }
                 }
-
             }
             else
             {
@@ -114,10 +123,5 @@ public class SeeThrough : MonoBehaviour
     {
         //Debug.Log($"{name} hidden by brother.");
         _hidden = true;
-    }
-
-    private void OnDestroy()
-    {
-        CameraDirector.OnAimingCameraActiveChanged -= CameraDirector_OnAimingCameraActiveChanged;
     }
 }

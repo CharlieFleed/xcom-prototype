@@ -27,7 +27,7 @@ public class TrajectoryPredictor : MonoBehaviour
         public Vector3 origin;
         public Vector3 impulse;
     }
-    Dictionary<Vector3, TrajectoryInfo> _trajectoryCache = new Dictionary<Vector3, TrajectoryInfo>();
+    Dictionary<Vector3, TrajectoryInfo> _trajectoriesCache = new Dictionary<Vector3, TrajectoryInfo>();
 
     #endregion
 
@@ -54,6 +54,13 @@ public class TrajectoryPredictor : MonoBehaviour
         _lineRenderer = obj.GetComponent<LineRenderer>();
         _lineRenderer.material.color = Color.red;
         _lineRenderer.loop = false;
+
+        NetworkMatchManager.Instance.OnNewTurn += HandleNetworkMatchManager_OnNewTurn;
+    }
+
+    private void HandleNetworkMatchManager_OnNewTurn()
+    {
+        _trajectoriesCache.Clear();
     }
 
     private void CloneColliders()
@@ -97,12 +104,12 @@ public class TrajectoryPredictor : MonoBehaviour
         trajectory = new Vector3[0];
         origin = Vector3.zero;
 
-        if (_trajectoryCache.ContainsKey(target))
+        if (_trajectoriesCache.ContainsKey(target))
         {
-            impulse = _trajectoryCache[target].impulse;
-            trajectory = _trajectoryCache[target].trajectory;
-            origin = _trajectoryCache[target].origin;
-            return _trajectoryCache[target].available;
+            impulse = _trajectoriesCache[target].impulse;
+            trajectory = _trajectoriesCache[target].trajectory;
+            origin = _trajectoriesCache[target].origin;
+            return _trajectoriesCache[target].available;
         }
 
         UnityEngine.Profiling.Profiler.BeginSample("TrajectoryToTarget1");
@@ -168,7 +175,7 @@ public class TrajectoryPredictor : MonoBehaviour
 
     private void CacheTrajectory(Vector3 target, bool hit, Vector3 impulse, Vector3[] trajectory, Vector3 origin)
     {
-        if (!_trajectoryCache.ContainsKey(target))
+        if (!_trajectoriesCache.ContainsKey(target))
         {
             if (hit)
             {
@@ -177,13 +184,13 @@ public class TrajectoryPredictor : MonoBehaviour
                 trajectoryInfo.origin = origin;
                 trajectoryInfo.impulse = impulse;
                 trajectoryInfo.available = true;
-                _trajectoryCache.Add(target, trajectoryInfo);
+                _trajectoriesCache.Add(target, trajectoryInfo);
             }
             else
             {
                 TrajectoryInfo trajectoryInfo = new TrajectoryInfo();
                 trajectoryInfo.available = false;
-                _trajectoryCache.Add(target, trajectoryInfo);
+                _trajectoriesCache.Add(target, trajectoryInfo);
             }
         }
     }
@@ -195,6 +202,11 @@ public class TrajectoryPredictor : MonoBehaviour
             Destroy(grenade.gameObject);
         }
         _grenades.Clear();
+    }
+
+    private void OnDestroy()
+    {
+        NetworkMatchManager.Instance.OnNewTurn -= HandleNetworkMatchManager_OnNewTurn;
     }
 
     #region Singleton

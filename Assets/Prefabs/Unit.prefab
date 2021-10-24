@@ -691,6 +691,7 @@ GameObject:
   - component: {fileID: -7165666962996947970}
   - component: {fileID: 7480344298823516602}
   - component: {fileID: 6522350665809467912}
+  - component: {fileID: 4820787878256576244}
   m_Layer: 9
   m_Name: Unit
   m_TagString: Untagged
@@ -746,6 +747,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f80d6c5f7727bad41bad9b921f4e3fa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   _walker: {fileID: 1302842514496740068}
   _battleActions:
   - {fileID: 5692046987926806819}
@@ -783,6 +786,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74eb4215d9e2d8f428c427b573e7deb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   _actionName: 
   _confirmText: 
   Cost: 1
@@ -818,6 +823,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a086035ed98e7f459febcbe6df8d3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   _markerPrefab: {fileID: 7240979935285675021, guid: 1422c28925620e944a4a7e27eb704c58, type: 3}
   _layerMask:
     serializedVersion: 2
@@ -836,6 +843,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea92427f82a6a246ac4cfdb8c5ea86f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   _actionName: 
   _confirmText: 
   Cost: 1
@@ -857,7 +866,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _name: Shotgun
-  _damage: 3
+  _baseDamage: 3
+  _maxDamage: 5
   _range: 16
   _clipSize: 4
   _shootFXPrefab: {fileID: 3466165693803881545, guid: 4f292bd6ca8c47e49b5e629ad7a9e5bd, type: 3}
@@ -874,6 +884,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea92427f82a6a246ac4cfdb8c5ea86f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   _actionName: 
   _confirmText: 
   Cost: 2
@@ -895,7 +907,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _name: Sniper Rifle
-  _damage: 5
+  _baseDamage: 3
+  _maxDamage: 5
   _range: 32
   _clipSize: 3
   _shootFXPrefab: {fileID: 3466165693803881545, guid: 4f292bd6ca8c47e49b5e629ad7a9e5bd, type: 3}
@@ -912,6 +925,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c927854fdcfe0954892c036b512473dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   _actionName: Skip
   _confirmText: Skip
   Cost: 1
@@ -931,6 +946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31ef3a4f6eac4744a3e3d6af6bf8b34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _healthDefault: 8
 --- !u!114 &3413539075449792346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -969,6 +985,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd07a19772b2f6b46abf07a40a2a1d4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   _actionName: Overwatch
   _confirmText: 
   Cost: 1
@@ -1001,6 +1019,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ec732a82ab19843ae9886b357c2baa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   _actionName: 
   _confirmText: 
   Cost: 1
@@ -1021,6 +1041,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de509106e5f83ed4f804ea95d680599c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   _actionName: Reload
   _confirmText: Reload
   Cost: 1
@@ -1041,6 +1063,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5861ec5db896274d833091e349dd18d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   _actionName: Throw
   _confirmText: Throw
   Cost: 1
@@ -1113,6 +1137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d8e9806e9367948a124086369eccc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   _actionName: Hunker
   _confirmText: Hunker
   Cost: 1
@@ -1120,6 +1146,23 @@ MonoBehaviour:
   EndsTurn: 1
   Icon: {fileID: 21300000, guid: 953306f64523a454592eae075725b72a, type: 3}
   IsConfirmable: 1
+--- !u!114 &4820787878256576244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590575594350318540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: c225ad67e8cec2e408ae8af50171281c
+  hasSpawned: 0
 --- !u!1001 &1051574122627388261
 PrefabInstance:
   m_ObjectHideFlags: 0

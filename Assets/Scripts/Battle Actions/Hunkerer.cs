@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Mirror;
 
 public class Hunkerer : BattleAction
 {
@@ -42,6 +43,18 @@ public class Hunkerer : BattleAction
     }
 
     void Hunker()
+    {
+        CmdHunker();
+    }
+
+    [Command]
+    void CmdHunker()
+    {
+        RpcHunker();
+    }
+
+    [ClientRpc]
+    void RpcHunker()
     {
         _gridAgent.Hunkering = true;
         InvokeActionConfirmed(this);

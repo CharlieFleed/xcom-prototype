@@ -16,12 +16,20 @@ public class TargetsPanel : MonoBehaviour
 
     ShotStats _mouseOverTarget;
 
-    private void Awake()
+    private void OnEnable()
     {
         Character.OnCharacterAdded += HandleCharacterAdded;
         Character.OnCharacterRemoved += HandleCharacterRemoved;
         Shooter.OnShooterAdded += HandleShooterAdded;
         Shooter.OnShooterRemoved += HandleShooterRemoved;
+    }
+
+    private void OnDisable()
+    {
+        Character.OnCharacterAdded -= HandleCharacterAdded;
+        Character.OnCharacterRemoved -= HandleCharacterRemoved;
+        Shooter.OnShooterAdded -= HandleShooterAdded;
+        Shooter.OnShooterRemoved -= HandleShooterRemoved;
     }
 
     void HandleHideTargets()
@@ -103,13 +111,5 @@ public class TargetsPanel : MonoBehaviour
         OnTargetClick -= shooter.HandleTargetClick;
         OnMouseOverTarget -= shooter.HandleMouseOverTarget;
         OnMouseExitTarget -= shooter.HandleMouseExitTarget;
-    }
-
-    private void OnDestroy()
-    {
-        Character.OnCharacterAdded -= HandleCharacterAdded;
-        Character.OnCharacterRemoved -= HandleCharacterRemoved;
-        Shooter.OnShooterAdded -= HandleShooterAdded;
-        Shooter.OnShooterRemoved -= HandleShooterRemoved;
     }
 }

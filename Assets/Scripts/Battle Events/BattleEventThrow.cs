@@ -7,7 +7,7 @@ public class BattleEventThrow : BattleEvent
 {
     #region Fields
 
-    enum Phase { Camera, Wait, Throw, Throwing, Thrown }
+    enum Phase { Camera, Wait, Throw, Throwing, Thrown, Detonate }
     Phase _phase;
 
     Thrower _thrower;
@@ -33,34 +33,14 @@ public class BattleEventThrow : BattleEvent
     {
         _grenade = grenade;
         _grenade.OnDetonate += HandleDetonate;
-        if (_phase == Phase.Throwing)
+        //if (_phase == Phase.Throwing)
             _phase = Phase.Thrown;
     }
 
     void HandleDetonate()
     {
-        if (_phase == Phase.Thrown)
-        {
-            Collider[] colliders = Physics.OverlapSphere(_target.FloorPosition, _grenade.Radius * GridManager.Instance.XZScale);
-            Debug.Log($"{colliders.Length}");
-            if (colliders.Length > 0)
-            {
-                foreach (var collider in colliders)
-                {
-                    Health health = collider.transform.root.GetComponentInChildren<Health>();
-                    if (health != null && !health.IsDead) // only consider objects with Health
-                    {
-                        bool crit = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-                        bool hit = true;
-                        int damage = UnityEngine.Random.Range(crit ? _grenade.Damage + 1 : 1, (crit ? 2 * _grenade.Damage : _grenade.Damage) + 1);
-                        health.TakeDamage(damage, hit, crit);
-                        MatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false);
-                    }
-                }
-            }
-            OnThrowingEnd();
-            End();
-        }
+        //if (_phase == Phase.Thrown)
+            _phase = Phase.Detonate;
     }
 
     public override void Run()
@@ -88,6 +68,53 @@ public class BattleEventThrow : BattleEvent
                 break;
             case Phase.Thrown:
                 // wait for OnDetonate event
+                break;
+            case Phase.Detonate:
+                Collider[] colliders = Physics.OverlapSphere(_target.FloorPosition, _grenade.Radius * GridManager.Instance.XZScale);
+                if (colliders.Length > 0)
+                {
+                    List<Health> targets = new List<Health>();
+                    foreach (var collider in colliders)
+                    {
+                        Health health = collider.transform.root.GetComponentInChildren<Health>();
+                        if (health != null && !health.IsDead) // only consider objects with Health
+                        {
+                            targets.Add(health);
+                        }
+                    }
+                    if (targets.Count > 0)
+                    {
+                        if (NetworkRandomGenerator.Instance.Ready())
+                        {
+                            // sort
+                            targets.Sort((a, b) => a.Id.CompareTo(b.Id));
+                            foreach (var health in targets)
+                            {
+                                bool crit = NetworkRandomGenerator.Instance.RandomRange(0, 2) == 1 ? true : false;
+                                bool hit = true;
+                                int damage = NetworkRandomGenerator.Instance.RandomRange(crit ? _grenade.Damage + 1 : 1, (crit ? 2 * _grenade.Damage : _grenade.Damage) + 1);
+                                health.TakeDamage(damage, hit, crit);
+                                NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false);
+                            }
+                            OnThrowingEnd();
+                            End();
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        OnThrowingEnd();
+                        End();
+                    }
+                }
+                else
+                {
+                    OnThrowingEnd();
+                    End();
+                }
                 break;
         }
     }

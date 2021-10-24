@@ -40,7 +40,7 @@ public class GridEntityHUD : MonoBehaviour
             _gridEntity.IsTargeted ||
             _gridEntity.IsSoftTargeted ||
             _health.IsDamaged ||
-            (_character != null && (MatchManager.Instance.CurrentCharacter != null && MatchManager.Instance.CurrentCharacter.GetComponent<Walker>().IsActive && !MatchManager.Instance.CurrentCharacter.GetComponent<Walker>().IsWalking && !_character.Team.IsActive)))
+            (_character != null && (NetworkMatchManager.Instance.CurrentCharacter != null && NetworkMatchManager.Instance.CurrentCharacter.GetComponent<Walker>().IsActive && !NetworkMatchManager.Instance.CurrentCharacter.GetComponent<Walker>().IsWalking && !_character.Team.IsActive)))
         {
             _display = 2;
         }

@@ -13,13 +13,23 @@ public class GridEntityHUDController : MonoBehaviour
     private void Awake()
     {
         //Debug.Log("GridEntityHUDController Awake.");
-        GridEntity.OnGridEntityAdded += HandleGridEntityAdded;
-        GridEntity.OnGridEntityRemoved += HandleGridEntityRemoved;
         _children = GetComponents<IUIChildController>();
         for (int i = 0; i < _children.Length; i++)
         {
             _children[i].Init();
         }
+    }
+
+    private void OnEnable()
+    {
+        GridEntity.OnGridEntityAdded += HandleGridEntityAdded;
+        GridEntity.OnGridEntityRemoved += HandleGridEntityRemoved;
+    }
+
+    private void OnDisable()
+    {
+        GridEntity.OnGridEntityAdded -= HandleGridEntityAdded;
+        GridEntity.OnGridEntityRemoved -= HandleGridEntityRemoved;
     }
 
     private void HandleGridEntityAdded(GridEntity gridEntity)
@@ -55,11 +65,5 @@ public class GridEntityHUDController : MonoBehaviour
         {
             return null;
         }
-    }
-
-    private void OnDestroy()
-    {
-        GridEntity.OnGridEntityAdded -= HandleGridEntityAdded;
-        GridEntity.OnGridEntityRemoved -= HandleGridEntityRemoved;
     }
 }

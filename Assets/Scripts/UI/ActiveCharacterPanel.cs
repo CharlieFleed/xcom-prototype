@@ -11,6 +11,7 @@ public class ActiveCharacterPanel : MonoBehaviour
     private void Awake()
     {
         _cg = GetComponent<CanvasGroup>();
+        _cg.alpha = 0;
         _text = GetComponentInChildren<Text>(true);
         Character.OnActiveChanged += HandleCharacter_OnActiveChanged;
     }

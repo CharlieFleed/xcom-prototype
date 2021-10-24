@@ -34,15 +34,17 @@ public class GridAgent : MonoBehaviour
         UpdateCover();
     }
 
+    private void OnEnable()
+    {
+        Walker.OnDestinationReached += HandleWalker_OnDestinationReached;
+        NetworkMatchManager.Instance.OnNewTurn += HandleMatchManager_OnNewTurn;
+    }
+
     private void OnDisable()
     {
         OnGridAgentRemoved(this);
-    }
-
-    private void Awake()
-    {
-        Walker.OnDestinationReached += HandleWalker_OnDestinationReached;
-        MatchManager.Instance.OnNewTurn += HandleMatchManager_OnNewTurn;
+        Walker.OnDestinationReached -= HandleWalker_OnDestinationReached;
+        NetworkMatchManager.Instance.OnNewTurn -= HandleMatchManager_OnNewTurn;
     }
 
     void HandleMatchManager_OnNewTurn()
@@ -57,13 +59,7 @@ public class GridAgent : MonoBehaviour
 
     void UpdateCover()
     {
-        List<GridEntity> enemies = MatchManager.Instance.GetEnemiesAs<GridEntity>(GetComponent<Character>());
+        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(GetComponent<Character>());
         Cover = GridCoverManager.Instance.GetCover(GetComponent<GridEntity>(), enemies);
-    }
-
-    private void OnDestroy()
-    {
-        Walker.OnDestinationReached -= HandleWalker_OnDestinationReached;
-        MatchManager.Instance.OnNewTurn -= HandleMatchManager_OnNewTurn;
     }
 }

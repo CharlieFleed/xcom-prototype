@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Cinemachine;
+using Mirror;
 
 
 public class Shooter : BattleAction
@@ -67,15 +68,38 @@ public class Shooter : BattleAction
     {
         if (_targets.Count > 0 && _targets.Peek().Available)
         {
-            InvokeActionConfirmed(this);
-            ShotStats _shotStats = _targets.Peek();
             HideTargets();
             OnTargetingEnd();
-            BattleEventShot shot = new BattleEventShot(this, _shotStats);
-            MatchManager.Instance.AddBattleEvent(shot, true);
-            Deactivate();
-            InvokeActionComplete(this);
+            CmdShoot(_targets.Peek().Target.gameObject);
         }
+    }
+
+    [Command]
+    protected void CmdShoot(GameObject target)
+    {
+        RpcShoot(target);
+    }
+
+    [ClientRpc]
+    protected virtual void RpcShoot(GameObject target)
+    {
+        GetTargets();
+        ShotStats shotStats = null;
+        foreach (var shot in _targets)
+        {
+            if (shot.Target == target.GetComponent<GridEntity>())
+            {
+                shotStats = shot;
+            }
+        }
+        OnTargetSelected(this, shotStats.Target);
+        OnTargetingEnd();
+        Debug.Log($"Shoot {shotStats.Target.name}");
+        BattleEventShot shotEvent = new BattleEventShot(this, shotStats);
+        NetworkMatchManager.Instance.AddBattleEvent(shotEvent, true);
+        InvokeActionConfirmed(this);
+        Deactivate();
+        InvokeActionComplete(this);
     }
 
     public void Shot()
@@ -138,7 +162,7 @@ public class Shooter : BattleAction
     public void GetTargets()
     {
         _targets.Clear();
-        List<GridEntity> enemies = MatchManager.Instance.GetEnemiesAs<GridEntity>(GetComponent<Character>());
+        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(GetComponent<Character>());
         foreach (var shotStats in GridCoverManager.Instance.GetShotStats(this, enemies))
         {
             shotStats.Available = Vector3.Distance(transform.position, shotStats.Target.transform.position) <= _weapon.Range;
@@ -157,7 +181,7 @@ public class Shooter : BattleAction
             shotStats.MaxDamage = Weapon.MaxDamage; 
             _targets.Enqueue(shotStats);
         }
-        List<GridEntity> gridEntities = MatchManager.Instance.GetGridEntities();
+        List<GridEntity> gridEntities = NetworkMatchManager.Instance.GetGridEntities();
         // Add map entities
         foreach (var gridEntity in gridEntities)
         {

@@ -63,30 +63,35 @@ public class BattleEventShot : BattleEvent
                 // wait for OnShot event
                 break;
             case Phase.Shot:
-                bool hit = UnityEngine.Random.Range(0, 100) < _shotStats.HitChance ? true : false;
-                bool crit = UnityEngine.Random.Range(0, 100) < _shotStats.CritChance ? true : false;
-                int damage = 0;
-                if (hit)
+                if (NetworkRandomGenerator.Instance.Ready())
                 {
-                    if (crit)
+                    int hitRandom = NetworkRandomGenerator.Instance.RandomRange(0, 100);
+                    int critRandom = NetworkRandomGenerator.Instance.RandomRange(0, 100);
+                    bool hit = hitRandom < _shotStats.HitChance ? true : false;
+                    bool crit = critRandom < _shotStats.CritChance ? true : false;
+                    int damage = 0;
+                    if (hit)
                     {
-                        damage = UnityEngine.Random.Range(_shooter.Weapon.MaxDamage + 1, _shooter.Weapon.MaxDamage + 1 + _shooter.Weapon.BaseDamage);
+                        if (crit)
+                        {
+                            damage = NetworkRandomGenerator.Instance.RandomRange(_shooter.Weapon.MaxDamage + 1, _shooter.Weapon.MaxDamage + 1 + _shooter.Weapon.BaseDamage);
+                        }
+                        else
+                        {
+                            damage = NetworkRandomGenerator.Instance.RandomRange(_shooter.Weapon.BaseDamage, _shooter.Weapon.MaxDamage + 1);
+                        }
                     }
-                    else
+                    _shotStats.Target.GetComponent<Health>().TakeDamage(damage, hit, crit);
+                    // NOTE: change this
+                    Walker walker = _shotStats.Target.GetComponent<Walker>();
+                    if (walker)
                     {
-                        damage = UnityEngine.Random.Range(_shooter.Weapon.BaseDamage, _shooter.Weapon.MaxDamage + 1);
+                        walker.Resume();
                     }
+                    NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false);
+                    OnShootingEnd();
+                    End();
                 }
-                _shotStats.Target.GetComponent<Health>().TakeDamage(damage, hit, crit);
-                // NOTE: change this
-                Walker walker = _shotStats.Target.GetComponent<Walker>();
-                if (walker)
-                {
-                    walker.Resume();
-                }
-                MatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false);
-                OnShootingEnd();
-                End();
                 break;
         }
     }
@@ -94,6 +99,7 @@ public class BattleEventShot : BattleEvent
     public override void End()
     {
         base.End();
+        Debug.Log($"End of battle event shot");
         _shooter.OnShot -= HandleShot;
     }
 }

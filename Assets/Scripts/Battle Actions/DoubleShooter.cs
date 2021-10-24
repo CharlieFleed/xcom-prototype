@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Mirror;
 
 public class DoubleShooter : Shooter
 {
@@ -10,16 +11,31 @@ public class DoubleShooter : Shooter
     {
         if (_targets.Count > 0 && _targets.Peek().Available)
         {
-            InvokeActionConfirmed(this);
-            ShotStats _shotStats = _targets.Peek();
             HideTargets();
             InvokeTargetingEnd();
-            BattleEventShot shot1 = new BattleEventShot(this, _shotStats);
-            MatchManager.Instance.AddBattleEvent(shot1, true);
-            BattleEventShot shot2 = new BattleEventConditionalShot(this, _shotStats);
-            MatchManager.Instance.AddBattleEvent(shot2, true);
-            Deactivate();
-            InvokeActionComplete(this);
+            CmdShoot(_targets.Peek().Target.gameObject);
         }
+    }
+
+    [ClientRpc]
+    protected override void RpcShoot(GameObject target)
+    {
+        GetTargets();
+        ShotStats shotStats = null;
+        foreach (var shot in _targets)
+        {
+            if (shot.Target == target.GetComponent<GridEntity>())
+            {
+                shotStats = shot;
+            }
+        }
+        Debug.Log($"Double Shooter Shoot {shotStats.Target.name}");
+        BattleEventShot shotEvent1 = new BattleEventShot(this, shotStats);
+        NetworkMatchManager.Instance.AddBattleEvent(shotEvent1, true);
+        BattleEventConditionalShot shotEvent2 = new BattleEventConditionalShot(this, shotStats);
+        NetworkMatchManager.Instance.AddBattleEvent(shotEvent2, true);
+        InvokeActionConfirmed(this);
+        Deactivate();
+        InvokeActionComplete(this);
     }
 }

@@ -10,7 +10,7 @@ public class CameraDirector : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera _aimingCamera;
     [SerializeField] CinemachineVirtualCamera _actionCamera;
     [SerializeField] CinemachineTargetGroup _actionCameraTargetGroup;
-    [SerializeField] MatchManager _matchManager;
+    [SerializeField] NetworkMatchManager _matchManager;
 
     Dictionary<GridEntity, CinemachineVirtualCamera> _entityCameras = new Dictionary<GridEntity, CinemachineVirtualCamera>();
 
@@ -23,7 +23,14 @@ public class CameraDirector : MonoBehaviour
 
     private void Awake()
     {
-        // register to static events
+        _activeEntityCamera = _worldCamera;
+        _lastActivatedCharacterCamera = _worldCamera;
+        //
+        _matchManager.OnNewTurn += HandleMatchManager_OnNewTurn;
+    }
+
+    private void OnEnable()
+    {
         Character.OnCharacterAdded += HandleCharacterAdded;
         Character.OnCharacterRemoved += HandleCharacterRemoved;
         Character.OnActiveChanged += HandleCharacter_OnActiveChanged;
@@ -35,11 +42,19 @@ public class CameraDirector : MonoBehaviour
         BattleEventShot.OnShootingEnd += HandleBattleEventShot_OnShootingEnd;
         BattleEventExplosion.OnExploding += HandleBattleEventExplosion_OnExploding;
         BattleEventExplosion.OnExplodingEnd += HandleBattleEventExplosion_OnExplodingEnd;
-        //
-        _activeEntityCamera = _worldCamera;
-        _lastActivatedCharacterCamera = _worldCamera;
-        //
-        _matchManager.OnNewTurn += HandleMatchManager_OnNewTurn;
+    }
+
+    private void OnDisable()
+    {
+        Character.OnCharacterAdded -= HandleCharacterAdded;
+        Character.OnCharacterRemoved -= HandleCharacterRemoved;
+        Character.OnActiveChanged -= HandleCharacter_OnActiveChanged;
+        GridEntity.OnGridEntityAdded -= HandleGridEntityAdded;
+        GridEntity.OnGridEntityRemoved -= HandleGridEntityRemoved;
+        Shooter.OnShooterAdded -= HandleShooterAdded;
+        Shooter.OnShooterRemoved -= HandleShooterRemoved;
+        BattleEventShot.OnShooting -= HandleBattleEventShot_OnShooting;
+        BattleEventShot.OnShootingEnd -= HandleBattleEventShot_OnShootingEnd;
     }
 
     private void HandleMatchManager_OnNewTurn()
@@ -201,17 +216,5 @@ public class CameraDirector : MonoBehaviour
         _lastActivatedCharacterCamera.gameObject.SetActive(true);
     }
 
-    private void OnDestroy()
-    {
-        // unregister to static events
-        Character.OnCharacterAdded -= HandleCharacterAdded;
-        Character.OnCharacterRemoved -= HandleCharacterRemoved;
-        Character.OnActiveChanged -= HandleCharacter_OnActiveChanged;
-        GridEntity.OnGridEntityAdded -= HandleGridEntityAdded;
-        GridEntity.OnGridEntityRemoved -= HandleGridEntityRemoved;
-        Shooter.OnShooterAdded -= HandleShooterAdded;
-        Shooter.OnShooterRemoved -= HandleShooterRemoved;
-        BattleEventShot.OnShooting -= HandleBattleEventShot_OnShooting;
-        BattleEventShot.OnShootingEnd -= HandleBattleEventShot_OnShootingEnd;
-    }
+    
 }

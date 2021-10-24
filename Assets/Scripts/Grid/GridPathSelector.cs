@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Mirror;
 
-public class GridPathSelector : MonoBehaviour
+public class GridPathSelector : NetworkBehaviour
 {
     #region Fields
 
@@ -314,9 +315,7 @@ public class GridPathSelector : MonoBehaviour
                 }
                 if (Input.GetMouseButtonDown(1))
                 {
-                    _gridAgent.BookedNode = targetNode;
-                    targetNode.IsBooked = true;
-                    _walker.SetPath(_path, _cost);
+                    SetPath(targetNode);
                     Deactivate();
                 }
             }
@@ -327,6 +326,34 @@ public class GridPathSelector : MonoBehaviour
                 _cachedNode = null;
             }
         }
+    }
+
+    void SetPath(GridNode target)
+    {
+        CmdSetPath(new Vector3Int(target.X, target.Y, target.Z));
+    }
+
+    [Command]
+    void CmdSetPath(Vector3Int target)
+    {
+        RpcSetPath(target);
+    }
+
+    [ClientRpc]
+    void RpcSetPath(Vector3Int target)
+    {
+        GridNode targetNode = _gridManager.GetGridNode(target.x, target.y, target.z);
+        _origin = _gridEntity.CurrentNode;
+        int maxDistance = _gridAgent.WalkRange * _walker._NumMoves;
+        float maxJumpUp = _gridAgent.MaxJumpUp;
+        float maxJumpDown = _gridAgent.MaxJumpDown;
+        _pathfinder.Initialize(_gridManager.GetGrid(), _origin, _origin, maxDistance, maxJumpUp, maxJumpDown, IsNodeAvailable);
+        UpdateRanges(maxDistance - _gridAgent.WalkRange, maxDistance);
+        _cost = targetNode.Distance <= _gridAgent.WalkRange ? 1 : 2;
+        _path = _pathfinder.GetPathTo(targetNode);
+        _gridAgent.BookedNode = targetNode;
+        targetNode.IsBooked = true;
+        _walker.SetPath(_path, _cost);
     }
 
     public void Activate()

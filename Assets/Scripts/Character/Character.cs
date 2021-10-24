@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Mirror;
 
-public class Character : MonoBehaviour
+public class Character : NetworkBehaviour
 {
     #region Fields
 
@@ -25,7 +26,7 @@ public class Character : MonoBehaviour
 
     public event Action<BattleAction> OnActionActivated = delegate { };
     public event Action OnActionConfirmed = delegate { };
-    public event Action OnActionComplete = delegate { };
+    public event Action<Character> OnActionComplete = delegate { };
     public event Action OnPass = delegate { };
     public event Action OnEndTurn = delegate { };
 
@@ -34,19 +35,39 @@ public class Character : MonoBehaviour
     public event Action<ShotStats> OnMouseOverTarget = delegate { };
     public event Action<ShotStats> OnMouseExitTarget = delegate { };
 
-    public Team Team { set; get; }
+    public Team Team { set; get; } = null;
 
-    public Shooter MainShooter()
+    public Weapon Weapon
     {
-        foreach (var item in _battleActions)
+        get
         {
-            if (item is Shooter)
+            foreach (var item in _battleActions)
             {
-                return (Shooter)item;
+                if (item is Shooter)
+                {
+                    return ((Shooter)item).Weapon;
+                }
             }
+            return null;
         }
-        return null;
     }
+
+    public Shooter Shooter
+    {
+        get
+        {
+            foreach (var item in _battleActions)
+            {
+                if (item is Shooter)
+                {
+                    return (Shooter)item;
+                }
+            }
+            return null;
+        }
+    }
+
+    public bool Initialized { set; get; }
 
     #endregion
 
@@ -54,6 +75,7 @@ public class Character : MonoBehaviour
     {
         //Debug.Log($"Character Start for {name}.");
         OnCharacterAdded(this);
+        Initialized = true;
     }
 
     private void OnDisable()
@@ -83,7 +105,7 @@ public class Character : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Tab))
                 {
                     Cancel();
-                    OnPass();
+                    CmdPass();
                 }
             }
             if (!_walker.IsWalking)
@@ -104,6 +126,30 @@ public class Character : MonoBehaviour
                 }
             }
         }
+    }
+
+    [Command]
+    void CmdPass()
+    {
+        RpcPass();
+    }
+
+    [ClientRpc]
+    void RpcPass()
+    {
+        OnPass();
+    }
+
+    [Command]
+    void CmdEndTurn()
+    {
+        RpcEndTurn();
+    }
+
+    [ClientRpc]
+    void RpcEndTurn()
+    {
+        OnEndTurn();
     }
 
     public void StartTurn()
@@ -212,21 +258,6 @@ public class Character : MonoBehaviour
         }
     }
 
-    public Weapon Weapon
-    {
-        get
-        {
-            foreach (var item in _battleActions)
-            {
-                if (item is Shooter)
-                {
-                    return ((Shooter)item).Weapon;
-                }
-            }
-            return null;
-        }
-    }
-
     #region Event Handlers
 
     void HandleActionConfirmed(BattleAction battleAction)
@@ -254,8 +285,8 @@ public class Character : MonoBehaviour
         if (IsActive)
         {
             Deactivate();
-            OnActionComplete();
         }
+        OnActionComplete(this);
     }
 
     void HandleActionCancelled(BattleAction battleAction)
@@ -313,7 +344,7 @@ public class Character : MonoBehaviour
         if (IsActive && !_isActionActive)
         {
             Cancel();
-            OnPass();
+            CmdPass();
         }
     }
 
@@ -322,7 +353,7 @@ public class Character : MonoBehaviour
         if (IsActive && !_isActionActive)
         {
             Cancel();
-            OnEndTurn();
+            CmdEndTurn();
         }
     }
 

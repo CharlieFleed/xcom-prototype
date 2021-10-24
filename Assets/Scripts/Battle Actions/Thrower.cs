@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using Mirror;
 
 public class Thrower : BattleAction
 {
@@ -56,7 +57,23 @@ public class Thrower : BattleAction
     {
         InvokeActionConfirmed(this);
         BattleEventThrow _throw = new BattleEventThrow(this, _target);
-        MatchManager.Instance.AddBattleEvent(_throw, true);
+        NetworkMatchManager.Instance.AddBattleEvent(_throw, true);
+        Deactivate();
+        InvokeActionComplete(this);
+    }
+
+    [Command]
+    void CmdThrow(Vector3Int target)
+    {
+        RpcThrow(target);
+    }
+
+    [ClientRpc]
+    void RpcThrow(Vector3Int target)
+    {
+        InvokeActionConfirmed(this);
+        BattleEventThrow _throw = new BattleEventThrow(this, _target);
+        NetworkMatchManager.Instance.AddBattleEvent(_throw, true);
         Deactivate();
         InvokeActionComplete(this);
     }

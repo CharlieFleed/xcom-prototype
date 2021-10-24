@@ -5,6 +5,9 @@ using System;
 
 public class Health : MonoBehaviour
 {
+    [SerializeField] int _healthDefault;
+    static int _ClassId = 0;
+
     public static event Action<Health> OnHealthAdded = delegate { };
     public static event Action<Health> OnHealthRemoved = delegate { };
 
@@ -22,12 +25,27 @@ public class Health : MonoBehaviour
 
     int _maxHealth;
     int _currentHealth;
+    public int Id;
+
+    private void Awake()
+    {
+        Id = _ClassId;
+        _ClassId++;
+    }
 
     private void Start()
     {
-        //Debug.Log($"Health Start for {name}.");
-        _maxHealth = UnityEngine.Random.Range(1, 11);
-        _currentHealth = _maxHealth;
+        Debug.Log($"Health Start for {name}.");
+        if (_healthDefault > 0)
+        {
+            _maxHealth = _healthDefault;
+            _currentHealth = _maxHealth;
+        }
+        else
+        {
+            _maxHealth = UnityEngine.Random.Range(1, 11);
+            _currentHealth = _maxHealth;
+        }
         OnHealthAdded(this);
         OnHealthChanged(_currentHealth, _maxHealth);
     }

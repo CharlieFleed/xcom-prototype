@@ -17,7 +17,17 @@ public class WeaponPanel : MonoBehaviour
     private void Awake()
     {
         _cg = GetComponent<CanvasGroup>();
+        _cg.alpha = 0;
+    }
+
+    private void OnEnable()
+    {
         Character.OnActiveChanged += HandleCharacter_OnActiveChanged;
+    }
+
+    private void OnDisable()
+    {
+        Character.OnActiveChanged -= HandleCharacter_OnActiveChanged;
     }
 
     private void HandleCharacter_OnActiveChanged(Character character, bool active)
@@ -50,10 +60,5 @@ public class WeaponPanel : MonoBehaviour
         _slider.maxValue = clipSize;
         _slider.value = bullets;
         _segments.uvRect = new Rect(0, 0, clipSize, 1);
-    }
-
-    private void OnDestroy()
-    {
-        Character.OnActiveChanged -= HandleCharacter_OnActiveChanged;
     }
 }

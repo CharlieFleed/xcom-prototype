@@ -20,9 +20,21 @@ public class HealthBar : MonoBehaviour
             Character character = _health.GetComponent<Character>();
             if (character)
             {
-                _fill.color = character.GetComponentInChildren<MeshRenderer>().material.color;
+                if (character.Team != null)
+                {
+                    Debug.Log($"Setting color for health bar of {character.name}");
+                    _fill.color = NetworkMatchManager.Instance.TeamColors[int.Parse(character.Team.Name)];
+                    _init = true;
+                }
+                else
+                {
+                    Debug.Log($"No team for health bar of {character.name}");
+                }
             }
-            _init = true;
+            else
+            {
+                _init = true;
+            }
         }
     }
 

@@ -544,6 +544,7 @@ public class GridManager : MonoBehaviour
                 foreach (Character character in team.Characters)
                 {
                     character.gameObject.transform.position = walkableNodes[count].FloorPosition;
+                    Debug.Log("Set Current Node");
                     character.gameObject.GetComponent<GridEntity>().CurrentNode = walkableNodes[count];
                     count++;
                 }
@@ -553,6 +554,36 @@ public class GridManager : MonoBehaviour
         {
             Debug.Log("Not enough walkable nodes for characters. Exiting.");
             Application.Quit();
+        }
+    }
+
+    public List<GridNode> GetSpawnPositions(int count)
+    {
+        List<GridNode> walkableNodes = new List<GridNode>();
+        // repeat until count walkable nodes are found, stop at 1000 attempts;
+        int attemptsLeft = 1000;
+        while (count > 0 && attemptsLeft > 0)
+        {
+            GridNode node = _grid[UnityEngine.Random.Range(0, _gridSizeX), UnityEngine.Random.Range(0, _gridSizeY), UnityEngine.Random.Range(0, _gridSizeZ)];
+            if (!walkableNodes.Contains(node) && node.IsWalkable && !node.IsOccupied())
+            {
+                walkableNodes.Add(node);
+                count--;
+            }
+            else
+            {
+                attemptsLeft--;
+            }
+        }
+        if (count == 0)
+        {
+            return walkableNodes;
+        }
+        else
+        {
+            Debug.Log("Not enough walkable nodes for characters. Exiting.");
+            Application.Quit();
+            return null;
         }
     }
 

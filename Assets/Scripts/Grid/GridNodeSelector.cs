@@ -3,8 +3,9 @@ using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using Unity.Jobs;
 using Unity.Collections;
+using Mirror;
 
-public class GridNodeSelector : MonoBehaviour
+public class GridNodeSelector : NetworkBehaviour
 {
     #region Fields
 
@@ -103,7 +104,7 @@ public class GridNodeSelector : MonoBehaviour
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        _thrower.SetTarget(_targetNode);
+                        SetTarget(_targetNode);
                         Deactivate();
                     }
                 }
@@ -116,6 +117,24 @@ public class GridNodeSelector : MonoBehaviour
             }
             UpdateHighlight();
         }
+    }
+
+    void SetTarget(GridNode target)
+    {
+        CmdSetTarget(new Vector3Int(target.X, target.Y, target.Z));
+    }
+
+    [Command]
+    void CmdSetTarget(Vector3Int target)
+    {
+        RpcSetTarget(target);
+    }
+
+    [ClientRpc]
+    void RpcSetTarget(Vector3Int target)
+    {
+        GridNode targetNode = _gridManager.GetGridNode(target.x, target.y, target.z);
+        _thrower.SetTarget(targetNode);
     }
 
     void UpdateHighlight()

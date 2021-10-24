@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Mirror;
 
 public class Reloader : BattleAction
 {
@@ -31,6 +32,18 @@ public class Reloader : BattleAction
     }
 
     void Reload()
+    {
+        CmdReload();
+    }
+
+    [Command]
+    void CmdReload()
+    {
+        RpcReload();
+    }
+
+    [ClientRpc]
+    void RpcReload()
     {
         _weapon.Reload();
         InvokeActionConfirmed(this);

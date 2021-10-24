@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Team
 {
     public List<Character> Characters = new List<Character>();
     public bool IsActive { set; get; }
     public Player Owner { set; get; }
+    public string Name;
 
     Queue<Character> ReadyCharacters = new Queue<Character>();
 
@@ -40,6 +42,7 @@ public class Team
     /// <returns></returns>
     public Character GetFirstReadyCharacter()
     {
+        //Debug.Log($"ReadyCharacters.Count: {ReadyCharacters.Count}");
         while (ReadyCharacters.Count > 0)
         {
             if (ReadyCharacters.Peek().NumActions > 0 && !ReadyCharacters.Peek().GetComponent<Health>().IsDead)
@@ -48,6 +51,7 @@ public class Team
             }
             else
             {
+                //Debug.Log($"ReadyCharacters.Peek().NumActions: {ReadyCharacters.Peek().NumActions} ReadyCharacters.Peek().GetComponent<Health>().IsDead: {ReadyCharacters.Peek().GetComponent<Health>().IsDead}");
                 ReadyCharacters.Dequeue();
             }
         }

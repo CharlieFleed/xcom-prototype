@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using Mirror;
 
 public class Overwatcher : BattleAction
 {
@@ -59,7 +60,19 @@ public class Overwatcher : BattleAction
     }
 
     void Overwatch()
-    { 
+    {
+        CmdOverwatch();
+    }
+
+    [Command]
+    void CmdOverwatch()
+    {
+        RpcOverwatch();
+    }
+
+    [ClientRpc]
+    void RpcOverwatch()
+    {
         _isOverwatching = true;
         InvokeActionConfirmed(this);
         Deactivate();
@@ -74,7 +87,7 @@ public class Overwatcher : BattleAction
         shotStats.HitChance = 100 + _shooter.Weapon.HitChanceBonus(shotStats.Target);
         shotStats.HitChance = Mathf.Clamp(shotStats.HitChance, 0, 100);
         BattleEventShot shot = new BattleEventShot(_shooter, shotStats);
-        MatchManager.Instance.AddBattleEvent(shot, true);
+        NetworkMatchManager.Instance.AddBattleEvent(shot, true);
         OnShoot(_shooter, gridEntity);
         ClearOverwatch();
     }

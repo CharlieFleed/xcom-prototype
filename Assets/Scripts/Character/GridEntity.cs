@@ -19,10 +19,14 @@ public class GridEntity : MonoBehaviour
 
     public GridNode CurrentNode { get; set; }
 
+    private void OnEnable()
+    {
+        OnGridEntityAdded(this); // NOTE: this needs to happen before OnCharacterAdded, OnHealthAdded etc 
+    }
+
     private void Start()
     {
         //Debug.Log($"GridEntity Start for {name}.");
-        OnGridEntityAdded(this);
         CurrentNode = GridManager.Instance.GetGridNodeFromWorldPosition(transform.position);
     }
 

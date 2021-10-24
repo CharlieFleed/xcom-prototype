@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Mirror;
 
 public class Skipper : BattleAction
 {
@@ -19,6 +20,18 @@ public class Skipper : BattleAction
     }
 
     public void Skip()
+    {
+        CmdSkip();
+    }
+
+    [Command]
+    void CmdSkip()
+    {
+        RpcSkip();
+    }
+
+    [ClientRpc]
+    void RpcSkip()
     {
         InvokeActionConfirmed(this);
         Deactivate();

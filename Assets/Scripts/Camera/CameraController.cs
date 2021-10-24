@@ -29,8 +29,18 @@ public class CameraController : MonoBehaviour
         _from = _virtualCamera.transform.rotation;
         _to = _virtualCamera.transform.rotation;
         _instance = this;
+    }
+
+    private void OnEnable()
+    {
         Character.OnCharacterAdded += HandleCharacterAdded;
         Character.OnCharacterRemoved += HandleCharacterRemoved;
+    }
+
+    private void OnDisable()
+    {
+        Character.OnCharacterAdded -= HandleCharacterAdded;
+        Character.OnCharacterRemoved -= HandleCharacterRemoved;
     }
 
     private void HandleCharacterAdded(Character character)
@@ -143,12 +153,6 @@ public class CameraController : MonoBehaviour
         Quaternion rotation = Quaternion.AngleAxis(-90, new Vector3(0, 1, -1).normalized);
         _to = _to * rotation;
         _t = 0;
-    }
-
-    private void OnDestroy()
-    {
-        Character.OnCharacterAdded -= HandleCharacterAdded;
-        Character.OnCharacterRemoved -= HandleCharacterRemoved;
     }
 
     #region Singleton
