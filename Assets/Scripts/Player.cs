@@ -13,10 +13,37 @@ public class Player : NetworkBehaviour
     NetworkMatchManager _matchManager;
     Pathfinder _pathfinder;
     GridManager _gridManager;
-
     GridAgent _gridAgent;
 
     public event Action OnActionComplete = delegate { };
+
+    MyNetworkRoomManager _networkRoomManager;
+    MyNetworkRoomManager NetworkRoomManager
+    {
+        get
+        {
+            if (_networkRoomManager != null) return _networkRoomManager;
+            return _networkRoomManager = MyNetworkRoomManager.singleton as MyNetworkRoomManager;
+        }
+    }
+
+    //
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        Debug.Log("Player OnStartClient");
+        NetworkRoomManager.GamePlayers.Add(this);
+        if (isServer)
+            NetworkRoomManager.GamePlayerStart(this);
+    }
+
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+        Debug.Log("Player OnStopClient");
+        NetworkRoomManager.GamePlayers.Remove(this);
+    }
 
     private void Start()
     {

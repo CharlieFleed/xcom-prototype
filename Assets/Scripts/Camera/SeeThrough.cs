@@ -22,7 +22,10 @@ public class SeeThrough : MonoBehaviour
         get { return _hidden; }
     }
     bool _hidden;
-    bool _prevHidden;
+    bool _isHidden;
+
+    int _hideCounter = 0;
+    int _hideCounterMax = 5;
 
     [SerializeField] Material[] _materials;
 
@@ -73,7 +76,49 @@ public class SeeThrough : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (Hidden && _shouldHide)
+        if (_hidden && _shouldHide)
+        {
+            _hideCounter = Mathf.Min(_hideCounter + 1, _hideCounterMax);
+        }
+        else
+        {
+            _hideCounter = Mathf.Max(_hideCounter - 1, 0);
+            Debug.Log($"decrease _hideCounter to {_hideCounter}");
+        }
+
+        bool hide = (_isHidden == false && _hideCounter == _hideCounterMax);
+        bool show = (_isHidden == true && _hideCounter == 0);
+
+        if (hide)
+        {
+            _isHidden = true;
+            for (int i = 0; i < _renderers.Length; i++)
+            {
+                if (_renderers[i] != null)
+                {
+                    //_renderers[i].enabled = false;
+                    _renderers[i].material = _materials[0];
+                    _renderers[i].materials = _materials;
+                }
+            }
+        }
+
+        if (show)
+        {
+            _isHidden = false;
+            Debug.Log("Show");
+            for (int i = 0; i < _renderers.Length; i++)
+            {
+                if (_renderers[i])
+                {
+                    //_renderers[i].enabled = true;
+                    _renderers[i].material = _originalMaterials[i];
+                    _renderers[i].materials = new Material[] { _originalMaterials[i] };
+                }
+            }
+        }
+
+        if (_isHidden)
         {
             foreach (var gridNode in _gridObject.floorNodes)
             {
@@ -87,39 +132,40 @@ public class SeeThrough : MonoBehaviour
                 }
             }
         }
-        if (Hidden != _prevHidden)
-        {
-            if (Hidden && _shouldHide)
-            {
-                //Debug.Log($"{name} hidden.");
-                for (int i = 0; i < _renderers.Length; i++)
-                {
-                    if (_renderers[i] != null)
-                    {
-                        //_renderers[i].enabled = false;
-                        _renderers[i].material = _materials[0];
-                        _renderers[i].materials = _materials;
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < _renderers.Length; i++)
-                {
-                    if (_renderers[i])
-                    {
-                        //_renderers[i].enabled = true;
-                        _renderers[i].material = _originalMaterials[i];
-                        _renderers[i].materials = new Material[] { _originalMaterials[i] };
-                    }
-                }
-            }
-        }
-        _prevHidden = _hidden;
+
         _hidden = false;
+
+        //if (Hidden != _prevHidden)
+        //{
+        //    if (_hideCounter == _hideCounterMax)
+        //    {
+        //        //Debug.Log($"{name} hidden.");
+        //        for (int i = 0; i < _renderers.Length; i++)
+        //        {
+        //            if (_renderers[i] != null)
+        //            {
+        //                //_renderers[i].enabled = false;
+        //                _renderers[i].material = _materials[0];
+        //                _renderers[i].materials = _materials;
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        for (int i = 0; i < _renderers.Length; i++)
+        //        {
+        //            if (_renderers[i])
+        //            {
+        //                //_renderers[i].enabled = true;
+        //                _renderers[i].material = _originalMaterials[i];
+        //                _renderers[i].materials = new Material[] { _originalMaterials[i] };
+        //            }
+        //        }
+        //    }
+        //}
     }
 
-    public void HideBrother()
+    public void HideOnlyYou()
     {
         //Debug.Log($"{name} hidden by brother.");
         _hidden = true;

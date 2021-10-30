@@ -12,7 +12,7 @@ public class SeeThroughGroup : MonoBehaviour
             SeeThrough seeThrough = child.GetComponent<SeeThrough>();
             if (seeThrough != null)
             {
-                seeThrough.HideBrother();
+                seeThrough.HideOnlyYou();
             }
             SeeThroughGroup seeThroughGroup = child.GetComponent<SeeThroughGroup>();
             if (seeThroughGroup != null)

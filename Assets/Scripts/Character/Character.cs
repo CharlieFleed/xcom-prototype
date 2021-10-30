@@ -166,15 +166,21 @@ public class Character : NetworkBehaviour
         }
         else
         {
-            _walker._NumMoves = NumActions;
-            _walker.Activate();
-            foreach (var battleAction in _battleActions)
-            {
-                battleAction.Init(NumActions);
-                OnActionAdded(battleAction);
-            }
-            ShowMainShooterTargets();
+            StartCoroutine(ActivateControls());            
         }
+    }
+
+    System.Collections.IEnumerator ActivateControls()
+    {
+        yield return new WaitForSeconds(1.0f);
+        _walker._NumMoves = NumActions;
+        _walker.Activate();
+        foreach (var battleAction in _battleActions)
+        {
+            battleAction.Init(NumActions);
+            OnActionAdded(battleAction);
+        }
+        ShowMainShooterTargets();
     }
 
     void Deactivate()
@@ -182,6 +188,7 @@ public class Character : NetworkBehaviour
         IsActive = false;
         HideMainShooterTargets();
         OnActionsCleared();
+        StopAllCoroutines();
     }
 
     /// <summary>
@@ -299,7 +306,7 @@ public class Character : NetworkBehaviour
 
     #endregion
 
-    #region GUI
+    #region GUI Event Handlers
 
     public void HandleTargetClick(ShotStats target)
     {

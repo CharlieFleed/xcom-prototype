@@ -22,7 +22,6 @@ public class HealthBar : MonoBehaviour
             {
                 if (character.Team != null)
                 {
-                    Debug.Log($"Setting color for health bar of {character.name}");
                     _fill.color = NetworkMatchManager.Instance.TeamColors[int.Parse(character.Team.Name)];
                     _init = true;
                 }

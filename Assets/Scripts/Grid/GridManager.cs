@@ -313,6 +313,7 @@ public class GridManager : MonoBehaviour
     {
         foreach (GridNode gridNode in _grid)
         {
+            Debug.Log($"GenerateWalls node: {gridNode.X},{gridNode.Y},{gridNode.Z}");
             // check walls and half walls
             Vector3[] wallTopOffsets = new Vector3[4];
             wallTopOffsets[0] = (_unitColliderExtents.y - 0.001f) * Vector3.up + 0.5f * (0.5f * _unitColliderExtents.x + 0.5f * _xzScale) * Vector3.right; // NOTE: lowered to avoid collision with a _unitColliderExtents.y-tall doorway  
@@ -330,6 +331,9 @@ public class GridManager : MonoBehaviour
             {
                 Physics.queriesHitBackfaces = true;
                 RaycastHit[] hits = Physics.BoxCastAll(gridNode.FloorPosition + wallTopOffsets[i], wallTopHalfExtents[i], Vector3.down, Quaternion.identity, _unitColliderExtents.y - 0.001f);
+                Debug.Log($"center: {wallTopHalfExtents[i].x},{wallTopHalfExtents[i].y},{wallTopHalfExtents[i].z}");
+                Debug.Log($"halfExtents: {(gridNode.FloorPosition + wallTopOffsets[i]).x},{(gridNode.FloorPosition + wallTopOffsets[i]).y},{(gridNode.FloorPosition + wallTopOffsets[i]).z}");
+
                 Physics.queriesHitBackfaces = false;
                 if (hits.Length > 0)
                 {
@@ -341,14 +345,14 @@ public class GridManager : MonoBehaviour
                             if (hit.distance == 0)
                             {
                                 gridNode.Walls[i] = true;
-                                //Debug.Log($"Wall {i}");
+                                Debug.Log($"Wall {i}");
                                 gridNode.HalfWalls[i] = false;
                                 break; // full wall, that's it
                             }
                             else if (hit.distance <= 0.5f * _unitColliderExtents.y)
                             {
                                 gridNode.HalfWalls[i] = true;
-                                //Debug.Log($"HalfWall {i}");
+                                Debug.Log($"HalfWall {i}");
                             }
                         }
                     }
@@ -590,9 +594,9 @@ public class GridManager : MonoBehaviour
     public GridNode GetGridNodeFromWorldPosition(Vector3 wp)
     {
         Vector3 p = wp - _origin;
-        int x = Mathf.FloorToInt(0.5f + p.x / _xzScale);
-        int y = Mathf.FloorToInt(0.5f + p.y / _yScale);
-        int z = Mathf.FloorToInt(0.5f + p.z / _xzScale);
+        int x = Mathf.FloorToInt((0.5f * _xzScale + p.x) / _xzScale);
+        int y = Mathf.FloorToInt((0.5f * _yScale + p.y) / _yScale);
+        int z = Mathf.FloorToInt((0.5f * _xzScale + p.z) / _xzScale);
         return GetGridNode(x, y, z);
     }
 

@@ -11,7 +11,8 @@ public class NetworkMatchManager : NetworkBehaviour
 
     [SerializeField] GameObject _unitPrefab;
     [SerializeField] int _NumOfUnits = 3;
-    [SerializeField] Player[] _players;
+
+    Player[] _players;
 
     public event Action OnNewTurn = delegate { };
 
@@ -41,7 +42,11 @@ public class NetworkMatchManager : NetworkBehaviour
     [ClientRpc]
     public void RpcRegisterPlayer(Player player)
     {
-        Debug.Log("Registering Player");
+        Debug.Log("RpcRegisterPlayer");
+        if (player == null)
+            Debug.Log($"player null");
+        else
+            Debug.Log($"player {player}");
         Team team = new Team();
         team.Owner = player;
         team.Name = _teams.Count.ToString();
@@ -52,6 +57,7 @@ public class NetworkMatchManager : NetworkBehaviour
 
     public void InstantiateUnits(Player player)
     {
+        Debug.Log("InstantiateUnits");
         List<GridNode> spawnPositions = GridManager.Instance.GetSpawnPositions(_NumOfUnits);
         Team team = GetTeam(player);
         for (int c = 0; c < _NumOfUnits; c++)
@@ -174,7 +180,6 @@ public class NetworkMatchManager : NetworkBehaviour
         _currentCharacter = ActiveTeam.GetFirstReadyCharacter();
         if (_currentCharacter == null)
         {
-            Debug.Log("no current character 1");
             Team team = _teams.Dequeue();
             team.EndTurn();
             _teams.Enqueue(team);
@@ -182,13 +187,8 @@ public class NetworkMatchManager : NetworkBehaviour
             _currentCharacter = ActiveTeam.GetFirstReadyCharacter();
             if (_currentCharacter == null)
             {
-                Debug.Log("no current character 2");
                 _teams.Dequeue();
             }
-        }
-        else
-        {
-            Debug.Log("habemus current character");
         }
     }
 

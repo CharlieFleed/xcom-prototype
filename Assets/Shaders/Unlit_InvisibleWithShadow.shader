@@ -43,8 +43,8 @@ Shader "Unlit/InvisibleWithShadow"
 					v2f o;
 					o.pos = UnityObjectToClipPos(vertex);
 					o.uv = uv;
-					//UNITY_TRANSFER_LIGHTING(o);
-					TRANSFER_VERTEX_TO_FRAGMENT(o);
+					UNITY_TRANSFER_LIGHTING(o);
+					//TRANSFER_VERTEX_TO_FRAGMENT(o);
 					TRANSFER_SHADOW(o);
 					return o;
 				}

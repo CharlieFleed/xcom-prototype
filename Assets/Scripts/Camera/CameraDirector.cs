@@ -11,6 +11,7 @@ public class CameraDirector : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera _actionCamera;
     [SerializeField] CinemachineTargetGroup _actionCameraTargetGroup;
     [SerializeField] NetworkMatchManager _matchManager;
+    [SerializeField] Transform _throwTarget;
 
     Dictionary<GridEntity, CinemachineVirtualCamera> _entityCameras = new Dictionary<GridEntity, CinemachineVirtualCamera>();
 
@@ -40,6 +41,8 @@ public class CameraDirector : MonoBehaviour
         Shooter.OnShooterRemoved += HandleShooterRemoved;
         BattleEventShot.OnShooting += HandleBattleEventShot_OnShooting;
         BattleEventShot.OnShootingEnd += HandleBattleEventShot_OnShootingEnd;
+        BattleEventThrow.OnThrowing += HandleBattleEventThrow_OnThrowing;
+        BattleEventThrow.OnThrowingEnd += HandleBattleEventThrow_OnThrowingEnd;
         BattleEventExplosion.OnExploding += HandleBattleEventExplosion_OnExploding;
         BattleEventExplosion.OnExplodingEnd += HandleBattleEventExplosion_OnExplodingEnd;
     }
@@ -81,6 +84,20 @@ public class CameraDirector : MonoBehaviour
     }
 
     void HandleBattleEventShot_OnShootingEnd()
+    {
+    }
+
+    void HandleBattleEventThrow_OnThrowing(Thrower thrower, GridNode target)
+    {
+        _activeEntityCamera.gameObject.SetActive(false);
+        _actionCamera.gameObject.SetActive(true);
+        _actionCameraTargetGroup.m_Targets = new CinemachineTargetGroup.Target[0];
+        _actionCameraTargetGroup.AddMember(thrower.transform, 1, 5);
+        _throwTarget.transform.position = target.FloorPosition;
+        _actionCameraTargetGroup.AddMember(_throwTarget.transform, 1, 5);
+    }
+
+    void HandleBattleEventThrow_OnThrowingEnd()
     {
     }
 
