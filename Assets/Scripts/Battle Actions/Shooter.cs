@@ -83,6 +83,7 @@ public class Shooter : BattleAction
     [ClientRpc]
     protected virtual void RpcShoot(GameObject target)
     {
+        Debug.Log("Shooter RpcShoot");
         GetTargets();
         ShotStats shotStats = null;
         foreach (var shot in _targets)
@@ -92,6 +93,7 @@ public class Shooter : BattleAction
                 shotStats = shot;
             }
         }
+        if (shotStats == null) Debug.Log($"PANIC! target {target.name} not found!");
         OnTargetSelected(this, shotStats.Target);
         OnTargetingEnd();
         Debug.Log($"Shoot {shotStats.Target.name}");
@@ -162,7 +164,7 @@ public class Shooter : BattleAction
     public void GetTargets()
     {
         _targets.Clear();
-        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(GetComponent<Character>());
+        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(GetComponent<Unit>());
         foreach (var shotStats in GridCoverManager.Instance.GetShotStats(this, enemies))
         {
             shotStats.Available = Vector3.Distance(transform.position, shotStats.Target.transform.position) <= _weapon.Range;
@@ -250,7 +252,7 @@ public class Shooter : BattleAction
             if (shot.Available)
                 availableShots.Add(shot);
         }
-        ShotStats selectedShot = availableShots[UnityEngine.Random.RandomRange(0, availableShots.Count)];
+        ShotStats selectedShot = availableShots[UnityEngine.Random.Range(0, availableShots.Count)];
         _targets.Clear();
         _targets.Enqueue(selectedShot);
         OnTargetSelected(this, selectedShot.Target);
@@ -262,7 +264,7 @@ public class Shooter : BattleAction
     {
         if (IsActive)
         {
-            //Debug.Log("Shooter HandleTargetClick - " + gameObject.name + " - " + ActionName + " target: " + target.Character.gameObject.name);
+            //Debug.Log("Shooter HandleTargetClick - " + gameObject.name + " - " + ActionName + " target: " + target.Unit.gameObject.name);
             while (_targets.Peek().Target != target.Target)
             {
                 NextTarget();

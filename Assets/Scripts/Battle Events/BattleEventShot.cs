@@ -23,9 +23,9 @@ public class BattleEventShot : BattleEvent
     {
         _shooter = shooter;
         _shotStats = shotStats;
-        _shooter.OnShot += HandleShot;
+        _shooter.OnShot += HandleShooter_OnShot;
         _phase = Phase.Camera;
-        // NOTE: change this
+        // NOTE: change this?
         Walker walker = _shotStats.Target.GetComponent<Walker>();
         if (walker)
         {
@@ -33,7 +33,7 @@ public class BattleEventShot : BattleEvent
         }
     }
 
-    void HandleShot()
+    void HandleShooter_OnShot()
     {
         if (_phase == Phase.Shooting)
             _phase = Phase.Shot;
@@ -72,6 +72,8 @@ public class BattleEventShot : BattleEvent
                     int damage = 0;
                     if (hit)
                     {
+                        // show shoot FX
+                        GameObject.Instantiate(_shooter.Weapon._hitFXPrefab, _shotStats.Target.transform.position, Quaternion.identity);
                         if (crit)
                         {
                             damage = NetworkRandomGenerator.Instance.RandomRange(_shooter.Weapon.MaxDamage + 1, _shooter.Weapon.MaxDamage + 1 + _shooter.Weapon.BaseDamage);
@@ -82,7 +84,7 @@ public class BattleEventShot : BattleEvent
                         }
                     }
                     _shotStats.Target.GetComponent<Health>().TakeDamage(damage, hit, crit);
-                    // NOTE: change this
+                    // NOTE: change this?
                     Walker walker = _shotStats.Target.GetComponent<Walker>();
                     if (walker)
                     {
@@ -99,7 +101,7 @@ public class BattleEventShot : BattleEvent
     public override void End()
     {
         base.End();
-        Debug.Log($"End of battle event shot");
-        _shooter.OnShot -= HandleShot;
+        //Debug.Log($"End of battle event shot");
+        _shooter.OnShot -= HandleShooter_OnShot;
     }
 }

@@ -8,9 +8,13 @@ public class Overwatcher : BattleAction
 {
     #region Fields
 
+    public static event Action<Overwatcher> OnOverwatcherAdded = delegate { };
+    public static event Action<Overwatcher> OnOverwatcherRemoved = delegate { };
+
     [SerializeField] Shooter _shooter;
 
     bool _isOverwatching;
+    public bool IsOverwatching { get { return _isOverwatching; } }
     // used by LookAtTarget
     public event Action<Shooter, GridEntity> OnShoot = delegate { };
 
@@ -19,16 +23,32 @@ public class Overwatcher : BattleAction
 
     #endregion
 
-    private void Awake()
+    private void Start()
     {
-        Walker.OnMoveToNextNode += HandleWalker_MoveToNextNode;
+        OnOverwatcherAdded(this);
     }
 
-    void HandleWalker_MoveToNextNode(Walker walker, GridNode gridNode)
+    private void OnDestroy()
     {
-        if (_isOverwatching && walker.GetComponent<Character>().Team != GetComponent<Character>().Team)
+        OnOverwatcherRemoved(this);
+    }
+
+    private void OnEnable()
+    {
+        Walker.OnMove += HandleWalker_OnMove;
+    }
+
+    private void OnDisable()
+    {
+        Walker.OnMove -= HandleWalker_OnMove;
+    }
+
+    void HandleWalker_OnMove(Walker walker, GridNode origin, GridNode destination)
+    {
+        if (_isOverwatching && walker.GetComponent<Unit>().Team != GetComponent<Unit>().Team)
         {
-            if (GridCoverManager.Instance.LineOfSight(GetComponent<GridEntity>(), walker.GetComponent<GridEntity>(), out Ray ray, out float rayLength, new List<GridNode[]>()))
+            // if (GridCoverManager.Instance.LineOfSight(GetComponent<GridEntity>(), walker.GetComponent<GridEntity>(), out Ray ray, out float rayLength, new List<GridNode[]>()))
+            if (GridCoverManager.Instance.LineOfSight(GetComponent<GridEntity>(), origin) && GridCoverManager.Instance.LineOfSight(GetComponent<GridEntity>(), destination))
             {
                 if (Vector3.Distance(transform.position, walker.transform.position) <= _shooter.Weapon.Range)
                 {
@@ -73,6 +93,7 @@ public class Overwatcher : BattleAction
     [ClientRpc]
     void RpcOverwatch()
     {
+        Debug.Log("Overwatcher RpcOverwatch");
         _isOverwatching = true;
         InvokeActionConfirmed(this);
         Deactivate();
@@ -102,10 +123,5 @@ public class Overwatcher : BattleAction
     void ClearOverwatch()
     {
         _isOverwatching = false;
-    }
-
-    private void OnDestroy()
-    {
-        Walker.OnMoveToNextNode -= HandleWalker_MoveToNextNode;
     }
 }

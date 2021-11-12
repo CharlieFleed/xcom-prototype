@@ -9,6 +9,7 @@ public class TrajectoryPredictor : MonoBehaviour
 
     [SerializeField] GameObject _grenadePrefab;
     [SerializeField] GameObject _lineRendererPrefab;
+    [SerializeField] NetworkMatchManager _networkMatchManager;
 
     Scene _currentScene;
     Scene _predictionScene;
@@ -55,7 +56,17 @@ public class TrajectoryPredictor : MonoBehaviour
         _lineRenderer.material.color = Color.red;
         _lineRenderer.loop = false;
 
-        NetworkMatchManager.Instance.OnNewTurn += HandleNetworkMatchManager_OnNewTurn;
+        
+    }
+
+    private void OnEnable()
+    {
+        _networkMatchManager.OnTurnBegin += HandleNetworkMatchManager_OnNewTurn;
+    }
+
+    private void OnDisable()
+    {
+        _networkMatchManager.OnTurnBegin -= HandleNetworkMatchManager_OnNewTurn;
     }
 
     private void HandleNetworkMatchManager_OnNewTurn()
@@ -202,11 +213,6 @@ public class TrajectoryPredictor : MonoBehaviour
             Destroy(grenade.gameObject);
         }
         _grenades.Clear();
-    }
-
-    private void OnDestroy()
-    {
-        NetworkMatchManager.Instance.OnNewTurn -= HandleNetworkMatchManager_OnNewTurn;
     }
 
     #region Singleton

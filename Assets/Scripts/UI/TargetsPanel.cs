@@ -18,18 +18,22 @@ public class TargetsPanel : MonoBehaviour
 
     private void OnEnable()
     {
-        Character.OnCharacterAdded += HandleCharacterAdded;
-        Character.OnCharacterRemoved += HandleCharacterRemoved;
+        Unit.OnUnitAdded += HandleUnit_OnUnitAdded;
+        Unit.OnUnitRemoved += HandleUnit_OnUnitRemoved;
         Shooter.OnShooterAdded += HandleShooterAdded;
         Shooter.OnShooterRemoved += HandleShooterRemoved;
+        ItemUser.OnItemUserAdded += HandleItemUser_OnItemUserAdded;
+        ItemUser.OnItemUserRemoved += HandleItemUser_OnItemUserRemoved;
     }
 
     private void OnDisable()
     {
-        Character.OnCharacterAdded -= HandleCharacterAdded;
-        Character.OnCharacterRemoved -= HandleCharacterRemoved;
+        Unit.OnUnitAdded -= HandleUnit_OnUnitAdded;
+        Unit.OnUnitRemoved -= HandleUnit_OnUnitRemoved;
         Shooter.OnShooterAdded -= HandleShooterAdded;
         Shooter.OnShooterRemoved -= HandleShooterRemoved;
+        ItemUser.OnItemUserAdded -= HandleItemUser_OnItemUserAdded;
+        ItemUser.OnItemUserRemoved -= HandleItemUser_OnItemUserRemoved;
     }
 
     void HandleHideTargets()
@@ -55,6 +59,7 @@ public class TargetsPanel : MonoBehaviour
             targetButton.OnTargetClick += HandleTargetClick;
             targetButton.OnMouseOverTarget += HandleMouseOverTarget;
             targetButton.OnMouseExitTarget += HandleMouseExitTarget;
+            //Debug.Log("added target button");
         }
     }
 
@@ -81,27 +86,27 @@ public class TargetsPanel : MonoBehaviour
         OnTargetClick(obj);
     }
 
-    private void HandleCharacterAdded(Character character)
+    private void HandleUnit_OnUnitAdded(Unit unit)
     {
-        OnTargetClick += character.HandleTargetClick; // TODO: change this
-        OnMouseOverTarget += character.HandleMouseOverTarget; // TODO: change this
-        OnMouseExitTarget += character.HandleMouseExitTarget; // TODO: change this
+        OnTargetClick += unit.HandleTargetClick; // NOTE: reversed event dependency
+        OnMouseOverTarget += unit.HandleMouseOverTarget; // NOTE: reversed event dependency
+        OnMouseExitTarget += unit.HandleMouseExitTarget; // NOTE: reversed event dependency
     }
 
-    private void HandleCharacterRemoved(Character character)
+    private void HandleUnit_OnUnitRemoved(Unit unit)
     {
-        OnTargetClick -= character.HandleTargetClick;
-        OnMouseOverTarget -= character.HandleMouseOverTarget;
-        OnMouseExitTarget -= character.HandleMouseExitTarget;
+        OnTargetClick -= unit.HandleTargetClick;
+        OnMouseOverTarget -= unit.HandleMouseOverTarget;
+        OnMouseExitTarget -= unit.HandleMouseExitTarget;
     }
 
     private void HandleShooterAdded(Shooter shooter)
     {
         shooter.OnTargetAdded += HandleTargetAdded;
         shooter.OnHideTargets += HandleHideTargets;
-        OnTargetClick += shooter.HandleTargetClick;  // TODO: change this
-        OnMouseOverTarget += shooter.HandleMouseOverTarget;  // TODO: change this
-        OnMouseExitTarget += shooter.HandleMouseExitTarget;  // TODO: change this
+        OnTargetClick += shooter.HandleTargetClick;  // NOTE: reversed event dependency
+        OnMouseOverTarget += shooter.HandleMouseOverTarget;  // NOTE: reversed event dependency
+        OnMouseExitTarget += shooter.HandleMouseExitTarget;  // NOTE: reversed event dependency
     }
 
     private void HandleShooterRemoved(Shooter shooter)
@@ -112,4 +117,23 @@ public class TargetsPanel : MonoBehaviour
         OnMouseOverTarget -= shooter.HandleMouseOverTarget;
         OnMouseExitTarget -= shooter.HandleMouseExitTarget;
     }
+
+    private void HandleItemUser_OnItemUserAdded(ItemUser itemUser)
+    {
+        itemUser.OnTargetAdded += HandleTargetAdded;
+        itemUser.OnHideTargets += HandleHideTargets;
+        OnTargetClick += itemUser.HandleTargetClick;  // NOTE: reversed event dependency
+        OnMouseOverTarget += itemUser.HandleMouseOverTarget;  // NOTE: reversed event dependency
+        OnMouseExitTarget += itemUser.HandleMouseExitTarget;  // NOTE: reversed event dependency
+    }
+
+    private void HandleItemUser_OnItemUserRemoved(ItemUser itemUser)
+    {
+        itemUser.OnTargetAdded -= HandleTargetAdded;
+        itemUser.OnHideTargets -= HandleHideTargets;
+        OnTargetClick -= itemUser.HandleTargetClick;
+        OnMouseOverTarget -= itemUser.HandleMouseOverTarget;
+        OnMouseExitTarget -= itemUser.HandleMouseExitTarget;
+    }
+
 }

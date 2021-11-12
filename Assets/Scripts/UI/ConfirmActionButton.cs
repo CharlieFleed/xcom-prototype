@@ -12,19 +12,19 @@ public class ConfirmActionButton : MonoBehaviour
     
     private void Awake()
     {
-        Character.OnCharacterAdded += HandleCharacterAdded;
-        Character.OnCharacterRemoved += HandleCharacterRemoved;
+        Unit.OnUnitAdded += HandleUnitAdded;
+        Unit.OnUnitRemoved += HandleUnitRemoved;
         gameObject.SetActive(false);
     }
 
-    private void HandleCharacterAdded(Character character)
+    private void HandleUnitAdded(Unit unit)
     {
-        character.OnActionActivated += HandleActionActivated;
+        unit.OnActionActivated += HandleActionActivated;
     }
 
-    private void HandleCharacterRemoved(Character character)
+    private void HandleUnitRemoved(Unit unit)
     {
-        character.OnActionActivated -= HandleActionActivated;
+        unit.OnActionActivated -= HandleActionActivated;
     }
 
     private void HandleActionActivated(BattleAction battleAction)
@@ -62,7 +62,7 @@ public class ConfirmActionButton : MonoBehaviour
 
     private void OnDestroy()
     {
-        Character.OnCharacterAdded -= HandleCharacterAdded;
-        Character.OnCharacterRemoved -= HandleCharacterRemoved;
+        Unit.OnUnitAdded -= HandleUnitAdded;
+        Unit.OnUnitRemoved -= HandleUnitRemoved;
     }
 }

@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class EnemyTurnPanel : MonoBehaviour
 {
+    [SerializeField] NetworkMatchManager _networkMatchManager;
     CanvasGroup _cg;
+    bool _display = false;
+    float _fadeSpeed = 15f;
 
     private void Awake()
     {
@@ -14,20 +17,38 @@ public class EnemyTurnPanel : MonoBehaviour
 
     private void Update()
     {
-        if (NetworkMatchManager.Instance.CurrentCharacter != null)
+        Check();
+        Fade();
+    }
+
+    private void Check()
+    {
+        if (_networkMatchManager.CurrentUnit != null)
         {
-            if (NetworkMatchManager.Instance.CurrentCharacter.Team.Owner.isLocalPlayer)
+            if (_networkMatchManager.CurrentUnit.Team.Owner.isLocalPlayer)
             {
-                _cg.alpha = 0;
+                _display = false;
             }
             else
             {
-                _cg.alpha = 1;
+                _display = true;
             }
         }
         else
         {
-            _cg.alpha = 0;
+            _display = false;
+        }
+    }
+
+    private void Fade()
+    {
+        if (_display)
+        {
+            _cg.alpha = Mathf.Lerp(_cg.alpha, 1, _fadeSpeed * Time.deltaTime);
+        }
+        else
+        {
+            _cg.alpha = Mathf.Lerp(_cg.alpha, 0, _fadeSpeed * Time.deltaTime);
         }
     }
 }   

@@ -7,41 +7,41 @@ public class ActionsBarController : MonoBehaviour, IUIChildController
     [SerializeField] ActionsBar _actionsBarPrefab;
     [SerializeField] GridEntityHUDController _gridEntityHUDController;
 
-    Dictionary<Character, ActionsBar> _actionsBars = new Dictionary<Character, ActionsBar>();
+    Dictionary<Unit, ActionsBar> _actionsBars = new Dictionary<Unit, ActionsBar>();
 
     public void Init()
     {
-        Character.OnCharacterAdded += HandleCharacterAdded;
-        Character.OnCharacterRemoved += HandleCharacterRemoved;
+        Unit.OnUnitAdded += HandleUnitAdded;
+        Unit.OnUnitRemoved += HandleUnitRemoved;
     }
 
-    private void HandleCharacterRemoved(Character character)
+    private void HandleUnitRemoved(Unit unit)
     {
-        if (_actionsBars.ContainsKey(character) == true)
+        if (_actionsBars.ContainsKey(unit) == true)
         {
-            if (_actionsBars[character] != null)
+            if (_actionsBars[unit] != null)
             {
-                Destroy(_actionsBars[character].gameObject);
+                Destroy(_actionsBars[unit].gameObject);
             }
-            _actionsBars.Remove(character);
+            _actionsBars.Remove(unit);
         }
     }
 
-    private void HandleCharacterAdded(Character character)
+    private void HandleUnitAdded(Unit unit)
     {
-        if (_actionsBars.ContainsKey(character) == false)
+        if (_actionsBars.ContainsKey(unit) == false)
         {
-            GridEntity gridEntity = character.GetComponent<GridEntity>();
+            GridEntity gridEntity = unit.GetComponent<GridEntity>();
             var actionsBar = Instantiate(_actionsBarPrefab, _gridEntityHUDController.GridEntityHUD(gridEntity).transform);
-            _actionsBars.Add(character, actionsBar);
-            actionsBar.SetCharacter(character);
+            _actionsBars.Add(unit, actionsBar);
+            actionsBar.SetUnit(unit);
         }
     }
 
     private void OnDestroy()
     {
-        Character.OnCharacterAdded -= HandleCharacterAdded;
-        Character.OnCharacterRemoved -= HandleCharacterRemoved;
+        Unit.OnUnitAdded -= HandleUnitAdded;
+        Unit.OnUnitRemoved -= HandleUnitRemoved;
     }
 }
 

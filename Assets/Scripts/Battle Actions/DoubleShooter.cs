@@ -20,6 +20,7 @@ public class DoubleShooter : Shooter
     [ClientRpc]
     protected override void RpcShoot(GameObject target)
     {
+        Debug.Log("DoubleShooter RpcShoot");
         GetTargets();
         ShotStats shotStats = null;
         foreach (var shot in _targets)
@@ -37,5 +38,13 @@ public class DoubleShooter : Shooter
         InvokeActionConfirmed(this);
         Deactivate();
         InvokeActionComplete(this);
+    }
+
+    public override void Init(int numActions)
+    {
+        base.Init(numActions);
+        GetTargets();
+        Available &= HasAvailableTargets();
+        Available &= _weapon.Bullets > 1;
     }
 }

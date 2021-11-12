@@ -15,6 +15,7 @@ public class Pathfinder : MonoBehaviour
     private GridNode _origin;
     private GridNode _destination;
     private IsNodeAvailableDelegate _IsNodeAvailable = delegate { return true; };
+    bool _useLadders;
 
     private Stack<GridNode> _path = new Stack<GridNode>();
 
@@ -94,13 +95,16 @@ public class Pathfinder : MonoBehaviour
     private List<GridNode> GetNeighbors(GridNode node, float maxJumpUp, float maxJumpDown)
     {
         List<GridNode> neighbors = new List<GridNode>();
-        foreach (var ladderNeighbor in node.LadderNeighbors)
+        if (_useLadders)
         {
-            if (_IsNodeAvailable(ladderNeighbor))
+            foreach (var ladderNeighbor in node.LadderNeighbors)
             {
-                neighbors.Add(ladderNeighbor);
+                if (_IsNodeAvailable(ladderNeighbor))
+                {
+                    neighbors.Add(ladderNeighbor);
+                }
             }
-        }        
+        }
         int[][] xzOffsets = { new int[] { 1, 0 }, new int[] { 0, 1 }, new int[] { -1, 0 }, new int[] { 0, -1 } };
         int[] yOffsets = new int[_gridSizeY];
         yOffsets[0] = 0;
@@ -280,15 +284,16 @@ public class Pathfinder : MonoBehaviour
         _path.Push(current);
     }
 
-    public void Initialize(GridNode[,,] gridNodes, GridNode origin, GridNode destination, int maxDistance, float maxJumpUp, float maxJumpDown, IsNodeAvailableDelegate IsNodeAvailable)
+    public void Initialize(GridNode[,,] gridNodes, GridNode origin, GridNode destination, int maxDistance, float maxJumpUp, float maxJumpDown, IsNodeAvailableDelegate IsNodeAvailable, bool useLadders)
     {
         _gridNodes = gridNodes;
         _origin = origin;
         _destination = destination;
         _IsNodeAvailable = IsNodeAvailable;
+        _useLadders = useLadders;
         _gridSizeX = gridNodes.GetLength(0);
         _gridSizeY = gridNodes.GetLength(1);
-        _gridSizeZ = gridNodes.GetLength(2);        
+        _gridSizeZ = gridNodes.GetLength(2);
         UpdateDistances(maxDistance, maxJumpUp, maxJumpDown);
         UpdatePath();
     }
@@ -304,6 +309,19 @@ public class Pathfinder : MonoBehaviour
         }
         path.Push(current);
         return path;
+    }
+
+    public List<GridNode> GetNodes(int distance)
+    {
+        List<GridNode> nodes = new List<GridNode>();
+        foreach (GridNode node in _gridNodes)
+        {
+            if (node.Distance <= distance)
+            {
+                nodes.Add(node);
+            }
+        }
+        return nodes;
     }
 
     #region Singleton

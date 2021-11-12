@@ -7,9 +7,10 @@ public class GridEntityHUD : MonoBehaviour
     [SerializeField] float _transparency = 0.5f;
     [SerializeField] int _positionOffset = 2;
 
-    Character _character;
+    Unit _unit;
     Health _health;
     GridEntity _gridEntity;
+    Viewer _viewer;
 
     Camera _camera;
 
@@ -21,26 +22,34 @@ public class GridEntityHUD : MonoBehaviour
     {
         _camera = Camera.main;
         _cg = GetComponent<CanvasGroup>();
+        _display = 0;
     }
 
     public void SetGridEntity(GridEntity gridEntity)
     {
         _gridEntity = gridEntity;
-        _character = _gridEntity.GetComponent<Character>();
+        _unit = _gridEntity.GetComponent<Unit>();
         _health = _gridEntity.GetComponent<Health>();
+        _viewer = _gridEntity.GetComponent<Viewer>();
     }
 
     private void Update()
     {
-        if (_health.IsDead)
+        Check();
+        Fade();
+    }
+
+    private void Check()
+    {
+        if (_health.IsDead || (_viewer != null && !_viewer.IsVisible))
         {
             _display = 0;
         }
-        else if ((_character != null && _character.IsActive) ||
+        else if ((_unit != null && _unit.IsActive) ||
             _gridEntity.IsTargeted ||
             _gridEntity.IsSoftTargeted ||
             _health.IsDamaged ||
-            (_character != null && (NetworkMatchManager.Instance.CurrentCharacter != null && NetworkMatchManager.Instance.CurrentCharacter.GetComponent<Walker>().IsActive && !NetworkMatchManager.Instance.CurrentCharacter.GetComponent<Walker>().IsWalking && !_character.Team.IsActive)))
+            (_unit != null && (NetworkMatchManager.Instance.CurrentUnit != null && NetworkMatchManager.Instance.CurrentUnit.GetComponent<Walker>().IsActive && !NetworkMatchManager.Instance.CurrentUnit.GetComponent<Walker>().IsWalking && !_unit.Team.IsActive)))
         {
             _display = 2;
         }
@@ -48,7 +57,6 @@ public class GridEntityHUD : MonoBehaviour
         {
             _display = 1;
         }
-        Fade();
     }
 
     private void Fade()

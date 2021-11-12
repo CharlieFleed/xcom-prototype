@@ -85,7 +85,7 @@ public class GridNodeSelector : NetworkBehaviour
                     List<Vector3> origins = new List<Vector3>() { _gridEntity.CurrentNode.FloorPosition + 2 * Vector3.up };
                     foreach (var sidestep in GridCoverManager.Instance.SideSteps(_gridEntity, gridNode))
                     {
-                        origins.Add(sidestep.FloorPosition + 2 * Vector3.up);
+                        origins.Add(sidestep.FloorPosition + 1.5f * Vector3.up);
                     }
                     if (GridNode.EuclideanDistance(_gridEntity.CurrentNode, gridNode) < _thrower.ThrowRange &&
                         TrajectoryPredictor.Instance.TrajectoryToTarget(origins, gridNode.FloorPosition, out impulse, out trajectory, out origin))

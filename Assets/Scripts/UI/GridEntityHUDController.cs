@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class GridEntityHUDController : MonoBehaviour
 {
-    [SerializeField] GridEntityHUD _characterHUDPrefab;
+    [SerializeField] GridEntityHUD _gridEntityHUDPrefab;
 
-    Dictionary<GridEntity, GridEntityHUD> _characterHUDs = new Dictionary<GridEntity, GridEntityHUD>();
+    Dictionary<GridEntity, GridEntityHUD> _gridEntityHUDs = new Dictionary<GridEntity, GridEntityHUD>();
 
     IUIChildController[] _children;
 
@@ -35,31 +35,31 @@ public class GridEntityHUDController : MonoBehaviour
     private void HandleGridEntityAdded(GridEntity gridEntity)
     {
         //Debug.Log("GridEntityHUDController HandleGridEntityAdded.");
-        if (_characterHUDs.ContainsKey(gridEntity) == false)
+        if (_gridEntityHUDs.ContainsKey(gridEntity) == false)
         {
-            var gridEntityHUD = Instantiate(_characterHUDPrefab, transform);
-            _characterHUDs.Add(gridEntity, gridEntityHUD);
+            var gridEntityHUD = Instantiate(_gridEntityHUDPrefab, transform);
+            _gridEntityHUDs.Add(gridEntity, gridEntityHUD);
             gridEntityHUD.SetGridEntity(gridEntity);
         }
     }
 
     private void HandleGridEntityRemoved(GridEntity gridEntity)
     {
-        if (_characterHUDs.ContainsKey(gridEntity) == true)
+        if (_gridEntityHUDs.ContainsKey(gridEntity) == true)
         {
-            if (_characterHUDs[gridEntity] != null)
+            if (_gridEntityHUDs[gridEntity] != null)
             {
-                Destroy(_characterHUDs[gridEntity].gameObject);
+                Destroy(_gridEntityHUDs[gridEntity].gameObject);
             }
-            _characterHUDs.Remove(gridEntity);
+            _gridEntityHUDs.Remove(gridEntity);
         }
     }
 
     public GridEntityHUD GridEntityHUD(GridEntity gridEntity)
     {
-        if (_characterHUDs.ContainsKey(gridEntity))
+        if (_gridEntityHUDs.ContainsKey(gridEntity))
         {
-            return _characterHUDs[gridEntity];
+            return _gridEntityHUDs[gridEntity];
         }
         else
         {

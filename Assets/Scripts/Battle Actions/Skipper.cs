@@ -33,6 +33,7 @@ public class Skipper : BattleAction
     [ClientRpc]
     void RpcSkip()
     {
+        Debug.Log("Skipper RpcSkip");
         InvokeActionConfirmed(this);
         Deactivate();
         InvokeActionComplete(this);

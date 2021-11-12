@@ -14,4 +14,5 @@ public class ShotStats
     public int CritChance;
     public int BaseDamage;
     public int MaxDamage;
+    public bool Friendly;
 }

@@ -11,6 +11,7 @@ public class DamageBar : MonoBehaviour
     [SerializeField] Image _bg;
     [SerializeField] Image _critBg;
     [SerializeField] Image _missBg;
+    [SerializeField] Image _healBg;
     [SerializeField] Text _text;
     [SerializeField] float _positionOffset = 2;
     [SerializeField] CanvasGroup _cg;
@@ -40,8 +41,9 @@ public class DamageBar : MonoBehaviour
 
     public void SetDamage(int damage, bool hit, bool crit)
     {
-        _text.text = hit ? (damage.ToString() + (crit ? " CRITICAL" : " DAMAGE")) : "MISS";
-        _bg.enabled = hit && !crit;
+        _text.text = hit ? (Mathf.Abs(damage).ToString() + (crit ? " CRITICAL" : (damage > 0 ? " DAMAGE" : " HEAL"))) : "MISS";
+        _bg.enabled = hit && !crit && damage > 0;
+        _healBg.enabled = damage < 0;
         _critBg.enabled = crit;
         _missBg.enabled = !hit;
         enabled = true;

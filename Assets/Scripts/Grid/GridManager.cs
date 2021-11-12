@@ -313,7 +313,7 @@ public class GridManager : MonoBehaviour
     {
         foreach (GridNode gridNode in _grid)
         {
-            Debug.Log($"GenerateWalls node: {gridNode.X},{gridNode.Y},{gridNode.Z}");
+            //Debug.Log($"GenerateWalls node: {gridNode.X},{gridNode.Y},{gridNode.Z}");
             // check walls and half walls
             Vector3[] wallTopOffsets = new Vector3[4];
             wallTopOffsets[0] = (_unitColliderExtents.y - 0.001f) * Vector3.up + 0.5f * (0.5f * _unitColliderExtents.x + 0.5f * _xzScale) * Vector3.right; // NOTE: lowered to avoid collision with a _unitColliderExtents.y-tall doorway  
@@ -331,8 +331,8 @@ public class GridManager : MonoBehaviour
             {
                 Physics.queriesHitBackfaces = true;
                 RaycastHit[] hits = Physics.BoxCastAll(gridNode.FloorPosition + wallTopOffsets[i], wallTopHalfExtents[i], Vector3.down, Quaternion.identity, _unitColliderExtents.y - 0.001f);
-                Debug.Log($"center: {wallTopHalfExtents[i].x},{wallTopHalfExtents[i].y},{wallTopHalfExtents[i].z}");
-                Debug.Log($"halfExtents: {(gridNode.FloorPosition + wallTopOffsets[i]).x},{(gridNode.FloorPosition + wallTopOffsets[i]).y},{(gridNode.FloorPosition + wallTopOffsets[i]).z}");
+                //Debug.Log($"center: {wallTopHalfExtents[i].x},{wallTopHalfExtents[i].y},{wallTopHalfExtents[i].z}");
+                //Debug.Log($"halfExtents: {(gridNode.FloorPosition + wallTopOffsets[i]).x},{(gridNode.FloorPosition + wallTopOffsets[i]).y},{(gridNode.FloorPosition + wallTopOffsets[i]).z}");
 
                 Physics.queriesHitBackfaces = false;
                 if (hits.Length > 0)
@@ -345,14 +345,14 @@ public class GridManager : MonoBehaviour
                             if (hit.distance == 0)
                             {
                                 gridNode.Walls[i] = true;
-                                Debug.Log($"Wall {i}");
+                                //Debug.Log($"Wall {i}");
                                 gridNode.HalfWalls[i] = false;
                                 break; // full wall, that's it
                             }
                             else if (hit.distance <= 0.5f * _unitColliderExtents.y)
                             {
                                 gridNode.HalfWalls[i] = true;
-                                Debug.Log($"HalfWall {i}");
+                                //Debug.Log($"HalfWall {i}");
                             }
                         }
                     }
@@ -518,12 +518,13 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    [Obsolete]
     public void PositionPlayers(Queue<Team> teams)
     {
         int count = 0;
         foreach (Team team in teams)
         {
-            count += team.Characters.Count;
+            count += team.Units.Count;
         }
         List<GridNode> walkableNodes = new List<GridNode>();
         // repeat until count walkable nodes are found, stop at 1000 attempts;
@@ -545,24 +546,47 @@ public class GridManager : MonoBehaviour
         {
             foreach (Team team in teams)
             {
-                foreach (Character character in team.Characters)
+                foreach (Unit unit in team.Units)
                 {
-                    character.gameObject.transform.position = walkableNodes[count].FloorPosition;
+                    unit.gameObject.transform.position = walkableNodes[count].FloorPosition;
                     Debug.Log("Set Current Node");
-                    character.gameObject.GetComponent<GridEntity>().CurrentNode = walkableNodes[count];
+                    unit.gameObject.GetComponent<GridEntity>().CurrentNode = walkableNodes[count];
                     count++;
                 }
             }
         }
         else
         {
-            Debug.Log("Not enough walkable nodes for characters. Exiting.");
+            Debug.Log("Not enough walkable nodes for units. Exiting.");
             Application.Quit();
         }
     }
 
-    public List<GridNode> GetSpawnPositions(int count)
+    public List<GridNode> GetSpawnPositions(int teamId, int count)
     {
+        GameObject spawnersGroup = GameObject.Find("Spawners " + teamId);
+        List<GridNode> spawnPoints = new List<GridNode>();
+        foreach (Transform spawnPoint in spawnersGroup.transform)
+        {
+            spawnPoints.Add(GetGridNodeFromWorldPosition(spawnPoint.position));
+            if (spawnPoints.Count == count)
+            {
+                break;
+            }
+        }
+        return spawnPoints;
+    }
+
+    [Obsolete]
+    public List<GridNode> GetSpawnPositionsOld(int teamId, int count)
+    {
+        GameObject spawnersGroup = GameObject.Find("Spawners " + teamId);
+        List<GridNode> spawnPoints = new List<GridNode>();
+        foreach (Transform spawnPoint in spawnersGroup.transform)
+        {
+            spawnPoints.Add(GetGridNodeFromWorldPosition(spawnPoint.position));
+        }
+
         List<GridNode> walkableNodes = new List<GridNode>();
         // repeat until count walkable nodes are found, stop at 1000 attempts;
         int attemptsLeft = 1000;
@@ -585,7 +609,7 @@ public class GridManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Not enough walkable nodes for characters. Exiting.");
+            Debug.Log("Not enough walkable nodes for units. Exiting.");
             Application.Quit();
             return null;
         }

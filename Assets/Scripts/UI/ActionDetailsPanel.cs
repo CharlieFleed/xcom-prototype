@@ -11,37 +11,37 @@ public class ActionDetailsPanel : MonoBehaviour
 
     private void Awake()
     {
-        Character.OnCharacterAdded += HandleCharacterAdded;
-        Character.OnCharacterRemoved += HandleCharacterRemoved;
+        Unit.OnUnitAdded += HandleUnitAdded;
+        Unit.OnUnitRemoved += HandleUnitRemoved;
         Shooter.OnShotSelected += HandleShooter_OnShotSelected;
         gameObject.SetActive(false);
         _hitChanceText.GetComponent<CanvasGroup>().alpha = 0;
         _critChanceText.GetComponent<CanvasGroup>().alpha = 0;
+        _damageText.GetComponent<CanvasGroup>().alpha = 0;
     }
 
     private void HandleShooter_OnShotSelected(ShotStats obj)
     {
-        //Debug.Log($"HandleShooter_OnShotSelected");
         _hitChanceText.text = obj.HitChance + "%";
         _critChanceText.text = obj.CritChance + "%";
         _damageText.text = obj.BaseDamage + "-" + obj.MaxDamage; 
         _hitChanceText.GetComponent<CanvasGroup>().alpha = 1;
         _critChanceText.GetComponent<CanvasGroup>().alpha = 1;
+        _damageText.GetComponent<CanvasGroup>().alpha = 1;
     }
 
-    private void HandleCharacterAdded(Character character)
+    private void HandleUnitAdded(Unit unit)
     {
-        character.OnActionActivated += HandleActionActivated;
+        unit.OnActionActivated += HandleActionActivated;
     }
 
-    private void HandleCharacterRemoved(Character character)
+    private void HandleUnitRemoved(Unit unit)
     {
-        character.OnActionActivated -= HandleActionActivated;
+        unit.OnActionActivated -= HandleActionActivated;
     }
 
     private void HandleActionActivated(BattleAction battleAction)
     {
-        //Debug.Log($"HandleActionActivated");
         battleAction.OnActionConfirmed += HandleActionConfirmed;
         battleAction.OnActionCancelled += HandleActionCancelled;
         gameObject.SetActive(true);
@@ -69,8 +69,8 @@ public class ActionDetailsPanel : MonoBehaviour
 
     private void OnDestroy()
     {
-        Character.OnCharacterAdded -= HandleCharacterAdded;
-        Character.OnCharacterRemoved -= HandleCharacterRemoved;
+        Unit.OnUnitAdded -= HandleUnitAdded;
+        Unit.OnUnitRemoved -= HandleUnitRemoved;
         Shooter.OnShotSelected -= HandleShooter_OnShotSelected;
     }
 }

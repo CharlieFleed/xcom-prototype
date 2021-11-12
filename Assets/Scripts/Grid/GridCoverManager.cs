@@ -120,61 +120,92 @@ public class GridCoverManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Uses entities' CurrentNode.
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <param name="ray"></param>
+    /// <param name="rayLength"></param>
+    /// <param name="losPoints"></param>
+    /// <returns></returns>
     public bool LineOfSight(GridEntity a, GridEntity b, out Ray ray, out float rayLength, List<GridNode[]> losPoints)
     {
         //Debug.Log($"LineOfSight - Shooter: {a.gameObject.name}, Target: {b.gameObject.name}.");
-        rayLength = (b.transform.position - a.transform.position).magnitude;
-        ray = new Ray(a.transform.position + Vector3.up * 1, b.transform.position - a.transform.position);
-        RaycastHit[] hits = Physics.RaycastAll(ray, rayLength, LayerMask.GetMask("Cover"));
-        if (hits.Length == 0)
+
+        // Check direct LOS
+        if (LineOfSight(a.CurrentNode.FloorPosition + Vector3.up * 1, b.CurrentNode.FloorPosition + Vector3.up * 1, out ray, out rayLength))
         {
             //Debug.Log($"Direct LOS.");
             losPoints.Add(new GridNode[] { a.CurrentNode, b.CurrentNode });
         }
+
+        // Check b's sidesteps
         List<GridNode> targetSideSteps = SideSteps(b, a.CurrentNode);
         foreach (var targetSideStep in targetSideSteps)
         {
             //Debug.Log($"Checking target sidestep {targetSideStep.X},{targetSideStep.Y},{targetSideStep.Z}.");
-            rayLength = (targetSideStep.FloorPosition - a.transform.position).magnitude;
-            ray = new Ray(a.transform.position + Vector3.up * 1, targetSideStep.FloorPosition - a.transform.position);
-            hits = Physics.RaycastAll(ray, rayLength, LayerMask.GetMask("Cover"));
-            if (hits.Length == 0)
+            if (LineOfSight(a.CurrentNode.FloorPosition + Vector3.up * 1, targetSideStep.FloorPosition + Vector3.up * 1, out ray, out rayLength))
             {
-                //Debug.Log($"Direct LOS.");
+                //Debug.Log($"LOS to target's sidestep.");
                 losPoints.Add(new GridNode[] { a.CurrentNode, targetSideStep });
             }
         }
-        //Debug.Log($"Direct LOS Collision.");
-        // side stepping
+
+        // Check a's sidesteps
         List<GridNode> sideSteps = SideSteps(a, b.CurrentNode);
         //Debug.Log($"# of shooter sidesteps: {sideSteps.Count}");
         foreach (GridNode sideStep in sideSteps)
         {
             //Debug.Log($"Checking shooter side-step: {sideStep.X},{sideStep.Y},{sideStep.Z}.");
-            rayLength = (b.transform.position - sideStep.FloorPosition).magnitude;
-            ray = new Ray(sideStep.FloorPosition + Vector3.up * 1, b.transform.position - sideStep.FloorPosition);
-            hits = Physics.RaycastAll(ray, rayLength, LayerMask.GetMask("Cover"));
-            if (hits.Length == 0)
+            if (LineOfSight(sideStep.FloorPosition + Vector3.up * 1, b.CurrentNode.FloorPosition + Vector3.up * 1, out ray, out rayLength))
             {
-                //Debug.Log($"Side-step LOS.");
+                //Debug.Log($"Shooter side-step LOS against target.");
                 losPoints.Add(new GridNode[] { sideStep, b.CurrentNode });
             }
+            
             foreach (var targetSideStep in targetSideSteps)
             {
                 //Debug.Log($"Checking target sidestep {targetSideStep.X},{targetSideStep.Y},{targetSideStep.Z}.");
-                rayLength = (targetSideStep.FloorPosition - sideStep.FloorPosition).magnitude;
-                ray = new Ray(sideStep.FloorPosition + Vector3.up * 1, targetSideStep.FloorPosition - sideStep.FloorPosition);
-                hits = Physics.RaycastAll(ray, rayLength, LayerMask.GetMask("Cover"));
-                if (hits.Length == 0)
+                if (LineOfSight(sideStep.FloorPosition + Vector3.up * 1, sideStep.FloorPosition + Vector3.up * 1, out ray, out rayLength))
                 {
-                    //Debug.Log($"Direct LOS.");
+                    //Debug.Log($"Shooter side-step LOS against target's sidestep.");
                     losPoints.Add(new GridNode[] { sideStep, targetSideStep });
-                    return true;
                 }
             }
-            //Debug.Log($"Collision.");
         }
         return losPoints.Count > 0;
+    }
+
+    public bool LineOfSight(Vector3 a, Vector3 b, out Ray ray, out float rayLength)
+    {
+        rayLength = (b - a).magnitude;
+        ray = new Ray(a, b);
+        Physics.queriesHitBackfaces = true;
+        RaycastHit[] hits = Physics.RaycastAll(ray, rayLength, LayerMask.GetMask("Cover"));
+        Physics.queriesHitBackfaces = false;
+        return hits.Length == 0;
+    }
+
+    public bool LineOfSight(GridEntity entity, GridNode node)
+    {
+        {
+            // Check direct LOS
+            if (LineOfSight(entity.CurrentNode.FloorPosition + Vector3.up * 1, node.FloorPosition + Vector3.up * 1, out Ray ray, out float rayLength))
+            {
+                return true;
+            }
+        }
+        // Check a's sidesteps
+        List<GridNode> sideSteps = SideSteps(entity, node);
+        foreach (GridNode sideStep in sideSteps)
+        {
+            if (LineOfSight(sideStep.FloorPosition + Vector3.up * 1, node.FloorPosition + Vector3.up * 1, out Ray ray, out float rayLength))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<GridNode> SideSteps(GridEntity gridEntity, GridNode targetNode)

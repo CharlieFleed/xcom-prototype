@@ -7,26 +7,26 @@ public class EndTurnButton : MonoBehaviour
 {
     public event Action OnClick = delegate { };
 
-    private void Awake()
+    private void OnEnable()
     {
-        Character.OnCharacterAdded += Character_OnCharacterAdded;
-        Character.OnCharacterRemoved += Character_OnCharacterRemoved;
+        Unit.OnUnitAdded += HandleUnit_OnUnitAdded;
+        Unit.OnUnitRemoved += HandleUnit_OnUnitRemoved;
     }
 
-    private void Character_OnCharacterAdded(Character obj)
+    private void OnDisable()
     {
-        OnClick += obj.HandleEndTurn;
+        Unit.OnUnitAdded -= HandleUnit_OnUnitAdded;
+        Unit.OnUnitRemoved -= HandleUnit_OnUnitRemoved;
     }
 
-    private void Character_OnCharacterRemoved(Character obj)
+    private void HandleUnit_OnUnitAdded(Unit unit)
     {
-        OnClick -= obj.HandleEndTurn;
+        OnClick += unit.HandleEndTurn;
     }
 
-    private void OnDestroy()
+    private void HandleUnit_OnUnitRemoved(Unit unit)
     {
-        Character.OnCharacterAdded -= Character_OnCharacterAdded;
-        Character.OnCharacterRemoved -= Character_OnCharacterRemoved;
+        OnClick -= unit.HandleEndTurn;
     }
 
     public void Click()

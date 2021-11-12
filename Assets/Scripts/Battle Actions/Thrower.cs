@@ -56,8 +56,8 @@ public class Thrower : BattleAction
     void Throw()
     {
         InvokeActionConfirmed(this);
-        BattleEventThrow _throw = new BattleEventThrow(this, _target);
-        NetworkMatchManager.Instance.AddBattleEvent(_throw, true);
+        BattleEventThrow throwEvent = new BattleEventThrow(this, _target);
+        NetworkMatchManager.Instance.AddBattleEvent(throwEvent, true);
         Deactivate();
         InvokeActionComplete(this);
     }
@@ -71,6 +71,7 @@ public class Thrower : BattleAction
     [ClientRpc]
     void RpcThrow(Vector3Int target)
     {
+        Debug.Log("Thrower RpcThrow");
         InvokeActionConfirmed(this);
         BattleEventThrow _throw = new BattleEventThrow(this, _target);
         NetworkMatchManager.Instance.AddBattleEvent(_throw, true);
@@ -85,7 +86,7 @@ public class Thrower : BattleAction
         List<Vector3> origins = new List<Vector3>() { GetComponent<GridEntity>().CurrentNode.FloorPosition + 2 * Vector3.up };
         foreach (var sidestep in GridCoverManager.Instance.SideSteps(GetComponent<GridEntity>(), _target))
         {
-            origins.Add(sidestep.FloorPosition + 2 * Vector3.up);
+            origins.Add(sidestep.FloorPosition + 1.5f * Vector3.up);
         }
         TrajectoryPredictor.Instance.TrajectoryToTarget(origins, _target.FloorPosition, out impulse, out Vector3[] trajectory, out origin);
         // clone the grenade
@@ -94,6 +95,7 @@ public class Thrower : BattleAction
         _grenadeProjectile.GetComponent<Grenade>().Damage = _grenade.Damage;
         _grenadeProjectile.GetComponent<Grenade>().Radius = _grenade.Radius;
         _grenadeProjectile.GetComponent<Grenade>().DetonationFXPrefab = _grenade.DetonationFXPrefab;
+        _grenadeProjectile.GetComponent<Grenade>().DetonationAudioClip = _grenade.DetonationAudioClip;
         _grenadeProjectile.transform.position = origin;
         _grenadeProjectile.GetComponent<Grenade>().SetTarget(_target.FloorPosition);
         _grenadeProjectile.GetComponent<Rigidbody>().AddForce(impulse, ForceMode.Impulse);

@@ -19,13 +19,21 @@ public class CameraController : MonoBehaviour
     int _savedTargetLevel = 0;
     int _maxLevel = 5;
 
+    Quaternion _initial;
+    int _orientation = 0;
+
     Quaternion _from;
     Quaternion _to;
     float _speed = 2f;
     float _t = 1f;
 
+    float _smallSpeed = 25f;
+
     private void Awake()
     {
+        _initial = _virtualCamera.transform.rotation;
+        _orientation = 0;
+
         _from = _virtualCamera.transform.rotation;
         _to = _virtualCamera.transform.rotation;
         _instance = this;
@@ -33,26 +41,26 @@ public class CameraController : MonoBehaviour
 
     private void OnEnable()
     {
-        Character.OnCharacterAdded += HandleCharacterAdded;
-        Character.OnCharacterRemoved += HandleCharacterRemoved;
+        Unit.OnUnitAdded += HandleUnitAdded;
+        Unit.OnUnitRemoved += HandleUnitRemoved;
     }
 
     private void OnDisable()
     {
-        Character.OnCharacterAdded -= HandleCharacterAdded;
-        Character.OnCharacterRemoved -= HandleCharacterRemoved;
+        Unit.OnUnitAdded -= HandleUnitAdded;
+        Unit.OnUnitRemoved -= HandleUnitRemoved;
     }
 
-    private void HandleCharacterAdded(Character character)
+    private void HandleUnitAdded(Unit unit)
     {
-        character.OnActionActivated += HandleActionActivated;
-        character.OnActionConfirmed += HandleActionConfirmed;
+        unit.OnActionActivated += HandleActionActivated;
+        unit.OnActionConfirmed += HandleActionConfirmed;
     }
 
-    private void HandleCharacterRemoved(Character character)
+    private void HandleUnitRemoved(Unit unit)
     {
-        character.OnActionActivated -= HandleActionActivated;
-        character.OnActionConfirmed -= HandleActionConfirmed;
+        unit.OnActionActivated -= HandleActionActivated;
+        unit.OnActionConfirmed -= HandleActionConfirmed;
     }
 
     private void HandleActionActivated(BattleAction battleAction)
@@ -138,21 +146,54 @@ public class CameraController : MonoBehaviour
         {
             RotateRight();
         }
+        if (Input.GetKey(KeyCode.Z))
+        {
+            RotateLeftSmall();
+        }
+        if (Input.GetKey(KeyCode.C))
+        {
+            RotateRightSmall();
+        }
     }
 
     public void RotateLeft()
     {
         _from = _virtualCamera.transform.rotation;
-        Quaternion rotation = Quaternion.AngleAxis(90, new Vector3(0, 1, -1).normalized);
-        _to = _to * rotation;
+        _orientation = (_orientation + 1) % 4;
+        Quaternion rotation = Quaternion.AngleAxis(_orientation * 90, new Vector3(0, 1, -1).normalized);
+        _to = _initial * rotation;
         _t = 0;
     }
+
     public void RotateRight()
     {
         _from = _virtualCamera.transform.rotation;
-        Quaternion rotation = Quaternion.AngleAxis(-90, new Vector3(0, 1, -1).normalized);
-        _to = _to * rotation;
+        _orientation = (_orientation + 3) % 4;
+        Quaternion rotation = Quaternion.AngleAxis(_orientation * 90, new Vector3(0, 1, -1).normalized);
+        _to = _initial * rotation;
         _t = 0;
+    }
+
+    public void RotateLeftSmall()
+    {
+        Quaternion from = _virtualCamera.transform.rotation;
+        Quaternion rotation = Quaternion.AngleAxis(_smallSpeed * Time.deltaTime, new Vector3(0, 1, -1).normalized);
+        _virtualCamera.transform.rotation = from * rotation;
+        CancelStepRotation();
+    }
+
+    public void RotateRightSmall()
+    {
+        Quaternion from = _virtualCamera.transform.rotation;
+        Quaternion rotation = Quaternion.AngleAxis(-_smallSpeed * Time.deltaTime, new Vector3(0, 1, -1).normalized);
+        _virtualCamera.transform.rotation = from * rotation;
+        CancelStepRotation();
+    }
+
+    void CancelStepRotation()
+    {
+        _from = _virtualCamera.transform.rotation;
+        _to = _virtualCamera.transform.rotation;
     }
 
     #region Singleton

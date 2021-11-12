@@ -6,7 +6,7 @@ using Cinemachine;
 
 public class Walker : BattleAction
 {
-    public static event Action<Walker, GridNode> OnMoveToNextNode = delegate { };
+    public static event Action<Walker, GridNode, GridNode> OnMove = delegate { };
     public static event Action<Walker, GridNode> OnDestinationReached = delegate { };
 
     [SerializeField] Movement _movement;    
@@ -87,7 +87,7 @@ public class Walker : BattleAction
         GridNode.Orientations orientation = GridManager.Instance.GetDirection(_gridEntity.CurrentNode, nextStep);
         bool leap = _gridEntity.CurrentNode.HalfWalls[(int)orientation];
         _movement.MoveToDestination(destination, leap);
-        OnMoveToNextNode(this, nextStep);
+        OnMove(this, _gridEntity.CurrentNode, nextStep);
     }
 
     override public void Activate()

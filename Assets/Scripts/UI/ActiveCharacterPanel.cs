@@ -5,33 +5,35 @@ using UnityEngine.UI;
 
 public class ActiveCharacterPanel : MonoBehaviour
 {
-    Text _text;
+    [SerializeField] Text _nameText;
+    [SerializeField] Text _classText;
     CanvasGroup _cg;
 
     private void Awake()
     {
         _cg = GetComponent<CanvasGroup>();
         _cg.alpha = 0;
-        _text = GetComponentInChildren<Text>(true);
-        Character.OnActiveChanged += HandleCharacter_OnActiveChanged;
+        Unit.OnActiveChanged += HandleUnit_OnActiveChanged;
     }
 
-    private void HandleCharacter_OnActiveChanged(Character character, bool active)
+    private void HandleUnit_OnActiveChanged(Unit unit, bool active)
     {
         if (active)
         {
-            _text.text = character.name;
+            _nameText.text = unit.GetComponent<UnitDetails>().Name;
+            _classText.text = unit.GetComponent<UnitDetails>().Class;
             _cg.alpha = 1;
         }
         else
         {
-            _text.text = ""; ;
+            _nameText.text = "";
+            _classText.text = "";
             _cg.alpha = 0;
         }
     }
 
     private void OnDestroy()
     {
-        Character.OnActiveChanged -= HandleCharacter_OnActiveChanged;
+        Unit.OnActiveChanged -= HandleUnit_OnActiveChanged;
     }
 }

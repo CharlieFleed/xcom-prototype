@@ -11,8 +11,8 @@ public class ActionButtonController : MonoBehaviour
 
     private void Awake()
     {
-        Character.OnCharacterAdded += HandleCharacterAdded;
-        Character.OnCharacterRemoved += HandleCharacterRemoved;
+        Unit.OnUnitAdded += HandleUnitAdded;
+        Unit.OnUnitRemoved += HandleUnitRemoved;
     }
 
     void HandleActionAdded(BattleAction obj)
@@ -40,24 +40,24 @@ public class ActionButtonController : MonoBehaviour
 
     private void HandleActionClick(BattleAction battleAction)
     {
-        battleAction.GetComponent<Character>().SelectAction(battleAction);
+        battleAction.GetComponent<Unit>().SelectAction(battleAction);
     }
 
-    private void HandleCharacterAdded(Character character)
+    private void HandleUnitAdded(Unit unit)
     {
-        character.OnActionAdded += HandleActionAdded;
-        character.OnActionsCleared += HandleActionsCleared;
+        unit.OnActionAdded += HandleActionAdded;
+        unit.OnActionsCleared += HandleActionsCleared;
     }
 
-    private void HandleCharacterRemoved(Character character)
+    private void HandleUnitRemoved(Unit unit)
     {
-        character.OnActionAdded -= HandleActionAdded;
-        character.OnActionsCleared -= HandleActionsCleared;
+        unit.OnActionAdded -= HandleActionAdded;
+        unit.OnActionsCleared -= HandleActionsCleared;
     }
 
     private void OnDestroy()
     {
-        Character.OnCharacterAdded -= HandleCharacterAdded;
-        Character.OnCharacterRemoved -= HandleCharacterRemoved;
+        Unit.OnUnitAdded -= HandleUnitAdded;
+        Unit.OnUnitRemoved -= HandleUnitRemoved;
     }
 }

@@ -26,7 +26,13 @@ public class TargetButton : MonoBehaviour
         _hitChanceText.text = target.HitChance + "%";
         if (_target.Available)
         {
-            if (_target.Flanked)
+            if (_target.Friendly)
+            {
+                _targetImage.color = Color.cyan;
+                _borderImage.color = Color.cyan;
+                _hitChanceText.color = Color.cyan;
+            }
+            else if (_target.Flanked)
             {
                 _targetImage.color = Color.yellow;
                 _borderImage.color = Color.yellow;

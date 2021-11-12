@@ -45,6 +45,7 @@ public class Reloader : BattleAction
     [ClientRpc]
     void RpcReload()
     {
+        Debug.Log("Reloader RpcReload");
         _weapon.Reload();
         InvokeActionConfirmed(this);
         Deactivate();

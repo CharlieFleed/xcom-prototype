@@ -22,15 +22,15 @@ public class WeaponPanel : MonoBehaviour
 
     private void OnEnable()
     {
-        Character.OnActiveChanged += HandleCharacter_OnActiveChanged;
+        Unit.OnActiveChanged += HandleUnit_OnActiveChanged;
     }
 
     private void OnDisable()
     {
-        Character.OnActiveChanged -= HandleCharacter_OnActiveChanged;
+        Unit.OnActiveChanged -= HandleUnit_OnActiveChanged;
     }
 
-    private void HandleCharacter_OnActiveChanged(Character character, bool active)
+    private void HandleUnit_OnActiveChanged(Unit unit, bool active)
     {
         if (active)
         {
@@ -38,7 +38,7 @@ public class WeaponPanel : MonoBehaviour
             {
                 _weapon.OnAmmunitionsChanged -= HandleWeapon_AmmunitionsChanged;
             }
-            _weapon = character.Weapon;
+            _weapon = unit.Weapon;
             _weapon.OnAmmunitionsChanged += HandleWeapon_AmmunitionsChanged;
             _image.sprite = _weapon.Image;
             SetAmmunitions(_weapon.Bullets, _weapon.ClipSize);

@@ -181,6 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthDefault: 3
+  Id: 0
 --- !u!114 &3423108777896552475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,6 +210,7 @@ MonoBehaviour:
   _damage: 5
   _radius: 3
   _detonationFXPrefab: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
+  _detonationAudioClip: {fileID: 8300000, guid: 1fd31868d68903d4f9e2c4a3b7ef98f3, type: 3}
 --- !u!114 &3423108777896552466
 MonoBehaviour:
   m_ObjectHideFlags: 0

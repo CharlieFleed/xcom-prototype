@@ -25,7 +25,7 @@ public class SeeThrough : MonoBehaviour
     bool _isHidden;
 
     int _hideCounter = 0;
-    int _hideCounterMax = 5;
+    int _hideCounterMax = 10;
 
     [SerializeField] Material[] _materials;
 
@@ -83,7 +83,6 @@ public class SeeThrough : MonoBehaviour
         else
         {
             _hideCounter = Mathf.Max(_hideCounter - 1, 0);
-            Debug.Log($"decrease _hideCounter to {_hideCounter}");
         }
 
         bool hide = (_isHidden == false && _hideCounter == _hideCounterMax);
@@ -106,7 +105,6 @@ public class SeeThrough : MonoBehaviour
         if (show)
         {
             _isHidden = false;
-            Debug.Log("Show");
             for (int i = 0; i < _renderers.Length; i++)
             {
                 if (_renderers[i])
@@ -134,40 +132,10 @@ public class SeeThrough : MonoBehaviour
         }
 
         _hidden = false;
-
-        //if (Hidden != _prevHidden)
-        //{
-        //    if (_hideCounter == _hideCounterMax)
-        //    {
-        //        //Debug.Log($"{name} hidden.");
-        //        for (int i = 0; i < _renderers.Length; i++)
-        //        {
-        //            if (_renderers[i] != null)
-        //            {
-        //                //_renderers[i].enabled = false;
-        //                _renderers[i].material = _materials[0];
-        //                _renderers[i].materials = _materials;
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        for (int i = 0; i < _renderers.Length; i++)
-        //        {
-        //            if (_renderers[i])
-        //            {
-        //                //_renderers[i].enabled = true;
-        //                _renderers[i].material = _originalMaterials[i];
-        //                _renderers[i].materials = new Material[] { _originalMaterials[i] };
-        //            }
-        //        }
-        //    }
-        //}
     }
 
     public void HideOnlyYou()
     {
-        //Debug.Log($"{name} hidden by brother.");
         _hidden = true;
     }
 }

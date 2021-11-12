@@ -347,7 +347,7 @@ public class GridPathSelector : NetworkBehaviour
         int maxDistance = _gridAgent.WalkRange * _walker._NumMoves;
         float maxJumpUp = _gridAgent.MaxJumpUp;
         float maxJumpDown = _gridAgent.MaxJumpDown;
-        _pathfinder.Initialize(_gridManager.GetGrid(), _origin, _origin, maxDistance, maxJumpUp, maxJumpDown, IsNodeAvailable);
+        _pathfinder.Initialize(_gridManager.GetGrid(), _origin, _origin, maxDistance, maxJumpUp, maxJumpDown, IsNodeAvailable, true);
         UpdateRanges(maxDistance - _gridAgent.WalkRange, maxDistance);
         _cost = targetNode.Distance <= _gridAgent.WalkRange ? 1 : 2;
         _path = _pathfinder.GetPathTo(targetNode);
@@ -363,7 +363,7 @@ public class GridPathSelector : NetworkBehaviour
         int maxDistance = _gridAgent.WalkRange * _walker._NumMoves;
         float maxJumpUp = _gridAgent.MaxJumpUp;
         float maxJumpDown = _gridAgent.MaxJumpDown;
-        _pathfinder.Initialize(_gridManager.GetGrid(), _origin, _origin, maxDistance, maxJumpUp, maxJumpDown, IsNodeAvailable);
+        _pathfinder.Initialize(_gridManager.GetGrid(), _origin, _origin, maxDistance, maxJumpUp, maxJumpDown, IsNodeAvailable, true);
         //Debug.Log($"_pathfinder.GetPath, maxDistance: {maxDistance}.");
         UpdateRanges(maxDistance - _gridAgent.WalkRange, maxDistance);
     }
