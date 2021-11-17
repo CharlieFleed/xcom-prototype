@@ -4874,6 +4874,7 @@ MonoBehaviour:
   _segments: {fileID: 516652895}
   _fill: {fileID: 145310689}
   _image: {fileID: 1702103501}
+  _clipBar: {fileID: 100209906}
 --- !u!222 &256897051
 CanvasRenderer:
   m_ObjectHideFlags: 0

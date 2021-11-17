@@ -42,7 +42,7 @@ public class WeaponPanel : MonoBehaviour
             _weapon = unit.Weapon;
             _weapon.OnAmmunitionsChanged += HandleWeapon_AmmunitionsChanged;
             _image.sprite = _weapon.Image;
-            if (_weapon.HasAmmunitions)
+            if (_weapon.InfiniteAmmo)
             {
                 _clipBar.SetActive(true);
                 SetAmmunitions(_weapon.Bullets, _weapon.ClipSize);

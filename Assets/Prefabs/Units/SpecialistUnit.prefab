@@ -678,7 +678,8 @@ MonoBehaviour:
   _shootFXPrefab: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
   _hitFXPrefab: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
   _shootAudioClip: {fileID: 8300000, guid: d40330822ccea6140b664c0560d5022f, type: 3}
-  Image: {fileID: 21300000, guid: db69e3bcc7a7fd944b2da10a2034a06c, type: 3}
+  _hasAmmunitions: 1
+  _weaponData: {fileID: 11400000, guid: 6838693c785e7e34a8113599df3c6ea1, type: 2}
 --- !u!114 &1062933398414497127
 MonoBehaviour:
   m_ObjectHideFlags: 0

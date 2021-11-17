@@ -73,8 +73,8 @@ public class BattleEventShot : BattleEvent
                     if (hit)
                     {
                         // show shoot FX
-                        if (_shooter.Weapon._hitFXPrefab)
-                            GameObject.Instantiate(_shooter.Weapon._hitFXPrefab, _shotStats.Target.transform.position, Quaternion.identity);
+                        if (_shooter.Weapon.HitFXPrefab)
+                            GameObject.Instantiate(_shooter.Weapon.HitFXPrefab, _shotStats.Target.transform.position, Quaternion.identity);
                         if (crit)
                         {
                             damage = NetworkRandomGenerator.Instance.RandomRange(_shooter.Weapon.MaxDamage + 1, _shooter.Weapon.MaxDamage + 1 + _shooter.Weapon.BaseDamage);
