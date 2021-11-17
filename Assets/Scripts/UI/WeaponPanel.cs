@@ -9,6 +9,7 @@ public class WeaponPanel : MonoBehaviour
     [SerializeField] RawImage _segments;
     [SerializeField] Image _fill;
     [SerializeField] Image _image;
+    [SerializeField] GameObject _clipBar;
 
     CanvasGroup _cg;
 
@@ -41,7 +42,15 @@ public class WeaponPanel : MonoBehaviour
             _weapon = unit.Weapon;
             _weapon.OnAmmunitionsChanged += HandleWeapon_AmmunitionsChanged;
             _image.sprite = _weapon.Image;
-            SetAmmunitions(_weapon.Bullets, _weapon.ClipSize);
+            if (_weapon.HasAmmunitions)
+            {
+                _clipBar.SetActive(true);
+                SetAmmunitions(_weapon.Bullets, _weapon.ClipSize);
+            }
+            else
+            {
+                _clipBar.SetActive(false);
+            }
             _cg.alpha = 1;
         }
         else

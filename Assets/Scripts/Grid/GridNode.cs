@@ -14,6 +14,9 @@ public class GridNode
     public Vector3 FloorPosition { get; set; } = Vector3.zero;
 
     public bool HasFloor { get; set; } = false;
+    /// <summary>
+    /// Grid nodes with destructibles on top are still walkable.
+    /// </summary>
     public bool IsWalkable { get; set; } = false;
     public bool IsAir { get; set; } = false;
 

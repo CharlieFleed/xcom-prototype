@@ -448,6 +448,8 @@ GameObject:
   - component: {fileID: 4820787878256576244}
   - component: {fileID: 3590822547959239851}
   - component: {fileID: -4090106575788932948}
+  - component: {fileID: 6707206661751485948}
+  - component: {fileID: 1917120500118515303}
   m_Layer: 9
   m_Name: SniperUnit
   m_TagString: Untagged
@@ -512,6 +514,7 @@ MonoBehaviour:
   - {fileID: -3668424734374455656}
   - {fileID: -1050468727797104950}
   - {fileID: 6522350665809467912}
+  - {fileID: 6707206661751485948}
 --- !u!114 &7622501244342492299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -626,6 +629,7 @@ MonoBehaviour:
   _shootFXPrefab: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
   _hitFXPrefab: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
   _shootAudioClip: {fileID: 8300000, guid: bb2e2714f962491428dcb0b38598b251, type: 3}
+  _hasAmmunitions: 1
   Image: {fileID: 21300000, guid: 7788676c8edaa3d4ba94aa132cf52786, type: 3}
 --- !u!114 &1062933398414497127
 MonoBehaviour:
@@ -824,6 +828,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8dde1ce87b4b3e48814a4e7b7aefacc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6707206661751485948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590575594350318540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea92427f82a6a246ac4cfdb8c5ea86f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  _actionName: 
+  _confirmText: 
+  Cost: 1
+  Available: 1
+  EndsTurn: 0
+  Icon: {fileID: 21300000, guid: c2141e195dc1f9c40a503ea2bfd5541d, type: 3}
+  IsConfirmable: 1
+  _weapon: {fileID: 1917120500118515303}
+--- !u!114 &1917120500118515303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590575594350318540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc332a959fdf9545b8b4455e678c616, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: Gun
+  _baseDamage: 1
+  _maxDamage: 3
+  _range: 10
+  _clipSize: 6
+  _shootFXPrefab: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
+  _hitFXPrefab: {fileID: 0}
+  _shootAudioClip: {fileID: 8300000, guid: 6739c01659ad96d47987f4ddee226b36, type: 3}
+  _hasAmmunitions: 0
+  Image: {fileID: 21300000, guid: a1200d9151e23a641b589027a84cdbfb, type: 3}
 --- !u!1001 &1051574122627388261
 PrefabInstance:
   m_ObjectHideFlags: 0

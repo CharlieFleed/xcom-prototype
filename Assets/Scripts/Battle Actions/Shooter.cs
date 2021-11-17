@@ -83,7 +83,7 @@ public class Shooter : BattleAction
     [ClientRpc]
     protected virtual void RpcShoot(GameObject target)
     {
-        Debug.Log("Shooter RpcShoot");
+        Debug.Log($"{name} Shooter RpcShoot");
         GetTargets();
         ShotStats shotStats = null;
         foreach (var shot in _targets)

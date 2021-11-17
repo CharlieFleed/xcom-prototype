@@ -5,6 +5,7 @@ using System;
 public class Grenade : MonoBehaviour
 {
     [SerializeField] string _name;
+    [SerializeField] string _description;
     [SerializeField] int _damage = 4;
     [SerializeField] int _radius = 10;
     [SerializeField] int _uses = 2;
@@ -12,6 +13,7 @@ public class Grenade : MonoBehaviour
     [SerializeField] AudioClip _detonationAudioClip;
 
     public string Name { get { return _name; } }
+    public string Description { get { return _description; } }
     public int Damage { get { return _damage; } set { _damage = value; } }
     public int Radius { get { return _radius; } set { _radius = value; } }
     public int Uses { get { return _uses; } }

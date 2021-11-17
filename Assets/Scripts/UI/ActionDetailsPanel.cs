@@ -8,36 +8,63 @@ public class ActionDetailsPanel : MonoBehaviour
     [SerializeField] TMP_Text _hitChanceText;
     [SerializeField] TMP_Text _critChanceText;
     [SerializeField] TMP_Text _damageText;
+    [SerializeField] TMP_Text _descriptionText;
 
     private void Awake()
     {
         Unit.OnUnitAdded += HandleUnitAdded;
         Unit.OnUnitRemoved += HandleUnitRemoved;
         Shooter.OnShotSelected += HandleShooter_OnShotSelected;
+        Thrower.OnThrowing += HandleThrower_OnThrowing;
+        //
         gameObject.SetActive(false);
         _hitChanceText.GetComponent<CanvasGroup>().alpha = 0;
         _critChanceText.GetComponent<CanvasGroup>().alpha = 0;
         _damageText.GetComponent<CanvasGroup>().alpha = 0;
+        _descriptionText.GetComponent<CanvasGroup>().alpha = 0;
     }
 
-    private void HandleShooter_OnShotSelected(ShotStats obj)
+    private void OnDestroy()
     {
-        _hitChanceText.text = obj.HitChance + "%";
-        _critChanceText.text = obj.CritChance + "%";
-        _damageText.text = obj.BaseDamage + "-" + obj.MaxDamage; 
-        _hitChanceText.GetComponent<CanvasGroup>().alpha = 1;
-        _critChanceText.GetComponent<CanvasGroup>().alpha = 1;
-        _damageText.GetComponent<CanvasGroup>().alpha = 1;
+        // de-registration of events cannot be on OnDisable
+        Unit.OnUnitAdded -= HandleUnitAdded;
+        Unit.OnUnitRemoved -= HandleUnitRemoved;
+        Shooter.OnShotSelected -= HandleShooter_OnShotSelected;
+        Thrower.OnThrowing -= HandleThrower_OnThrowing;
     }
 
     private void HandleUnitAdded(Unit unit)
     {
+        //Debug.Log("ActionDetailsPanel HandleUnitAdded");
         unit.OnActionActivated += HandleActionActivated;
     }
 
     private void HandleUnitRemoved(Unit unit)
     {
         unit.OnActionActivated -= HandleActionActivated;
+    }
+
+    private void HandleShooter_OnShotSelected(ShotStats shot)
+    {
+        _hitChanceText.text = shot.HitChance + "%";
+        _critChanceText.text = shot.CritChance + "%";
+        _damageText.text = shot.BaseDamage + "-" + shot.MaxDamage; 
+        _hitChanceText.GetComponent<CanvasGroup>().alpha = 1;
+        _critChanceText.GetComponent<CanvasGroup>().alpha = 1;
+        _damageText.GetComponent<CanvasGroup>().alpha = 1;
+        _descriptionText.GetComponent<CanvasGroup>().alpha = 1;
+    }
+
+    private void HandleThrower_OnThrowing(Grenade grenade)
+    {
+        _hitChanceText.text = "100%";
+        _critChanceText.text = "50%";
+        _damageText.text = "1" + "-" + grenade.Damage;
+        _descriptionText.text = grenade.Description;
+        _hitChanceText.GetComponent<CanvasGroup>().alpha = 1;
+        _critChanceText.GetComponent<CanvasGroup>().alpha = 1;
+        _damageText.GetComponent<CanvasGroup>().alpha = 1;
+        _descriptionText.GetComponent<CanvasGroup>().alpha = 1;
     }
 
     private void HandleActionActivated(BattleAction battleAction)
@@ -54,6 +81,7 @@ public class ActionDetailsPanel : MonoBehaviour
         _hitChanceText.GetComponent<CanvasGroup>().alpha = 0;
         _critChanceText.GetComponent<CanvasGroup>().alpha = 0;
         _damageText.GetComponent<CanvasGroup>().alpha = 0;
+        _descriptionText.GetComponent<CanvasGroup>().alpha = 0;
         gameObject.SetActive(false);
     }
 
@@ -64,13 +92,7 @@ public class ActionDetailsPanel : MonoBehaviour
         _hitChanceText.GetComponent<CanvasGroup>().alpha = 0;
         _critChanceText.GetComponent<CanvasGroup>().alpha = 0;
         _damageText.GetComponent<CanvasGroup>().alpha = 0;
+        _descriptionText.GetComponent<CanvasGroup>().alpha = 0;
         gameObject.SetActive(false);
-    }
-
-    private void OnDestroy()
-    {
-        Unit.OnUnitAdded -= HandleUnitAdded;
-        Unit.OnUnitRemoved -= HandleUnitRemoved;
-        Shooter.OnShotSelected -= HandleShooter_OnShotSelected;
     }
 }

@@ -69,6 +69,7 @@ public class GameController : MonoBehaviour
 
     public void Quit()
     {
+        Debug.Log("Quit");
         CloseMenu();
         if (IsSinglePlayer)
         {

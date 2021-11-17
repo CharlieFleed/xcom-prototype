@@ -473,7 +473,7 @@ MonoBehaviour:
   - {fileID: 6590575594350318540, guid: 43bacddbefeb34e4aa77a5a4b7c867c1, type: 3}
   - {fileID: 6590575594350318540, guid: f32e1863fa7a7fb4baecc36d23f9e1bd, type: 3}
   - {fileID: 6590575594350318540, guid: c225ad67e8cec2e408ae8af50171281c, type: 3}
-  showRoomGUI: 1
+  showRoomGUI: 0
   minPlayers: 1
   roomPlayerPrefab: {fileID: 406071879018161492, guid: f6adc259afea89b4e8df0cd8210190a6, type: 3}
   RoomScene: Assets/Scenes/RoomScene.unity

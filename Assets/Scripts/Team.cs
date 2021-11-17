@@ -63,6 +63,7 @@ public class Team
     {
         if (Units.Contains(unit))
             Units.Remove(unit);
+        // rebuild ReadyUnits queue
         List<Unit> queue = new List<Unit>();
         while (ReadyUnits.Count > 0)
         {
@@ -76,5 +77,17 @@ public class Team
         {
             ReadyUnits.Enqueue(c);
         }
+    }
+
+    public bool IsDefeated()
+    {
+        foreach (var unit in Units)
+        {
+            if (!unit.GetComponent<Health>().IsDead)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

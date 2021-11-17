@@ -58,6 +58,10 @@ public class CameraDirector : MonoBehaviour
         Shooter.OnShooterRemoved -= HandleShooterRemoved;
         BattleEventShot.OnShooting -= HandleBattleEventShot_OnShooting;
         BattleEventShot.OnShootingEnd -= HandleBattleEventShot_OnShootingEnd;
+        BattleEventThrow.OnThrowing -= HandleBattleEventThrow_OnThrowing;
+        BattleEventThrow.OnThrowingEnd -= HandleBattleEventThrow_OnThrowingEnd;
+        BattleEventExplosion.OnExploding -= HandleBattleEventExplosion_OnExploding;
+        BattleEventExplosion.OnExplodingEnd -= HandleBattleEventExplosion_OnExplodingEnd;
         _matchManager.OnTurnBegin -= HandleMatchManager_OnNewTurn;
         Viewer.OnVisibleChanged -= HandleViewer_OnVisibleChanged;
     }
@@ -69,6 +73,8 @@ public class CameraDirector : MonoBehaviour
             MatchReferenceCam(cam, _worldCamera);
         }
         MatchReferenceCam(_actionCamera, _worldCamera);
+        //if (!_worldCamera.enabled)
+        //    AlignCamera(_worldCamera, _activeEntityCamera);
     }
 
     void MatchReferenceCam(CinemachineVirtualCamera _camera, CinemachineVirtualCamera _referenceCamera)
@@ -154,7 +160,7 @@ public class CameraDirector : MonoBehaviour
         }
         else
         {
-            Debug.Log($"Unit {_matchManager.CurrentUnit.name} is not visible");
+            //Debug.Log($"Unit {_matchManager.CurrentUnit.name} is not visible");
             // align world camera with last entity
             _worldCamera.m_Follow.position = _activeEntityCamera.m_Follow.position;
             _activeEntityCamera = _worldCamera;
@@ -255,8 +261,11 @@ public class CameraDirector : MonoBehaviour
         {
             if (_matchManager.CurrentUnit != null && _matchManager.CurrentUnit.GetComponent<GridEntity>() == viewer.GetComponent<GridEntity>())
             {
-                Debug.Log("this is the active unit who became visible");
+                //Debug.Log("this is the active unit who became visible");
                 // this is the active unit who became visible
+                // disable any active camera
+                _activeEntityCamera.gameObject.SetActive(false);
+                //
                 _activeEntityCamera = _entityCameras[_matchManager.CurrentUnit.GetComponent<GridEntity>()];
                 _activeEntityCamera.gameObject.SetActive(true);
                 _lastActivatedUnitCamera = _activeEntityCamera;
@@ -266,11 +275,12 @@ public class CameraDirector : MonoBehaviour
         {
             if (_activeEntityCamera == _entityCameras[viewer.GetComponent<GridEntity>()])
             {
-                Debug.Log("this is the active unit who became invisible, switch to world camera");
+                //Debug.Log("this is the active unit who became invisible, switch to world camera");
                 // this is the active unit who became invisible, switch to world camera
                 _activeEntityCamera.gameObject.SetActive(false);
                 // align world camera with last entity
                 _worldCamera.m_Follow.position = _activeEntityCamera.m_Follow.position;
+                AlignCamera(_worldCamera, _activeEntityCamera);
                 _activeEntityCamera = _worldCamera;
                 _activeEntityCamera.gameObject.SetActive(true);
                 _lastActivatedUnitCamera = _activeEntityCamera;
@@ -278,4 +288,10 @@ public class CameraDirector : MonoBehaviour
         }
     }
 
+    void AlignCamera(CinemachineVirtualCamera camera, CinemachineVirtualCamera reference)
+    {
+        camera.transform.position = reference.transform.position;
+        camera.transform.rotation = reference.transform.rotation;
+        camera.transform.localScale = reference.transform.localScale;
+    }
 }

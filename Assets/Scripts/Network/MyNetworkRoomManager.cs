@@ -37,6 +37,7 @@ public class MyNetworkRoomManager : NetworkRoomManager
     public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnection conn, GameObject roomPlayer, GameObject gamePlayer)
     {
         gamePlayer.GetComponent<MyGamePlayer>().MatchSettings = roomPlayer.GetComponent<MyNetworkRoomPlayer>().MatchSettings;
+        Debug.Log($"OnRoomServerSceneLoadedForPlayer. About to destroy room player.");
         return base.OnRoomServerSceneLoadedForPlayer(conn, roomPlayer, gamePlayer);
     }
 
@@ -122,7 +123,7 @@ public class MyNetworkRoomManager : NetworkRoomManager
         base.OnClientConnect(conn);
         Debug.Log("OnClientConnect");
         OnClientConnected();
-        Debug.Log("Saving LAST_ROOM in PlayerPrefs.");
+        //Debug.Log("Saving LAST_ROOM in PlayerPrefs.");
         PlayerPrefs.SetString("LAST_ROOM", networkAddress);
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
 
+public enum MatchState {Setup, Started, End};
+
 public class NetworkMatchManager : NetworkBehaviour
 {
     #region Fields
@@ -20,28 +22,26 @@ public class NetworkMatchManager : NetworkBehaviour
     public event Action OnTurnEnd = delegate { };
     public event Action OnPause = delegate { };
 
-    Queue<Team> _teams = new Queue<Team>();
+    List<Team> _teams = new List<Team>();
     Unit _currentUnit;
     Queue<BattleEventGroup> _battleEventGroups = new Queue<BattleEventGroup>();
 
     public Unit CurrentUnit { get { return _currentUnit; } }
-    public Team ActiveTeam { get { return _teams.Peek(); } }
+    public Team ActiveTeam { get { return _teams[0]; } }
 
     public Color[] TeamColors = new Color[3] { Color.cyan, Color.red, Color.green };
 
-    bool _matchStarted;
+    MatchState _state = MatchState.Setup;
+    public MatchState State { get { return _state; } }
+    Team _winner = null;
+    public Team Winner { get { return _winner; } }
 
     #endregion
 
     private void Awake()
     {
-        Debug.Log("NetworkMatchManager Awake");
+        //Debug.Log("NetworkMatchManager Awake");
         _instance = this;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
     }
 
     public void SinglePlayerMatchSetup(MyGamePlayer player)
@@ -54,11 +54,10 @@ public class NetworkMatchManager : NetworkBehaviour
             for (int c = 0; c < _NumOfUnits; c++)
             {
                 GameObject unit = Instantiate(_unitPrefabs[player.MatchSettings.unitClasses[c]], Vector3.zero, Quaternion.identity);
+                unit.name = team.Name + "-" + team.Units.Count;
                 unit.transform.position = spawnPositions[c].FloorPosition;
                 NetworkServer.Spawn(unit, player.gameObject);
                 // Registering Unit
-                unit.name = team.Name + "-" + team.Units.Count;
-                if (unit.name == "0-0") unit.name = "Col. Ian McCaskill";
                 team.Units.Add(unit.GetComponent<Unit>());
                 unit.GetComponent<Unit>().Team = team;
                 // register events
@@ -90,7 +89,7 @@ public class NetworkMatchManager : NetworkBehaviour
         team.Owner = player;
         team.Id = _teams.Count;
         team.Name = _teams.Count.ToString();
-        _teams.Enqueue(team);
+        _teams.Add(team);
         //
         player.OnActionComplete += HandlePlayer_ActionComplete;
     }
@@ -99,7 +98,7 @@ public class NetworkMatchManager : NetworkBehaviour
     {
         Debug.Log("InstantiateUnits");
         Team team = GetTeam(player);
-        Debug.Log($"Team {team.Id}");
+        //Debug.Log($"Team {team.Id}");
         List<GridNode> spawnPositions = GridManager.Instance.GetSpawnPositions(team.Id, _NumOfUnits);        
         for (int c = 0; c < _NumOfUnits; c++)
         {
@@ -116,7 +115,6 @@ public class NetworkMatchManager : NetworkBehaviour
         //Debug.Log("Registering Unit");        
         Team team = GetTeam(player);
         unit.name = team.Name + "-" + team.Units.Count;
-        if (unit.name == "0-0") unit.name = "Col. Ian McCaskill";
         team.Units.Add(unit.GetComponent<Unit>());
         unit.GetComponent<Unit>().Team = team;
         // register events
@@ -133,8 +131,7 @@ public class NetworkMatchManager : NetworkBehaviour
     {
         //Debug.Log("Start Match");
         //Debug.Log($"_teams:{_teams.Count}");
-        ActiveTeam.StartTurn();
-        _matchStarted = true;
+        _state = MatchState.Started;
     }
 
     Team GetTeam(MyGamePlayer player)
@@ -152,7 +149,7 @@ public class NetworkMatchManager : NetworkBehaviour
 
     private void Update()
     {
-        if (!_matchStarted)
+        if (_state == MatchState.Setup || _state == MatchState.End)
             return;
         if (!AllUnitsInitialized())
             return;
@@ -161,6 +158,18 @@ public class NetworkMatchManager : NetworkBehaviour
         {
             if (_currentUnit == null)
             {
+                RemoveDefeatedTeams();
+                if (_teams.Count == 1)
+                {
+                    _winner = _teams[0];
+                    _state = MatchState.End;
+                    return;
+                }
+                if (_teams.Count == 0)
+                {
+                    _state = MatchState.End;
+                    return;
+                }
                 SelectNextUnit();
                 if (_currentUnit != null)
                 {
@@ -168,11 +177,6 @@ public class NetworkMatchManager : NetworkBehaviour
                     OnBeforeTurnBegin();
                     OnTurnBegin();
                     ActiveTeam.Owner.Activate();
-                }
-                if (_teams.Count == 0)
-                {
-                    Debug.Log("PANIC!PANIC!PANIC!");
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 }
             }
         }
@@ -230,14 +234,27 @@ public class NetworkMatchManager : NetworkBehaviour
         _currentUnit = ActiveTeam.GetFirstReadyUnit();
         if (_currentUnit == null)
         {
-            Team team = _teams.Dequeue();
-            team.EndTurn();
-            _teams.Enqueue(team);
+            ActiveTeam.EndTurn();
+            RotateTeams();
             ActiveTeam.StartTurn();
             _currentUnit = ActiveTeam.GetFirstReadyUnit();
-            if (_currentUnit == null)
+        }
+    }
+
+    public void RotateTeams()
+    {
+        Team team = _teams[0];
+        _teams.RemoveAt(0);
+        _teams.Add(team);
+    }
+
+    void RemoveDefeatedTeams()
+    {
+        for (int i = _teams.Count - 1; i >= 0; i--)
+        {
+            if (_teams[i].IsDefeated())
             {
-                _teams.Dequeue();
+                _teams.RemoveAt(i);
             }
         }
     }

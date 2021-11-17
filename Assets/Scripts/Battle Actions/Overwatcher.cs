@@ -45,10 +45,10 @@ public class Overwatcher : BattleAction
 
     void HandleWalker_OnMove(Walker walker, GridNode origin, GridNode destination)
     {
-        if (_isOverwatching && walker.GetComponent<Unit>().Team != GetComponent<Unit>().Team)
+        if (!GetComponent<Health>().IsDead && _isOverwatching && walker.GetComponent<Unit>().Team != GetComponent<Unit>().Team)
         {
             // if (GridCoverManager.Instance.LineOfSight(GetComponent<GridEntity>(), walker.GetComponent<GridEntity>(), out Ray ray, out float rayLength, new List<GridNode[]>()))
-            if (GridCoverManager.Instance.LineOfSight(GetComponent<GridEntity>(), origin) && GridCoverManager.Instance.LineOfSight(GetComponent<GridEntity>(), destination))
+            if (GridCoverManager.Instance.LineOfSight(GetComponent<GridEntity>(), origin) || GridCoverManager.Instance.LineOfSight(GetComponent<GridEntity>(), destination))
             {
                 if (Vector3.Distance(transform.position, walker.transform.position) <= _shooter.Weapon.Range)
                 {
@@ -93,7 +93,7 @@ public class Overwatcher : BattleAction
     [ClientRpc]
     void RpcOverwatch()
     {
-        Debug.Log("Overwatcher RpcOverwatch");
+        Debug.Log($"{name} Overwatcher RpcOverwatch");
         _isOverwatching = true;
         InvokeActionConfirmed(this);
         Deactivate();

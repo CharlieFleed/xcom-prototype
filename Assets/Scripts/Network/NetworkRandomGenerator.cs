@@ -18,11 +18,11 @@ public class NetworkRandomGenerator : NetworkBehaviour
         _instance = this;
     }
 
-    public int RandomRange(int min, int max)
+    public int RandomRange(int minInclusive, int maxExclusive)
     {
         if (isServer)
         {
-            int value = Random.Range(min, max);
+            int value = Random.Range(minInclusive, maxExclusive);
             _ints.Add(value);
             _batchCount++;
             return value;

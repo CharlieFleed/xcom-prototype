@@ -15,13 +15,13 @@ public class MultiplayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("Registering");
+        //Debug.Log("Registering");
         MyNetworkRoomManager.OnClientDisconnected += MyNetworkRoomManager_OnClientDisconnected;
     }
 
     private void OnDisable()
     {
-        Debug.Log("Un-Registering");
+        //Debug.Log("Un-Registering");
         MyNetworkRoomManager.OnClientDisconnected -= MyNetworkRoomManager_OnClientDisconnected;
     }
 
@@ -29,7 +29,7 @@ public class MultiplayerController : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("LAST_ROOM"))
         {
-            Debug.Log("Loading LAST_ROOM from PlayerPrefs.");
+            //Debug.Log("Loading LAST_ROOM from PlayerPrefs.");
             _ipAddress.text = PlayerPrefs.GetString("LAST_ROOM");
         }
     }

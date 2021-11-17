@@ -164,10 +164,19 @@ public class Unit : NetworkBehaviour
     public void StartTurn()
     {
         NumActions = 2;
+        InitActions();
+    }
+
+    public void InitActions()
+    {
+        foreach (var battleAction in _battleActions)
+        {
+            battleAction.Init(NumActions);
+        }
     }
 
     /// <summary>
-    /// Only local units are activated.
+    /// Only local units are activated in multiplayer.
     /// </summary>
     public void Activate()
     {
@@ -185,9 +194,9 @@ public class Unit : NetworkBehaviour
     System.Collections.IEnumerator ActivateControls()
     {
         yield return new WaitForSeconds(0.5f);
+        InitActions();
         foreach (var battleAction in _battleActions)
         {
-            battleAction.Init(NumActions);
             OnActionAdded(battleAction);
         }
         _walker._NumMoves = NumActions;

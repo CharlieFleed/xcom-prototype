@@ -6,7 +6,6 @@ public class RoomController : MonoBehaviour
 {
     [SerializeField] GameObject _unitSelectorPrefab;
     [SerializeField] GameObject _unitPanelsRowPrefab;
-    [SerializeField] GameObject _unitPanelPrefab;
 
     [SerializeField] GameObject _panel;
 
@@ -27,21 +26,16 @@ public class RoomController : MonoBehaviour
             return;
         }
         GameObject unitPanelsRow = Instantiate(_unitPanelsRowPrefab, _panel.transform);
+        unitPanelsRow.GetComponent<RoomPlayerUI>().SetPlayer(player);
         for (int i = 0; i < 4; i++)
         {
             GameObject unitSelector = Instantiate(_unitSelectorPrefab);
+            unitSelector.transform.position = new Vector3(-3 + i * 3, .5f - _unitPanelsRows.Count * 3.5f, 0);
             unitSelector.GetComponent<UnitSelector>().UnitPosition = i;
             unitSelector.GetComponent<UnitSelector>().Player = player;
-            GameObject unitPanel = Instantiate(_unitPanelPrefab, unitPanelsRow.transform);
-            unitSelector.transform.position = new Vector3(-5 + i * 3, .5f - _unitPanelsRows.Count * 3.5f, 0);
-            unitPanel.GetComponent<UnitPanel>().UnitSelector = unitSelector.GetComponent<UnitSelector>();
-            if (!player.isLocalPlayer)
-            {
-                unitPanel.GetComponent<UnitPanel>().Buttons.SetActive(false);
-
-            }
             unitSelector.GetComponent<UnitSelector>().SetUnitClass(player.MatchSettings.unitClasses[i]);
-            unitPanel.GetComponent<UnitPanel>().UpdateName();
+            unitPanelsRow.GetComponent<RoomPlayerUI>().UnitPanels[i].GetComponent<UnitPanel>().UnitSelector = unitSelector.GetComponent<UnitSelector>();
+            unitPanelsRow.GetComponent<RoomPlayerUI>().UnitPanels[i].GetComponent<UnitPanel>().UpdateName();
         }
         _unitPanelsRows.Add(player, unitPanelsRow);
         player.OnUnitClassChange += Player_OnUnitClassChange;

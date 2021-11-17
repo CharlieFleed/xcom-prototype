@@ -19,6 +19,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] bool _drawFloor = false;
     [SerializeField] bool _drawWalls = false;
     [SerializeField] bool _drawBalls = false;
+    [SerializeField] bool _drawAir = false;
 
 
     Vector3 _origin;
@@ -154,12 +155,14 @@ public class GridManager : MonoBehaviour
                     if (!gridNode.IsWalkable)
                     {
                         gridNode.IsAir = true;
-                        Collider[] airColliders = Physics.OverlapBox(gridNode.WorldPosition + 0.5f * Vector3.up * (_yScale), 0.5f * (new Vector3(_unitColliderExtents.x, _yScale, _unitColliderExtents.z) - Vector3.one * 0.001f));
+                        //Collider[] airColliders = Physics.OverlapBox(gridNode.WorldPosition + 0.5f * Vector3.up * (_yScale), 0.5f * (new Vector3(_unitColliderExtents.x, _yScale, _unitColliderExtents.z) - Vector3.one * 0.001f));
+                        Collider[] airColliders = Physics.OverlapBox(gridNode.WorldPosition, 0.5f * (new Vector3(_unitColliderExtents.x, _yScale, _unitColliderExtents.z) - Vector3.one * 0.001f));
                         if (airColliders.Length > 0)
                         {
-                            foreach (var unitCollider in airColliders)
+                            foreach (var airCollider in airColliders)
                             {
-                                GridObject obj = unitCollider.GetComponentInChildren<GridObject>();
+                                //Debug.Log($"Collision with {airCollider}");
+                                GridObject obj = airCollider.GetComponentInChildren<GridObject>();
                                 if (obj != null) // only consider GridObjects
                                 {
                                     gridNode.IsAir = false;
@@ -843,6 +846,17 @@ public class GridManager : MonoBehaviour
                         Gizmos.color = new Color(0, 1, 0, 0.2f);
                         Gizmos.DrawWireSphere(node.FloorPosition + Vector3.up, 1);
                     }
+                }
+            }
+        }
+        if (_drawAir)
+        {
+            foreach (var node in _grid)
+            {
+                if (node.IsAir)
+                {
+                        Gizmos.color = new Color(0, 0, 1, 0.2f);
+                        Gizmos.DrawWireCube(node.WorldPosition, new Vector3(_unitColliderExtents.x, _yScale, _unitColliderExtents.z) - Vector3.one * 0.001f);
                 }
             }
         }

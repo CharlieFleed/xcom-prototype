@@ -785,6 +785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _name: Frag Grenade
+  _description: This is the description of the grenade.
   _damage: 4
   _radius: 3
   _uses: 2

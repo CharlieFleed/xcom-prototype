@@ -12,6 +12,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] GameObject _shootFXPrefab;
     [SerializeField] public GameObject _hitFXPrefab;
     [SerializeField] AudioClip _shootAudioClip;
+    [SerializeField] bool _hasAmmunitions = true;
 
     public Sprite Image;
 
@@ -23,6 +24,7 @@ public class Weapon : MonoBehaviour
     public int Range { get { return _range; } }
     public int ClipSize { get { return _clipSize; } }
     public int Bullets { get { return _bullets; } }
+    public bool HasAmmunitions { get { return _hasAmmunitions; } }
 
     // Used by ClipBar
     public event Action<int, int> OnAmmunitionsChanged = delegate { };
@@ -41,10 +43,15 @@ public class Weapon : MonoBehaviour
     public void Shoot()
     {
         // show shoot FX
-        Instantiate(_shootFXPrefab, transform.position + Vector3.up + transform.forward, Quaternion.identity);
-        AudioSource.PlayClipAtPoint(_shootAudioClip, transform.position);
-        _bullets--;
-        OnAmmunitionsChanged(_bullets, _clipSize);
+        if (_shootFXPrefab)
+            Instantiate(_shootFXPrefab, transform.position + Vector3.up + transform.forward, Quaternion.identity);
+        if (_shootAudioClip)
+            AudioSource.PlayClipAtPoint(_shootAudioClip, transform.position);
+        if (_hasAmmunitions)
+        {
+            _bullets--;
+            OnAmmunitionsChanged(_bullets, _clipSize);
+        }
     }
 
     public int HitChanceBonus(GridEntity target)

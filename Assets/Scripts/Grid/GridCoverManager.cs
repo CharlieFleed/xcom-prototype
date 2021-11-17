@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class GridCoverManager : MonoBehaviour
 {
+    [SerializeField] float _unitHeightOfSight = 1.5f;
+
     private void Awake()
     {
         _instance = this;
@@ -134,7 +136,7 @@ public class GridCoverManager : MonoBehaviour
         //Debug.Log($"LineOfSight - Shooter: {a.gameObject.name}, Target: {b.gameObject.name}.");
 
         // Check direct LOS
-        if (LineOfSight(a.CurrentNode.FloorPosition + Vector3.up * 1, b.CurrentNode.FloorPosition + Vector3.up * 1, out ray, out rayLength))
+        if (LineOfSight(a.CurrentNode.FloorPosition + Vector3.up * _unitHeightOfSight, b.CurrentNode.FloorPosition + Vector3.up * _unitHeightOfSight, out ray, out rayLength))
         {
             //Debug.Log($"Direct LOS.");
             losPoints.Add(new GridNode[] { a.CurrentNode, b.CurrentNode });
@@ -145,7 +147,7 @@ public class GridCoverManager : MonoBehaviour
         foreach (var targetSideStep in targetSideSteps)
         {
             //Debug.Log($"Checking target sidestep {targetSideStep.X},{targetSideStep.Y},{targetSideStep.Z}.");
-            if (LineOfSight(a.CurrentNode.FloorPosition + Vector3.up * 1, targetSideStep.FloorPosition + Vector3.up * 1, out ray, out rayLength))
+            if (LineOfSight(a.CurrentNode.FloorPosition + Vector3.up * _unitHeightOfSight, targetSideStep.FloorPosition + Vector3.up * _unitHeightOfSight, out ray, out rayLength))
             {
                 //Debug.Log($"LOS to target's sidestep.");
                 losPoints.Add(new GridNode[] { a.CurrentNode, targetSideStep });
@@ -158,7 +160,7 @@ public class GridCoverManager : MonoBehaviour
         foreach (GridNode sideStep in sideSteps)
         {
             //Debug.Log($"Checking shooter side-step: {sideStep.X},{sideStep.Y},{sideStep.Z}.");
-            if (LineOfSight(sideStep.FloorPosition + Vector3.up * 1, b.CurrentNode.FloorPosition + Vector3.up * 1, out ray, out rayLength))
+            if (LineOfSight(sideStep.FloorPosition + Vector3.up * _unitHeightOfSight, b.CurrentNode.FloorPosition + Vector3.up * _unitHeightOfSight, out ray, out rayLength))
             {
                 //Debug.Log($"Shooter side-step LOS against target.");
                 losPoints.Add(new GridNode[] { sideStep, b.CurrentNode });
@@ -167,7 +169,7 @@ public class GridCoverManager : MonoBehaviour
             foreach (var targetSideStep in targetSideSteps)
             {
                 //Debug.Log($"Checking target sidestep {targetSideStep.X},{targetSideStep.Y},{targetSideStep.Z}.");
-                if (LineOfSight(sideStep.FloorPosition + Vector3.up * 1, sideStep.FloorPosition + Vector3.up * 1, out ray, out rayLength))
+                if (LineOfSight(sideStep.FloorPosition + Vector3.up * _unitHeightOfSight, targetSideStep.FloorPosition + Vector3.up * _unitHeightOfSight, out ray, out rayLength))
                 {
                     //Debug.Log($"Shooter side-step LOS against target's sidestep.");
                     losPoints.Add(new GridNode[] { sideStep, targetSideStep });
@@ -177,10 +179,10 @@ public class GridCoverManager : MonoBehaviour
         return losPoints.Count > 0;
     }
 
-    public bool LineOfSight(Vector3 a, Vector3 b, out Ray ray, out float rayLength)
+    bool LineOfSight(Vector3 a, Vector3 b, out Ray ray, out float rayLength)
     {
         rayLength = (b - a).magnitude;
-        ray = new Ray(a, b);
+        ray = new Ray(a, b - a);
         Physics.queriesHitBackfaces = true;
         RaycastHit[] hits = Physics.RaycastAll(ray, rayLength, LayerMask.GetMask("Cover"));
         Physics.queriesHitBackfaces = false;

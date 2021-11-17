@@ -87,6 +87,7 @@ public class PanCameraController : MonoBehaviour
 
     void CheckPan()
     {
+#if !UNITY_EDITOR
         if (_useScreenBorders)
         {
             if (Input.mousePosition.y >= Screen.height - _panBorderThickness)
@@ -106,6 +107,7 @@ public class PanCameraController : MonoBehaviour
                 _offset = _offset - _camera.transform.right * _panSpeed * Time.deltaTime;
             }
         }
+#endif
         if (Input.GetKey(KeyCode.W))
         {
             _offset = _offset + new Vector3(_camera.transform.forward.x, 0, _camera.transform.forward.z).normalized * _panSpeed * Time.deltaTime;

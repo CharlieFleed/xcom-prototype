@@ -13,7 +13,8 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
 {
     #region Fields
 
-    public event Action<MyNetworkRoomPlayer, int, int> OnUnitClassChange = delegate { };    
+    public event Action<MyNetworkRoomPlayer, int, int> OnUnitClassChange = delegate { };
+    public event Action<bool> OnReadyStateChanged = delegate { };
 
     public MatchSettings MatchSettings = new MatchSettings() { unitClasses = new int[4] };
 
@@ -71,5 +72,11 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
     {
         base.OnClientEnterRoom();
         Debug.Log("MyNetworkRoomPlayer - OnClientEnterRoom");
+    }
+
+    public override void ReadyStateChanged(bool oldReadyState, bool newReadyState)
+    {
+        base.ReadyStateChanged(oldReadyState, newReadyState);
+        OnReadyStateChanged(newReadyState);
     }
 }

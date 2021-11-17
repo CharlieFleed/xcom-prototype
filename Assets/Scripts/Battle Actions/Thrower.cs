@@ -9,25 +9,25 @@ public class Thrower : BattleAction
     #region Fields
 
     [SerializeField] protected Grenade _grenade;
+    [SerializeField] int _throwRange = 15;
+    [SerializeField] GameObject _grenadePrefab;
+
+    public static event Action<Grenade> OnThrowing = delegate { };
+
     public Grenade Grenade { get { return _grenade; } set { _grenade = value; } }
+    public int ThrowRange { get { return _throwRange; } }
 
     public override string ActionName { get { return _grenade.Name; } }
-
-    [SerializeField] int _throwRange = 15;
-    public int ThrowRange { get { return _throwRange; } }
 
     public event Action<Thrower, GridNode> OnTargetSelected = delegate { };
     public event Action<Grenade> OnThrown = delegate { };
     public event Action<Thrower> OnThrow = delegate { };
 
     GridNodeSelector _gridNodeSelector;
-
     GridNode _target;
-    [SerializeField] GameObject _grenadePrefab;
     GameObject _grenadeProjectile;
 
     #endregion
-
 
     private void Awake()
     {
@@ -71,7 +71,7 @@ public class Thrower : BattleAction
     [ClientRpc]
     void RpcThrow(Vector3Int target)
     {
-        Debug.Log("Thrower RpcThrow");
+        Debug.Log($"{name} Thrower RpcThrow");
         InvokeActionConfirmed(this);
         BattleEventThrow _throw = new BattleEventThrow(this, _target);
         NetworkMatchManager.Instance.AddBattleEvent(_throw, true);
@@ -112,6 +112,7 @@ public class Thrower : BattleAction
     {
         base.Activate();
         _gridNodeSelector.Activate();
+        OnThrowing(_grenade);
     }
 
     override public void Cancel()
