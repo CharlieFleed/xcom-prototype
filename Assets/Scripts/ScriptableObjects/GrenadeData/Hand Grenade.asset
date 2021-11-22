@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd9093dec99aace49bb2bb23f2a1b3f9, type: 3}
+  m_Name: Hand Grenade
+  m_EditorClassIdentifier: 
+  Name: Hand Grenade
+  Description: Description
+  Damage:
+    BaseDamage: 0
+    MaxDamage: 0
+    BaseExplosiveDamage: 3
+    MaxExplosiveDamage: 4
+  Radius: 3
+  DetonationFXPrefab: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
+  DetonationAudioClip: {fileID: 8300000, guid: 1fd31868d68903d4f9e2c4a3b7ef98f3, type: 3}
+  Image: {fileID: 0}

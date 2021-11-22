@@ -499,6 +499,7 @@ GameObject:
   - component: {fileID: -8057333210186897383}
   - component: {fileID: 7427874011771246962}
   - component: {fileID: -3644775270910341861}
+  - component: {fileID: 4991704241548405486}
   m_Layer: 9
   m_Name: SpecialistUnit
   m_TagString: Untagged
@@ -670,15 +671,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc332a959fdf9545b8b4455e678c616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Rifle
-  _baseDamage: 3
-  _maxDamage: 5
-  _range: 16
-  _clipSize: 4
-  _shootFXPrefab: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
-  _hitFXPrefab: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
-  _shootAudioClip: {fileID: 8300000, guid: d40330822ccea6140b664c0560d5022f, type: 3}
-  _hasAmmunitions: 1
   _weaponData: {fileID: 11400000, guid: 6838693c785e7e34a8113599df3c6ea1, type: 2}
 --- !u!114 &1062933398414497127
 MonoBehaviour:
@@ -918,6 +910,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8dde1ce87b4b3e48814a4e7b7aefacc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4991704241548405486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590575594350318540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50b7b60f97df0984ba4cc25e4d7ccb9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _armorDefault: 0
+  Id: 0
 --- !u!1001 &1051574122627388261
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1275,14 +1281,14 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: dac8231fb02c8564397c993a99dee4f5, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 860793eb3324391468f1c120a75ec049, type: 3}
---- !u!1 &1051574122627421575 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100066, guid: 860793eb3324391468f1c120a75ec049, type: 3}
-  m_PrefabInstance: {fileID: 1051574122627388261}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1051574122627516839 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400066, guid: 860793eb3324391468f1c120a75ec049, type: 3}
+  m_PrefabInstance: {fileID: 1051574122627388261}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1051574122627421575 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100066, guid: 860793eb3324391468f1c120a75ec049, type: 3}
   m_PrefabInstance: {fileID: 1051574122627388261}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7354361747547868758

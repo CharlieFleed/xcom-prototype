@@ -20,7 +20,7 @@ public class GridNode
     public bool IsWalkable { get; set; } = false;
     public bool IsAir { get; set; } = false;
 
-    public bool Visited { get; set; } = false;
+    public bool Closed { get; set; } = false;
     public int Distance { get; set; } = int.MaxValue;
 
     public bool IsBooked { get; set; }
@@ -38,12 +38,17 @@ public class GridNode
     public List<GridNode> LadderNeighbors = new List<GridNode>();
     public GridNode Parent;
 
+    /// <summary>
+    /// Used by GridRegionHighlighter
+    /// </summary>
+    public bool InRegion;
+
     #endregion
 
     public void Reset()
     {
         Distance = int.MaxValue;
-        Visited = false;
+        Closed = false;
         Parent = null;
     }
 
@@ -77,4 +82,32 @@ public class GridNode
     {
         return Mathf.Sqrt((a.X - b.X) * (a.X - b.X) + (a.Z - b.Z) * (a.Z - b.Z));
     }
+
+    public static bool HalfWallBetween(GridNode a, GridNode b)
+    {
+        Orientations orientation = GetAdjacentDirection(a, b);
+        return a.HalfWalls[(int)orientation] || b.HalfWalls[((int)orientation + 2) % 4];
+    }
+
+    public static Orientations GetAdjacentDirection(GridNode a, GridNode b)
+    {
+        if (a.X + 1 == b.X && a.Y == b.Y && a.Z == b.Z)
+        {
+            return Orientations.East;
+        }
+        if (a.X == b.X && a.Y == b.Y && a.Z + 1 == b.Z)
+        {
+            return Orientations.North;
+        }
+        if (a.X - 1 == b.X && a.Y == b.Y && a.Z == b.Z)
+        {
+            return Orientations.West;
+        }
+        if (a.X == b.X && a.Y == b.Y && a.Z - 1 == b.Z)
+        {
+            return Orientations.South;
+        }
+        return Orientations.East;
+    }
+
 }

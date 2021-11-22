@@ -24,10 +24,6 @@ public class GridAgent : MonoBehaviour
     public int Cover { get { return _cover; } private set { _cover = value; OnCoverChanged(_cover); } }
     public event Action<int> OnCoverChanged = delegate { };
 
-    bool _hunkering;
-    public bool Hunkering { get { return _hunkering; } set { _hunkering = value; OnHunkeringChanged(_hunkering); } }
-    public event Action<bool> OnHunkeringChanged = delegate { };
-
     private void Start()
     {
         OnGridAgentAdded(this);

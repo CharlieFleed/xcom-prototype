@@ -157,7 +157,7 @@ public class GridNodeSelector : NetworkBehaviour
                     }
                 }
             }
-            foreach (var gridNode in GridManager.Instance.GetGrid())
+            foreach (var gridNode in GridManager.Instance.GetGrid().Nodes())
             {
                 if (gridNode.HasFloor && (gridNode.FloorPosition - _area.transform.position).magnitude <= 0.5f * _area.transform.localScale.x)
                 {

@@ -653,6 +653,7 @@ GameObject:
   - component: {fileID: 4138352691193341199}
   - component: {fileID: -8057333210186897383}
   - component: {fileID: 5409351808103580979}
+  - component: {fileID: -540524855725359256}
   m_Layer: 9
   m_Name: Unit
   m_TagString: Untagged
@@ -827,14 +828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc332a959fdf9545b8b4455e678c616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Shotgun
-  _baseDamage: 3
-  _maxDamage: 5
-  _range: 16
-  _clipSize: 4
-  _shootFXPrefab: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
-  _hitFXPrefab: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
-  Image: {fileID: 21300000, guid: db69e3bcc7a7fd944b2da10a2034a06c, type: 3}
+  _weaponData: {fileID: 0}
 --- !u!114 &-6503885042838623983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -869,14 +863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc332a959fdf9545b8b4455e678c616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Sniper Rifle
-  _baseDamage: 3
-  _maxDamage: 5
-  _range: 32
-  _clipSize: 3
-  _shootFXPrefab: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
-  _hitFXPrefab: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
-  Image: {fileID: 21300000, guid: 7788676c8edaa3d4ba94aa132cf52786, type: 3}
+  _weaponData: {fileID: 0}
 --- !u!114 &1062933398414497127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1053,10 +1040,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _name: Frag Grenade
+  _description: 
   _damage: 4
   _radius: 3
   _uses: 2
   _detonationFXPrefab: {fileID: 3466165693803881545, guid: 4f292bd6ca8c47e49b5e629ad7a9e5bd, type: 3}
+  _detonationAudioClip: {fileID: 0}
 --- !u!114 &-7165666962996947970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1183,6 +1172,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8dde1ce87b4b3e48814a4e7b7aefacc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-540524855725359256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590575594350318540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50b7b60f97df0984ba4cc25e4d7ccb9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _armorDefault: 0
+  Id: 0
 --- !u!1001 &1051574122627388261
 PrefabInstance:
   m_ObjectHideFlags: 0

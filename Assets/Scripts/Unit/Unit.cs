@@ -68,7 +68,7 @@ public class Unit : NetworkBehaviour
         }
     }
 
-    public bool Initialized { set; get; }
+    public bool Initialized { private set; get; }
 
     #endregion
 

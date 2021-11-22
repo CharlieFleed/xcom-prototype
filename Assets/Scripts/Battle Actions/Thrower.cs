@@ -92,10 +92,7 @@ public class Thrower : BattleAction
         // clone the grenade
         _grenadeProjectile = Instantiate(_grenadePrefab, Vector3.zero, Quaternion.identity);
         _grenadeProjectile.AddComponent<Grenade>();
-        _grenadeProjectile.GetComponent<Grenade>().Damage = _grenade.Damage;
-        _grenadeProjectile.GetComponent<Grenade>().Radius = _grenade.Radius;
-        _grenadeProjectile.GetComponent<Grenade>().DetonationFXPrefab = _grenade.DetonationFXPrefab;
-        _grenadeProjectile.GetComponent<Grenade>().DetonationAudioClip = _grenade.DetonationAudioClip;
+        _grenadeProjectile.GetComponent<Grenade>().GrenadeData = _grenade.GrenadeData;
         _grenadeProjectile.transform.position = origin;
         _grenadeProjectile.GetComponent<Grenade>().SetTarget(_target.FloorPosition);
         _grenadeProjectile.GetComponent<Rigidbody>().AddForce(impulse, ForceMode.Impulse);

@@ -36,6 +36,8 @@ public class NetworkMatchManager : NetworkBehaviour
     Team _winner = null;
     public Team Winner { get { return _winner; } }
 
+    bool _armorsSet;
+
     #endregion
 
     private void Awake()
@@ -153,6 +155,11 @@ public class NetworkMatchManager : NetworkBehaviour
             return;
         if (!AllUnitsInitialized())
             return;
+        if (!_armorsSet)
+        {
+            SetRandomArmors();
+            return;
+        }
         UpdateBattleEvents();
         if (_battleEventGroups.Count == 0)
         {
@@ -201,6 +208,21 @@ public class NetworkMatchManager : NetworkBehaviour
             }
         }
         return initialized;
+    }
+
+    void SetRandomArmors()
+    {
+        if (NetworkRandomGenerator.Instance.Ready())
+        {
+            foreach (var team in _teams)
+            {
+                foreach (var unit in team.Units)
+                {
+                    unit.GetComponent<Armor>().SetValue(NetworkRandomGenerator.Instance.RandomRange(1, 4));
+                }
+            }
+            _armorsSet = true;
+        }
     }
 
     void UpdateBattleEvents()

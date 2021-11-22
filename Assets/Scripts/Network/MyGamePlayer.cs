@@ -80,7 +80,7 @@ public class MyGamePlayer : NetworkBehaviour
                     float maxJumpDown = _gridAgent.MaxJumpDown;
                     _pathfinder.Initialize(_gridManager.GetGrid(), _origin, _origin, maxDistance, maxJumpUp, maxJumpDown, IsNodeAvailable, true);
                     List<GridNode> destinations = new List<GridNode>();
-                    foreach (var node in _gridManager.GetGrid())
+                    foreach (var node in _gridManager.GetGrid().Nodes())
                     {
                         if (node.Distance < _gridAgent.WalkRange)
                         {

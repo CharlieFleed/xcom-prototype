@@ -77,7 +77,7 @@ public class Movement : MonoBehaviour
         UpdateRotation();
     }
 
-    private void ResetStates()
+    void ResetStates()
     {
         _isMoving = false;
         _isWalking = false;
@@ -94,7 +94,7 @@ public class Movement : MonoBehaviour
         _isClimbingRun = false;
     }
 
-    private void UpdateWalking()
+    void UpdateWalking()
     {
         //Debug.Log("Update Walking");
         _t += Time.deltaTime / _timeToReachTarget;
@@ -109,7 +109,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    private void UpdateLeaping()
+    void UpdateLeaping()
     {
         //Debug.Log("Update Leaping");
         _t += Time.deltaTime / _timeToReachTarget;
@@ -124,7 +124,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    private void UpdateJumping()
+    void UpdateJumping()
     {
         if (_isJumpingWalk)
         {
@@ -199,7 +199,7 @@ public class Movement : MonoBehaviour
         transform.position = _newPosition;
     }
 
-    private void UpdateClimbing()
+    void UpdateClimbing()
     {
         if (_isClimbingTurn)
         {
@@ -331,9 +331,9 @@ public class Movement : MonoBehaviour
                 _isJumping = true;
                 _isJumpingCharge = true;
                 _ySpeed = 1.5f * Mathf.Sqrt(0.5f * _g * (destination.y - transform.position.y));
-                Debug.Log($"_ySpeed {_ySpeed}");
+                //Debug.Log($"_ySpeed {_ySpeed}");
                 _timeToReachTarget = (_ySpeed + Mathf.Sqrt(_ySpeed * _ySpeed + 2 * _g * (destination.y - transform.position.y))) / _g;
-                Debug.Log($"_timeToReachTarget {_timeToReachTarget}");
+                //Debug.Log($"_timeToReachTarget {_timeToReachTarget}");
                 _ySpeed = 2.5f * Mathf.Sqrt(0.5f * _g * (destination.y - transform.position.y));
                 _animator.SetTrigger("Jump");
                 //Debug.Log("Jump Up");

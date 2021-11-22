@@ -19,6 +19,15 @@ public class Shooter : BattleAction
     public event Action<Shooter, GridEntity> OnTargetSelected = delegate { };
     public event Action OnTargetingEnd = delegate { };
 
+    protected void InvokeOnTargetSelected(Shooter shooter, GridEntity gridEntity)
+    {
+        OnTargetSelected.Invoke(shooter, gridEntity);
+    }
+    protected void InvokeOnTargetingEnd()
+    {
+        OnTargetingEnd.Invoke();
+    }
+
     public event Action OnShot = delegate { };
     public event Action<Shooter> OnShoot = delegate { };
 
@@ -175,7 +184,8 @@ public class Shooter : BattleAction
                 shotStats.HitChance -= 20;
             if (shotStats.Flanked)
                 shotStats.CritChance += 50;
-            if (shotStats.Target.GetComponent<GridAgent>().Hunkering)
+            Hunkerer hunkerer = shotStats.Target.GetComponent<Hunkerer>();
+            if (hunkerer != null && hunkerer.IsHunkering)
                 shotStats.HitChance -= 30;
             shotStats.HitChance = Mathf.Clamp(shotStats.HitChance, 0, 100);
             shotStats.CritChance = Mathf.Clamp(shotStats.CritChance, 0, 100);

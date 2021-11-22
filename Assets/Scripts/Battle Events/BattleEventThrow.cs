@@ -90,10 +90,18 @@ public class BattleEventThrow : BattleEvent
                             targets.Sort((a, b) => a.Id.CompareTo(b.Id));
                             foreach (var health in targets)
                             {
-                                bool crit = NetworkRandomGenerator.Instance.RandomRange(0, 2) == 1 ? true : false;
-                                bool hit = true;
-                                int damage = NetworkRandomGenerator.Instance.RandomRange(crit ? _grenade.Damage + 1 : 1, (crit ? 2 * _grenade.Damage : _grenade.Damage) + 1);
-                                health.TakeDamage(damage, hit, crit);
+                                bool hit = false;
+                                bool crit = false;
+                                DamageDealer.DealDamage(
+                                    health,
+                                    health.GetComponent<Armor>(),
+                                    _grenade.Damage,
+                                    100,
+                                    50,
+                                    out hit,
+                                    out crit);
+                                //int damage = NetworkRandomGenerator.Instance.RandomRange(crit ? _grenade.Damage.BaseExplosiveDamage + 1 : 1, (crit ? 2 * _grenade.Damage.BaseExplosiveDamage : _grenade.Damage.BaseExplosiveDamage) + 1);
+                                //health.TakeDamage(damage, hit, crit);
                                 NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false);
                             }
                             OnThrowingEnd();

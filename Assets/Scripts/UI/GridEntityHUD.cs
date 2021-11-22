@@ -5,7 +5,7 @@ using UnityEngine;
 public class GridEntityHUD : MonoBehaviour
 {
     [SerializeField] float _transparency = 0.5f;
-    [SerializeField] int _positionOffset = 2;
+    [SerializeField] int _positionOffset = 3;
 
     Unit _unit;
     Health _health;

@@ -30,6 +30,6 @@ public class Medikit : Item
         health.TakeDamage(-Healment, true, false);
         NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false);
         // show FX
-        Instantiate(_effectFXPrefab, target.transform.position, Quaternion.identity);
+        Instantiate(_effectFXPrefab, target.transform.position, _effectFXPrefab.transform.rotation);
     }
 }

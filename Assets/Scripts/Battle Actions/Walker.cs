@@ -84,7 +84,7 @@ public class Walker : BattleAction
     {
         GridNode nextStep = _path.Peek();
         Vector3 destination = nextStep.FloorPosition;
-        GridNode.Orientations orientation = GridManager.Instance.GetDirection(_gridEntity.CurrentNode, nextStep);
+        GridNode.Orientations orientation = GridNode.GetAdjacentDirection(_gridEntity.CurrentNode, nextStep);
         bool leap = _gridEntity.CurrentNode.HalfWalls[(int)orientation];
         _movement.MoveToDestination(destination, leap);
         OnMove(this, _gridEntity.CurrentNode, nextStep);

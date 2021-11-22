@@ -23,7 +23,7 @@ public class GridManager : MonoBehaviour
 
 
     Vector3 _origin;
-    GridNode[,,] _grid;
+    Grid _grid;
     int _gridSizeX;
     int _gridSizeY;
     int _gridSizeZ;
@@ -104,7 +104,7 @@ public class GridManager : MonoBehaviour
 
     void GenerateGrid()
     {
-        _grid = new GridNode[_gridSizeX, _gridSizeY, _gridSizeZ];
+        _grid = new Grid(_gridSizeX, _gridSizeY, _gridSizeZ);
 
         for (int x = 0; x < _gridSizeX; x++)
         {
@@ -121,7 +121,7 @@ public class GridManager : MonoBehaviour
                     position.z += z * _xzScale;
                     gridNode.WorldPosition = position;
 
-                    _grid[x, y, z] = gridNode;
+                    _grid.SetNode(x, y, z, gridNode);
                     //Debug.Log($"creating node: {x},{y},{z}");
 
                     // Find any GridObjects in the volume of this cell.
@@ -314,7 +314,7 @@ public class GridManager : MonoBehaviour
 
     void GenerateWalls()
     {
-        foreach (GridNode gridNode in _grid)
+        foreach (GridNode gridNode in _grid.Nodes())
         {
             //Debug.Log($"GenerateWalls node: {gridNode.X},{gridNode.Y},{gridNode.Z}");
             // check walls and half walls
@@ -398,7 +398,7 @@ public class GridManager : MonoBehaviour
 
     void GenerateCovers()
     {
-        foreach (GridNode gridNode in _grid)
+        foreach (GridNode gridNode in _grid.Nodes())
         {
             // cover
             Vector3[] coverOffsets = new Vector3[4];
@@ -450,7 +450,7 @@ public class GridManager : MonoBehaviour
     void CheckLadders()
     {
         Dictionary<GridObject, List<GridNode>> ladders = new Dictionary<GridObject, List<GridNode>>();
-        foreach (GridNode gridNode in _grid)
+        foreach (GridNode gridNode in _grid.Nodes())
         {
             Vector3[] ladderOffsets = new Vector3[4];
             ladderOffsets[0] = 0.5f * (0.5f * _unitColliderExtents.x + 0.5f * _xzScale) * Vector3.right;
@@ -534,7 +534,7 @@ public class GridManager : MonoBehaviour
         int attemptsLeft = 1000;
         while (count > 0 && attemptsLeft > 0)
         {
-            GridNode node = _grid[UnityEngine.Random.Range(0, _gridSizeX), UnityEngine.Random.Range(0, _gridSizeY), UnityEngine.Random.Range(0, _gridSizeZ)];
+            GridNode node = GetGridNode(UnityEngine.Random.Range(0, _gridSizeX), UnityEngine.Random.Range(0, _gridSizeY), UnityEngine.Random.Range(0, _gridSizeZ));
             if (!walkableNodes.Contains(node) && node.IsWalkable && !node.IsOccupied())
             {
                 walkableNodes.Add(node);
@@ -595,7 +595,7 @@ public class GridManager : MonoBehaviour
         int attemptsLeft = 1000;
         while (count > 0 && attemptsLeft > 0)
         {
-            GridNode node = _grid[UnityEngine.Random.Range(0, _gridSizeX), UnityEngine.Random.Range(0, _gridSizeY), UnityEngine.Random.Range(0, _gridSizeZ)];
+            GridNode node = GetGridNode(UnityEngine.Random.Range(0, _gridSizeX), UnityEngine.Random.Range(0, _gridSizeY), UnityEngine.Random.Range(0, _gridSizeZ));
             if (!walkableNodes.Contains(node) && node.IsWalkable && !node.IsOccupied())
             {
                 walkableNodes.Add(node);
@@ -629,13 +629,10 @@ public class GridManager : MonoBehaviour
 
     public GridNode GetGridNode(int x, int y, int z)
     {
-        if (x >= 0 && x < _gridSizeX && y >= 0 && y < _gridSizeY && z >= 0 && z < _gridSizeZ)
-            return _grid[x, y, z];
-        else
-            return null;
+        return _grid.Node(x, y, z);
     }
 
-    public GridNode[,,] GetGrid()
+    public Grid GetGrid()
     {
         return _grid;
     }
@@ -685,7 +682,7 @@ public class GridManager : MonoBehaviour
                     }
                 }
                 //Debug.Log($"OK.");
-                neighbors.Add(_grid[node.X + xzOffsets[i][0], node.Y, node.Z + xzOffsets[i][1]]);
+                neighbors.Add(GetGridNode(node.X + xzOffsets[i][0], node.Y, node.Z + xzOffsets[i][1]));
             }
         }
         return neighbors;
@@ -706,27 +703,6 @@ public class GridManager : MonoBehaviour
             default:
                 return null;
         }
-    }
-
-    public GridNode.Orientations GetDirection(GridNode node, GridNode nodeB)
-    {
-        if (GetGridNode(node.X + 1, node.Y, node.Z) == nodeB)
-        {
-            return GridNode.Orientations.East;
-        }
-        if (GetGridNode(node.X, node.Y, node.Z + 1) == nodeB)
-        {
-            return GridNode.Orientations.North;
-        }
-        if (GetGridNode(node.X - 1, node.Y, node.Z) == nodeB)
-        {
-            return GridNode.Orientations.West;
-        }
-        if (GetGridNode(node.X, node.Y, node.Z - 1) == nodeB)
-        {
-            return GridNode.Orientations.South;
-        }
-        return GridNode.Orientations.East;
     }
 
     public bool IsNodeAvailable(GridNode node, GridAgent gridAgent)
@@ -786,7 +762,7 @@ public class GridManager : MonoBehaviour
         }
         if (_drawFloor)
         {
-            foreach (var node in _grid)
+            foreach (var node in _grid.Nodes())
             {
                 if (node.HasFloor)
                 {
@@ -805,7 +781,7 @@ public class GridManager : MonoBehaviour
         }
         if (_drawUnitColliders)
         {
-            foreach (var node in _grid)
+            foreach (var node in _grid.Nodes())
             {
                 if (node.HasFloor)
                 {
@@ -832,7 +808,7 @@ public class GridManager : MonoBehaviour
         }
         if (_drawBalls)
         {
-            foreach (var node in _grid)
+            foreach (var node in _grid.Nodes())
             {
                 if (node.IsWalkable)
                 {
@@ -851,7 +827,7 @@ public class GridManager : MonoBehaviour
         }
         if (_drawAir)
         {
-            foreach (var node in _grid)
+            foreach (var node in _grid.Nodes())
             {
                 if (node.IsAir)
                 {

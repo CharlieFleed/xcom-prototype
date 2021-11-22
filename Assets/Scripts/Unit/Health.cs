@@ -33,6 +33,11 @@ public class Health : MonoBehaviour
         _staticHealthId++;
     }
 
+    private void OnDestroy()
+    {
+        OnHealthRemoved(this);
+    }
+
     private void Start()
     {
         if (_healthDefault > 0)
@@ -62,11 +67,6 @@ public class Health : MonoBehaviour
     }
 
     public bool IsDead { get { return _currentHealth == 0; }}
-
-    private void OnDisable()
-    {
-        OnHealthRemoved(this);
-    }
 
     internal bool IsFull()
     {

@@ -33,6 +33,7 @@ public class GridPathSelector : NetworkBehaviour
     GridRegionHighlighter _gridRegionHighlighter;
 
     GridNode _cachedNode;
+    GridNode _targetNode;
     int _cost;
 
     Color _color1 = Color.cyan;
@@ -216,7 +217,7 @@ public class GridPathSelector : NetworkBehaviour
     {
         _walkRegion.Clear();
         _runRegion.Clear();
-        foreach (GridNode n in _gridManager.GetGrid())
+        foreach (GridNode n in _gridManager.GetGrid().Nodes())
         {
             if (n.Y <= CameraController.Instance.Level)
             {
@@ -276,7 +277,6 @@ public class GridPathSelector : NetworkBehaviour
             }
             if (gridNode != null)
             {
-                GridNode targetNode = gridNode;
                 //Debug.Log($"GridNode {gridNode.X}, {gridNode.Y}, {gridNode.Z}.");
                 //if (_cachedNode != null)
                 //{
@@ -291,13 +291,14 @@ public class GridPathSelector : NetworkBehaviour
                     _cachedNode = gridNode;
                     if (gridNode.Distance < int.MaxValue)
                     {
+                        _targetNode = gridNode;
                     }
                     else
                     {
                         //Debug.Log($"gridNode {gridNode.X}, {gridNode.Y}, {gridNode.Z} not reachable. Distance: {gridNode.Distance}.");
                         GridNode bestMatchNode = null;
                         float closestDistance = float.MaxValue;
-                        foreach (var node in _gridManager.GetGrid())
+                        foreach (var node in _gridManager.GetGrid().Nodes())
                         {
                             if (node.Distance < int.MaxValue && GridNode.EuclideanDistance(node, gridNode) < closestDistance)
                             {
@@ -305,17 +306,19 @@ public class GridPathSelector : NetworkBehaviour
                                 closestDistance = GridNode.EuclideanDistance(node, gridNode);
                             }
                         }
-                        targetNode = bestMatchNode;
+                        _targetNode = bestMatchNode;
+                        //Debug.Log($"targetNode is {_targetNode.X}, {_targetNode.Y}, {_targetNode.Z}. Distance: {_targetNode.Distance}.");
                     }
-                    _cost = targetNode.Distance <= _gridAgent.WalkRange ? 1 : 2;
+                    _cost = _targetNode.Distance <= _gridAgent.WalkRange ? 1 : 2;
                     HideHighlights();
-                    _path = _pathfinder.GetPathTo(targetNode);
+                    _path = _pathfinder.GetPathTo(_targetNode);
                     //Debug.Log($"Path to {targetNode.X}, {targetNode.Y}, {targetNode.Z}.");
                     ShowHighlights(_path, _walker._NumMoves, _cost);
                 }
                 if (Input.GetMouseButtonDown(1))
                 {
-                    SetPath(targetNode);
+                    //Debug.Log($"Selected targetNode is {_targetNode.X}, {_targetNode.Y}, {_targetNode.Z}. Distance: {_targetNode.Distance}.");
+                    SetPath(_targetNode);
                     Deactivate();
                 }
             }
@@ -373,6 +376,7 @@ public class GridPathSelector : NetworkBehaviour
         IsActive = false;
         HideHighlights();
         _cachedNode = null;
+        _targetNode = null;
     }
 
     public void Cancel()

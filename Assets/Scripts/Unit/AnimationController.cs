@@ -9,7 +9,7 @@ public class AnimationController : MonoBehaviour
     Shooter[] _shooters;
     Thrower[] _throwers;
     Health _health;
-    GridAgent _gridAgent;
+    Hunkerer _hunkerer;
 
 
     bool _isShooting;
@@ -32,11 +32,14 @@ public class AnimationController : MonoBehaviour
             thrower.OnThrow += HandleThrower_OnThrow;
         }
         _health.OnDied += HandleHealth_OnDied;
-        _gridAgent = GetComponent<GridAgent>();
-        _gridAgent.OnHunkeringChanged += HandleGridAgent_OnHunkeringChanged;
+        _hunkerer = GetComponent<Hunkerer>();
+        if (_hunkerer != null)
+        {
+            _hunkerer.OnIsHunkeringChanged += HandleHunkerer_OnIsHunkeringChanged;
+        }
     }
 
-    private void HandleGridAgent_OnHunkeringChanged(bool obj)
+    private void HandleHunkerer_OnIsHunkeringChanged(bool obj)
     {
         _animator.SetBool("Ducking", obj);
     }

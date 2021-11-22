@@ -6,18 +6,14 @@ public delegate bool IsNodeAvailableDelegate(GridNode n);
 
 public class Pathfinder : MonoBehaviour
 {
-    [SerializeField] private bool allowDiagonals = false;
+    [SerializeField] private bool _allowDiagonals = false;
 
-    private GridNode[,,] _gridNodes;
-    int _gridSizeX;
+    private Grid _grid;
     int _gridSizeY;
-    int _gridSizeZ;
     private GridNode _origin;
     private GridNode _destination;
     private IsNodeAvailableDelegate _IsNodeAvailable = delegate { return true; };
     bool _useLadders;
-
-    private Stack<GridNode> _path = new Stack<GridNode>();
 
     private void Awake()
     {
@@ -30,25 +26,30 @@ public class Pathfinder : MonoBehaviour
     private void UpdateDistances(int maxDistance, float maxJumpUp, float maxJumpDown)
     {
         // Initialize nodes
-        foreach (GridNode node in _gridNodes)
+        foreach (GridNode node in _grid.Nodes())
         {
             node.Reset();
         }
         // Initialize the origin node
         _origin.Distance = 0;
-        _origin.Visited = true;
+        _origin.Closed = true;
         //
         GridNode current = _origin;
         List<GridNode> neighbors = new List<GridNode>();
+        HashSet<GridNode> openList = new HashSet<GridNode>();
+        openList.Add(current);
         bool moreNodes = true;
         while (moreNodes)
         {
             neighbors = GetNeighbors(current, maxJumpUp, maxJumpDown);
             foreach (GridNode n in neighbors)
             {
-                // if reachable and not visited
-                if (n.IsWalkable && !n.Visited)
+                // if not visited
+                if (!n.Closed)
                 {
+                    // add to the open list
+                    if (!openList.Contains(n))
+                        openList.Add(n);
                     // Update the distance from origin
                     if (current.Distance + 1 < n.Distance)
                     {
@@ -58,29 +59,20 @@ public class Pathfinder : MonoBehaviour
                 }
             }
             // mark current node as visited
-            current.Visited = true;
-            // select the next node to be visited: it is the unvisited node with minimum distance
+            current.Closed = true;
+            openList.Remove(current);
+            // select the next node to be visited: it is the unvisited node in the open list with minimum distance
             moreNodes = false;
             int minDistance = int.MaxValue;
             // look for next node
             GridNode nextNode = current;
-            for (int x = 0; x < _gridSizeX; x++)
+            foreach (var node in openList)
             {
-                for (int y = 0; y < _gridSizeY; y++)
+                if (node.Distance <= minDistance && node.Distance < maxDistance)
                 {
-                    for (int z = 0; z < _gridSizeZ; z++)
-                    {
-                        // if reachable and not visited
-                        if (_gridNodes[x, y, z].IsWalkable && !_gridNodes[x, y, z].Visited)
-                        {
-                            if (_gridNodes[x, y, z].Distance <= minDistance && _gridNodes[x, y, z].Distance < maxDistance)
-                            {
-                                nextNode = _gridNodes[x, y, z];
-                                minDistance = nextNode.Distance;
-                                moreNodes = true;
-                            }
-                        }
-                    }
+                    nextNode = node;
+                    minDistance = nextNode.Distance;
+                    moreNodes = true;
                 }
             }
             if (moreNodes)
@@ -88,7 +80,7 @@ public class Pathfinder : MonoBehaviour
                 current = nextNode;
             }
         }
-        // all nodes have been visited
+        // all eligible nodes have been visited
         return;
     }
 
@@ -132,16 +124,14 @@ public class Pathfinder : MonoBehaviour
                     continue;
                 }
                 // skip upper floors and stop for this direction if node above is not air
-                if (yOffset > 0 && !_gridNodes[node.X, node.Y + 1, node.Z].IsAir)
+                if (yOffset > 0 && !_grid.Node(node.X, node.Y + 1, node.Z).IsAir)
                 {
                     break;
                 }
+                GridNode neighbor = _grid.Node(node.X + xzOffsets[i][0], node.Y + yOffset, node.Z + xzOffsets[i][1]);
                 // check if the candidate point belongs to the map
-                if (node.X + xzOffsets[i][0] > -1 && node.X + xzOffsets[i][0] < _gridSizeX &&
-                    node.Y + yOffset > -1 && node.Y + yOffset < _gridSizeY &&
-                    node.Z + xzOffsets[i][1] > -1 && node.Z + xzOffsets[i][1] < _gridSizeZ)
+                if (neighbor != null)
                 {
-                    GridNode neighbor = _gridNodes[node.X + xzOffsets[i][0], node.Y + yOffset, node.Z + xzOffsets[i][1]];
                     // check if walkable
                     if (!neighbor.IsWalkable)
                     {
@@ -166,14 +156,14 @@ public class Pathfinder : MonoBehaviour
                     // skip if node above neighbor doesn't leave room
                     if (yOffset == 0 && (node.Y + 1) < _gridSizeY)
                     {
-                        GridNode nodeAboveNeighbor = _gridNodes[node.X + xzOffsets[i][0], node.Y + 1, node.Z + xzOffsets[i][1]];
+                        GridNode nodeAboveNeighbor = _grid.Node(node.X + xzOffsets[i][0], node.Y + 1, node.Z + xzOffsets[i][1]);
                         if (nodeAboveNeighbor.HasFloor && nodeAboveNeighbor.FloorPosition.y - node.FloorPosition.y < GridManager.Instance.UnitColliderExtents.y)
                         {
                             continue;
                         }
                     }
-                    // we passed all the tests, select the neighbor and stop
-                    neighbors.Add(_gridNodes[node.X + xzOffsets[i][0], node.Y + yOffset, node.Z + xzOffsets[i][1]]);
+                    // we passed all the tests, select the neighbor and stop for this direction
+                    neighbors.Add(_grid.Node(node.X + xzOffsets[i][0], node.Y + yOffset, node.Z + xzOffsets[i][1]));
                     break;
                 }
             }
@@ -181,121 +171,16 @@ public class Pathfinder : MonoBehaviour
         return neighbors;
     }
 
-    private List<GridNode> GetDiagNeighbors(GridNode node, float maxJumpUp, float maxJumpDown)
+    public void Initialize(Grid grid, GridNode origin, GridNode destination, int maxDistance, float maxJumpUp, float maxJumpDown, IsNodeAvailableDelegate IsNodeAvailable, bool useLadders)
     {
-        List<GridNode> neighbors = GetNeighbors(node, maxJumpUp, maxJumpDown);
-        List<GridNode> diagNeighbors = new List<GridNode>();
-        int[][] diagOffsets = { new int[] { 1, 0, 1 }, new int[] { 1, 0, -1 }, new int[] { -1, 0, 1 }, new int[] { -1, 0, -1 } };
-        foreach (int[] offset in diagOffsets)
-        {
-            // check if the candidate point belongs to the map
-            if (node.X + offset[0] > -1 && node.X + offset[0] < _gridSizeX &&
-                node.Y + offset[1] > -1 && node.Y + offset[1] < _gridSizeY && 
-                node.Z + offset[2] > -1 && node.Z + offset[2] < _gridSizeZ)
-            {
-                GridNode n = _gridNodes[node.X + offset[0], node.Y, node.Z + offset[2]];
-                GridNode n1 = _gridNodes[node.X + offset[0], node.Y, node.Z];
-                GridNode n2 = _gridNodes[node.X, node.Y, node.Z + offset[2]];
-
-                // check both n1 and n2 are mutual neighbors
-                List<GridNode> neighborsOfN = GetNeighbors(n, maxJumpUp, maxJumpDown);
-                if (!neighbors.Contains(n1) || !neighbors.Contains(n2) || !neighborsOfN.Contains(n1) || !neighborsOfN.Contains(n2))
-                {
-                    //Debug.Log($"DiagNeighbors for {node.X}, {node.Y}, {node.Z}. Neighbors check failed on candidate {node.X + offset[0]}, {node.Y}, {node.Z + offset[2]}");
-                    continue;
-                }
-                // check height difference
-                if (Mathf.Abs(node.FloorPosition.y - n.FloorPosition.y) > maxJumpUp || Mathf.Abs(node.FloorPosition.y - n1.FloorPosition.y) > maxJumpUp || Mathf.Abs(node.FloorPosition.y - n2.FloorPosition.y) > maxJumpUp)
-                {
-                    continue;
-                }
-                // check if available
-                if (!_IsNodeAvailable(n) || !_IsNodeAvailable(n1) || !_IsNodeAvailable(n2))
-                {
-                    continue;
-                }
-                //Debug.Log($"DiagNeighbors for {node.X}, {node.Y}, {node.Z}. Adding {n.X}, {n.Y}, {n.Z}");
-                diagNeighbors.Add(n);
-            }
-        }
-        return diagNeighbors;
-    }
-
-    /// <summary>
-    /// Obsolete
-    /// </summary>
-    /// <param name="maxJumpUp"></param>
-    /// <param name="maxJumpDown"></param>
-    private void UpdatePath(float maxJumpUp, float maxJumpDown)
-    {
-        _path.Clear();
-        List<GridNode> neighbors = new List<GridNode>();
-        GridNode current = _destination;
-        GridNode next;
-        _path.Push(current);
-        while (current != _origin)
-        {
-            next = current;
-            neighbors = GetNeighbors(current, maxJumpDown, maxJumpUp);// NOTE: path in reverse
-            if (allowDiagonals)
-                neighbors.AddRange(GetDiagNeighbors(current, maxJumpDown, maxJumpUp)); 
-            float minDistance = float.PositiveInfinity;
-            foreach (GridNode n in neighbors)
-            {
-                // check if the neighbor is closer to the "origin" and closer of the current next node
-                if (n.Distance < current.Distance)
-                {
-                    if (GridNode.EuclideanDistance(n, _origin) <= minDistance)
-                    { 
-                        next = n;
-                        minDistance = GridNode.EuclideanDistance(n, _origin);
-                    }
-                }
-            }            
-            if (next == current)
-            {
-                //Debug.Log("Target not reachable.");
-                // no progress, the target cannot be reached
-                return;
-            }
-            else
-            {
-                current = next;
-                _path.Push(current);
-            }
-        }
-        //Debug.Log($"Path:");
-        //foreach (var node in _path)
-        //{
-        //    Debug.Log($"  {node.X}, {node.Y}, {node.Z}.");
-        //}
-        return;
-    }
-
-    private void UpdatePath()
-    {
-        _path.Clear();
-        GridNode current = _destination;
-        while (current.Parent != null)
-        {
-            _path.Push(current);
-            current = current.Parent;
-        }
-        _path.Push(current);
-    }
-
-    public void Initialize(GridNode[,,] gridNodes, GridNode origin, GridNode destination, int maxDistance, float maxJumpUp, float maxJumpDown, IsNodeAvailableDelegate IsNodeAvailable, bool useLadders)
-    {
-        _gridNodes = gridNodes;
+        _grid = grid;
         _origin = origin;
         _destination = destination;
         _IsNodeAvailable = IsNodeAvailable;
         _useLadders = useLadders;
-        _gridSizeX = gridNodes.GetLength(0);
-        _gridSizeY = gridNodes.GetLength(1);
-        _gridSizeZ = gridNodes.GetLength(2);
+        //
+        _gridSizeY = _grid.GetLength(1);
         UpdateDistances(maxDistance, maxJumpUp, maxJumpDown);
-        UpdatePath();
     }
 
     public Stack<GridNode> GetPathTo(GridNode destinationNode)
@@ -308,13 +193,64 @@ public class Pathfinder : MonoBehaviour
             current = current.Parent;
         }
         path.Push(current);
+        if (_allowDiagonals)
+        {
+            path = DiagonalizePath(path);
+        }
         return path;
     }
 
-    public List<GridNode> GetNodes(int distance)
+    Stack<GridNode> DiagonalizePath(Stack<GridNode> path)
+    {
+        if (path.Count <= 2)
+        {
+            return path;
+        }
+        Stack<GridNode> diagPath = new Stack<GridNode>();
+        GridNode[] pathArray = new GridNode[path.Count];
+        for (int i = 0; i < pathArray.Length; i++)
+        {
+            pathArray[pathArray.Length - i - 1] = path.Pop();
+        }
+        for (int i = 0; i < pathArray.Length - 2; i++)
+        {
+            GridNode d1 = pathArray[i];
+            GridNode d2 = pathArray[i + 2];
+            // if they are diagonal neighbors at the same height
+            if (Mathf.Abs(d1.X - d2.X) == 1 && Mathf.Abs(d1.Z - d2.Z) == 1 && (d1.Y == d2.Y))
+            {
+                GridNode n1 = _grid.Node(d1.X, d1.Y, d2.Z);
+                GridNode n2 = _grid.Node(d2.X, d2.Y, d1.Z);
+                // if both intermediate nodes have d1 and d2 as neighbours and have the same height as n1/n2
+                if (GetNeighbors(n1, 0, 0).Contains(d1) && GetNeighbors(n1, 0, 0).Contains(d2) && GetNeighbors(n2, 0, 0).Contains(d1) && GetNeighbors(n2, 0, 0).Contains(d2))
+                {
+                    if (!(GridNode.HalfWallBetween(n1, d1) || GridNode.HalfWallBetween(n1, d2) || GridNode.HalfWallBetween(n2, d1) || GridNode.HalfWallBetween(n2, d2)))
+                    {
+                        // skip intermediate node
+                        diagPath.Push(d1);
+                        diagPath.Push(d2);
+                        if (i == pathArray.Length - 3)
+                        {
+                            return diagPath;
+                        }
+                        i++;
+                        continue;
+                    }
+                }
+            }
+            // if we got here just add d1 to the path
+            diagPath.Push(d1);
+        }
+        // if we got here add the last two nodes to the path
+        diagPath.Push(pathArray[pathArray.Length - 2]);
+        diagPath.Push(pathArray[pathArray.Length - 1]);
+        return diagPath;
+    }
+
+    public List<GridNode> GetNodesWithinDistance(int distance)
     {
         List<GridNode> nodes = new List<GridNode>();
-        foreach (GridNode node in _gridNodes)
+        foreach (GridNode node in _grid.Nodes())
         {
             if (node.Distance <= distance)
             {

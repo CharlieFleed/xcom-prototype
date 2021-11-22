@@ -14,10 +14,10 @@ public class GridHighlightManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        GridNode[,,] grid = GridManager.Instance.GetGrid();
+        Grid grid = GridManager.Instance.GetGrid();
         _gridNodeHighlights = new GridNodeHighlight[grid.GetLength(0), grid.GetLength(1), grid.GetLength(2)];
 
-        foreach (var gridNode in grid)
+        foreach (var gridNode in grid.Nodes())
         {
             // Highlight
             if (gridNode.HasFloor)

@@ -184,7 +184,7 @@ public class GridNeighborSelector : NetworkBehaviour
         float maxJumpUp = _gridAgent.MaxJumpUp;
         float maxJumpDown = _gridAgent.MaxJumpDown;
         _pathfinder.Initialize(_gridManager.GetGrid(), origin, origin, 1, maxJumpUp, maxJumpDown, (node) => { return true; }, false);
-        _targetNodes = _pathfinder.GetNodes(1);
+        _targetNodes = _pathfinder.GetNodesWithinDistance(1);
     }
 
     void Deactivate()

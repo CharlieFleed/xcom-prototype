@@ -54,20 +54,24 @@ public class GridRegionHighlighter : MonoBehaviour
         UnityEngine.Profiling.Profiler.BeginSample("My Sample2");
         foreach (var node in region)
         {
+            node.InRegion = true;
+        }
+        foreach (var node in region)
+        {
             BorderVertices borderNode = NewBorderVertices();
-            if (!(region.Contains(North(node)) && region.Contains(NorthEast(node)) && region.Contains(East(node))))
+            if (!((North(node) != null && North(node).InRegion) && (NorthEast(node) != null && NorthEast(node).InRegion) && (East(node) != null && East(node).InRegion)))
             {
                 borderNode.NE = true;
             }
-            if (!(region.Contains(North(node)) && region.Contains(NorthWest(node)) && region.Contains(West(node))))
+            if (!((North(node) != null && North(node).InRegion) && (NorthWest(node) != null && NorthWest(node).InRegion) && (West(node) != null && West(node).InRegion)))
             {
                 borderNode.NW = true;
             }
-            if (!(region.Contains(South(node)) && region.Contains(SouthEast(node)) && region.Contains(East(node))))
+            if (!((South(node) != null && South(node).InRegion) && (SouthEast(node) != null && SouthEast(node).InRegion) && (East(node) != null && East(node).InRegion)))
             {
                 borderNode.SE = true;
             }
-            if (!(region.Contains(South(node)) && region.Contains(SouthWest(node)) && region.Contains(West(node))))
+            if (!((South(node) != null && South(node).InRegion) && (SouthWest(node) != null && SouthWest(node).InRegion) && (West(node) != null && West(node).InRegion)))
             {
                 borderNode.SW = true;
             }
@@ -76,6 +80,10 @@ public class GridRegionHighlighter : MonoBehaviour
                 borderNode.gridNode = node;
                 _border.Add(node, borderNode);
             }
+        }
+        foreach (var node in region)
+        {
+            node.InRegion = false;
         }
         UnityEngine.Profiling.Profiler.EndSample();
         UnityEngine.Profiling.Profiler.BeginSample("My Sample3");

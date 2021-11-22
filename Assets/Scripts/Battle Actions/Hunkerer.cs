@@ -1,16 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Mirror;
+using System;
 
 public class Hunkerer : BattleAction
 {
+    public static event Action<Hunkerer> OnHunkererAdded = delegate { };
+    public static event Action<Hunkerer> OnHunkererRemoved = delegate { };
+    public event Action<bool> OnIsHunkeringChanged = delegate { };
+
     GridEntity _gridEntity;
     GridAgent _gridAgent;
+
+    bool _isHunkering;
+    public bool IsHunkering { get { return _isHunkering; } set { _isHunkering = value; OnIsHunkeringChanged(_isHunkering); } }
+
 
     private void Awake()
     {
         _gridEntity = GetComponent<GridEntity>();
         _gridAgent = GetComponent<GridAgent>();
+    }
+
+    private void Start()
+    {
+        OnHunkererAdded(this);
+    }
+
+    private void OnDestroy()
+    {
+        OnHunkererRemoved(this);
     }
 
     public override void Init(int numActions)
@@ -23,7 +42,7 @@ public class Hunkerer : BattleAction
             canHunker |= _gridEntity.CurrentNode.Walls[i];
         }
         Available = canHunker;
-        _gridAgent.Hunkering = false;
+        IsHunkering = false;
     }
 
     private void LateUpdate() // NOTE: Late Update to avoid right click read by GridPathSelector as well
@@ -57,7 +76,7 @@ public class Hunkerer : BattleAction
     void RpcHunker()
     {
         Debug.Log($"{name} Hunkerer RpcHunker");
-        _gridAgent.Hunkering = true;
+        IsHunkering = true;
         InvokeActionConfirmed(this);
         Deactivate();
         InvokeActionComplete(this);

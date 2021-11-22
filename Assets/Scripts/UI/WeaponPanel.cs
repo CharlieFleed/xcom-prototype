@@ -44,12 +44,12 @@ public class WeaponPanel : MonoBehaviour
             _image.sprite = _weapon.Image;
             if (_weapon.InfiniteAmmo)
             {
-                _clipBar.SetActive(true);
-                SetAmmunitions(_weapon.Bullets, _weapon.ClipSize);
+                _clipBar.SetActive(false);                
             }
             else
             {
-                _clipBar.SetActive(false);
+                _clipBar.SetActive(true);
+                SetAmmunitions(_weapon.Bullets, _weapon.ClipSize);
             }
             _cg.alpha = 1;
         }

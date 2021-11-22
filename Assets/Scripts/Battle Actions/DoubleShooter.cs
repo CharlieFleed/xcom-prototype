@@ -31,6 +31,8 @@ public class DoubleShooter : Shooter
             }
         }
         Debug.Log($"Double Shooter Shoot {shotStats.Target.name}");
+        InvokeOnTargetSelected(this, shotStats.Target);
+        InvokeOnTargetingEnd();
         BattleEventShot shotEvent1 = new BattleEventShot(this, shotStats);
         NetworkMatchManager.Instance.AddBattleEvent(shotEvent1, true);
         BattleEventConditionalShot shotEvent2 = new BattleEventConditionalShot(this, shotStats);

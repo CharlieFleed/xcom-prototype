@@ -10,8 +10,9 @@ public class Weapon : MonoBehaviour
     public int Bullets { get { return _bullets; } }
 
     public string Name { get { return _weaponData.Name; } }
-    public int BaseDamage { get { return _weaponData.BaseDamage; } }
-    public int MaxDamage { get { return _weaponData.MaxDamage; } }
+    public int BaseDamage { get { return _weaponData.Damage.BaseDamage; } }
+    public int MaxDamage { get { return _weaponData.Damage.MaxDamage; } }
+    public Damage Damage { get { return _weaponData.Damage; } }
     public int Range { get { return _weaponData.Range; } }
     public int ClipSize { get { return _weaponData.ClipSize; } }
     public bool InfiniteAmmo { get { return _weaponData.InfiniteAmmo; } }

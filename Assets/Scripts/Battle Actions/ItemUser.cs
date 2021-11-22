@@ -284,7 +284,7 @@ public class ItemUser : BattleAction
         Available &= _item.Uses > 0;
         //
         _targetNodes.Clear();
-        foreach (var node in _gridManager.GetGrid())
+        foreach (var node in _gridManager.GetGrid().Nodes())
         {
             if (Vector3.Distance(transform.position, node.FloorPosition) <= _item.Range)
             {

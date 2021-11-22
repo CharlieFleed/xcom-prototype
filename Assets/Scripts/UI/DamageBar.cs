@@ -13,7 +13,7 @@ public class DamageBar : MonoBehaviour
     [SerializeField] Image _missBg;
     [SerializeField] Image _healBg;
     [SerializeField] Text _text;
-    [SerializeField] float _positionOffset = 2;
+    [SerializeField] float _positionOffset = 3;
     [SerializeField] CanvasGroup _cg;
     [SerializeField] GameObject _pivot;
 

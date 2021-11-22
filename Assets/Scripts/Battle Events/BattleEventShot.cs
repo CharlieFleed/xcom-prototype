@@ -65,26 +65,23 @@ public class BattleEventShot : BattleEvent
             case Phase.Shot:
                 if (NetworkRandomGenerator.Instance.Ready())
                 {
-                    int hitRandom = NetworkRandomGenerator.Instance.RandomRange(0, 100);
-                    int critRandom = NetworkRandomGenerator.Instance.RandomRange(0, 100);
-                    bool hit = hitRandom < _shotStats.HitChance ? true : false;
-                    bool crit = critRandom < _shotStats.CritChance ? true : false;
-                    int damage = 0;
+                    bool hit = false;
+                    bool crit = false;
+                    DamageDealer.DealDamage(
+                        _shotStats.Target.GetComponent<Health>(),
+                        _shotStats.Target.GetComponent<Armor>(),
+                        _shooter.Weapon.Damage,
+                        _shotStats.HitChance,
+                        _shotStats.CritChance,
+                        out hit,
+                        out crit);
+                    
                     if (hit)
                     {
                         // show shoot FX
                         if (_shooter.Weapon.HitFXPrefab)
-                            GameObject.Instantiate(_shooter.Weapon.HitFXPrefab, _shotStats.Target.transform.position, Quaternion.identity);
-                        if (crit)
-                        {
-                            damage = NetworkRandomGenerator.Instance.RandomRange(_shooter.Weapon.MaxDamage + 1, _shooter.Weapon.MaxDamage + 1 + _shooter.Weapon.BaseDamage);
-                        }
-                        else
-                        {
-                            damage = NetworkRandomGenerator.Instance.RandomRange(_shooter.Weapon.BaseDamage, _shooter.Weapon.MaxDamage + 1);
-                        }
+                            GameObject.Instantiate(_shooter.Weapon.HitFXPrefab, _shotStats.Target.transform.position, Quaternion.identity);                        
                     }
-                    _shotStats.Target.GetComponent<Health>().TakeDamage(damage, hit, crit);
                     // NOTE: change this so that the walker knows what to do?
                     Walker walker = _shotStats.Target.GetComponent<Walker>();
                     if (walker)
