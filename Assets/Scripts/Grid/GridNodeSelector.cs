@@ -25,6 +25,8 @@ public class GridNodeSelector : NetworkBehaviour
     GridNode _cachedNode;
     GridNode _targetNode;
 
+    InputCache _input = new InputCache();
+
     #endregion
 
     private void Awake()
@@ -38,8 +40,16 @@ public class GridNodeSelector : NetworkBehaviour
         _gridManager = GridManager.Instance;
     }
 
+    private void Update()
+    {
+        if (IsActive)
+        {
+            _input.Update();
+        }
+    }
+
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (IsActive)
         {
@@ -102,7 +112,7 @@ public class GridNodeSelector : NetworkBehaviour
                 }
                 if (_targetNode != null)
                 {
-                    if (Input.GetMouseButtonDown(0))
+                    if (_input.GetMouseButtonDown(0))
                     {
                         SetTarget(_targetNode);
                         Deactivate();
@@ -117,6 +127,7 @@ public class GridNodeSelector : NetworkBehaviour
             }
             UpdateHighlight();
         }
+        _input.Clear();
     }
 
     void SetTarget(GridNode target)

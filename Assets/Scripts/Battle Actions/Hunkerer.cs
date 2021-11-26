@@ -15,7 +15,6 @@ public class Hunkerer : BattleAction
     bool _isHunkering;
     public bool IsHunkering { get { return _isHunkering; } set { _isHunkering = value; OnIsHunkeringChanged(_isHunkering); } }
 
-
     private void Awake()
     {
         _gridEntity = GetComponent<GridEntity>();
@@ -45,15 +44,23 @@ public class Hunkerer : BattleAction
         IsHunkering = false;
     }
 
+    private void Update()
+    {
+        if (IsActive)
+        {
+            _input.Update();
+        }
+    }
     private void LateUpdate() // NOTE: Late Update to avoid right click read by GridPathSelector as well
     {
         if (IsActive)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
+            if (_input.GetKeyDown(KeyCode.Escape) || _input.GetMouseButtonDown(1))
             {
                 Cancel();
             }
         }
+        _input.Clear();
     }
 
     override public void HandleConfirmClick()

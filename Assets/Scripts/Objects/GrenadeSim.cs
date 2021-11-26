@@ -11,6 +11,14 @@ public class GrenadeSim : MonoBehaviour
 
     Vector3[] _trajectory;
     int _count = 0;
+    public int Count { get { return _count; } }
+    Transform _transform;
+    public Transform Transform { get { return _transform; } }
+
+    private void Awake()
+    {
+        _transform = transform;
+    }
 
     public Vector3[] Trajectory
     {
@@ -23,15 +31,13 @@ public class GrenadeSim : MonoBehaviour
     }
 
 
-    public int Count { get { return _count; } }
-
-    public void Init(int numPoints)
+    public void InitTrajectory(int numPoints)
     {
         _trajectory = new Vector3[numPoints];
     }
 
-    public void AddPoint(Vector3 point)
+    public void SavePoint()
     {
-        _trajectory[_count++] = point;
+        _trajectory[_count++] = _transform.position;
     }
 }

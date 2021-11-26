@@ -147,7 +147,7 @@ public class GridManager : MonoBehaviour
                     }
 
                     //FindFloorLevel(gridNode);
-                    FindFloorLevel2(gridNode);
+                    FindFloorLevelWithBoxCast(gridNode);
                     CheckRoomForUnit(gridNode);
                     //CheckRoomForUnit2(gridNode);
 
@@ -176,15 +176,15 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private void FindFloorLevel(GridNode gridNode)
+    private void FindFloorLevelWithRayCast(GridNode gridNode)
     {
         // Find the floor level.
-        gridNode.FloorPosition = gridNode.WorldPosition;
+        gridNode.FloorPosition = gridNode.WorldPosition - Vector3.up * 0.5f * _yScale;
         if (gridNode.HasFloor)
         {
             RaycastHit hit;
-            Vector3 origin = gridNode.WorldPosition;
-            origin.y += 0.5f * _yScale;
+            // start from the top of the box
+            Vector3 origin = gridNode.WorldPosition + Vector3.up * 0.5f * _yScale;
             if (Physics.Raycast(origin, Vector3.down, out hit, _yScale, _floorLayerMask)) // only look for floor
             {
                 gridNode.FloorPosition = hit.point;
@@ -197,17 +197,18 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private void FindFloorLevel2(GridNode gridNode)
+    private void FindFloorLevelWithBoxCast(GridNode gridNode)
     {
         // Find the floor level.
-        gridNode.FloorPosition = gridNode.WorldPosition;
+        gridNode.FloorPosition = gridNode.WorldPosition - Vector3.up * 0.5f * _yScale;
         if (gridNode.HasFloor)
         {
             RaycastHit hit;
-            Vector3 origin = gridNode.WorldPosition;
+            // start from the top of the box
+            Vector3 origin = gridNode.WorldPosition + Vector3.up * 0.5f * _yScale;
             origin.y += 0.5f * _yScale;
             //Debug.Log($"{origin.x},{origin.y},{origin.z}");
-            if (Physics.BoxCast(origin, new Vector3(0.5f * _unitColliderExtents.x, 0.001f, 0.5f * _unitColliderExtents.z), Vector3.down, out hit, Quaternion.identity, _yScale, _floorLayerMask))
+            if (Physics.BoxCast(origin, new Vector3(0.5f * _unitColliderExtents.x, 0.001f, 0.5f * _unitColliderExtents.z), Vector3.down, out hit, Quaternion.identity, _yScale, _floorLayerMask)) // only look for floor
             {
                 //Debug.Log($"Floor at y={hit.point.y}!!!");
                 gridNode.FloorPosition = new Vector3(gridNode.FloorPosition.x, hit.point.y, gridNode.FloorPosition.z);

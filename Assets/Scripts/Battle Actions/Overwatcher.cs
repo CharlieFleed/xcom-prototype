@@ -58,20 +58,29 @@ public class Overwatcher : BattleAction
         }
     }
 
+    private void Update()
+    {
+        if (IsActive)
+        {
+            _input.Update();
+        }
+    }
+
     // Update is called once per frame
     void LateUpdate() // NOTE: Late Update to avoid right click read by GridPathSelector as well
     {
         if (IsActive)
         {
-            if (Input.GetKeyDown(KeyCode.Return))
+            if (_input.GetKeyDown(KeyCode.Return))
             {
                 Overwatch();
             }
-            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
+            if (_input.GetKeyDown(KeyCode.Escape) || _input.GetMouseButtonDown(1))
             {
                 Cancel();
             }
         }
+        _input.Clear();
     }
 
     public override void HandleConfirmClick()

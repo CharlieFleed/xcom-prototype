@@ -63,4 +63,6 @@ public class BattleAction : NetworkBehaviour
         OnActionCancelled(this);
         Deactivate();
     }
+
+    protected InputCache _input = new InputCache();
 }

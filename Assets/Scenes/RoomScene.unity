@@ -288,7 +288,7 @@ GameObject:
   - component: {fileID: 775638152}
   - component: {fileID: 775638151}
   m_Layer: 0
-  m_Name: RoomController
+  m_Name: Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -308,7 +308,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _unitSelectorPrefab: {fileID: 8303444808006397018, guid: cbca1593f95f09643a7b417dccfd09ac, type: 3}
   _unitPanelsRowPrefab: {fileID: 6670325434842877785, guid: d14f78eed74829c4ab245440369ea93f, type: 3}
-  _unitPanelPrefab: {fileID: 7925414420372680722, guid: 5dfb35c8b6fb34b4fbaad0cbbc758c0a, type: 3}
   _panel: {fileID: 398161914}
 --- !u!4 &775638152
 Transform:

@@ -42,13 +42,8 @@ public class Unit : NetworkBehaviour
     {
         get
         {
-            foreach (var item in _battleActions)
-            {
-                if (item is Shooter)
-                {
-                    return ((Shooter)item).Weapon;
-                }
-            }
+            if (Shooter != null)
+                return Shooter.Weapon;
             return null;
         }
     }
@@ -68,7 +63,9 @@ public class Unit : NetworkBehaviour
         }
     }
 
-    public bool Initialized { private set; get; }
+    public bool Started { private set; get; }
+
+    InputCache _input = new InputCache();
 
     #endregion
 
@@ -76,7 +73,7 @@ public class Unit : NetworkBehaviour
     {
         //Debug.Log($"Unit Start for {name}.");
         OnUnitAdded(this);
-        Initialized = true;
+        Started = true;
     }
 
     private void OnDisable()
@@ -101,32 +98,37 @@ public class Unit : NetworkBehaviour
         }
     }
 
+    private void Update()
+    {
+        _input.Update();
+    }    
+
     private void LateUpdate()
     {
         if (IsActive)
         {
             if (!_isActionActive)
             {
-                if (Input.GetKeyDown(KeyCode.Tab))
+                if (_input.GetKeyDown(KeyCode.Tab))
                 {
                     Cancel();
                     CmdPass();
                 }
-                else if (Input.GetKeyDown(KeyCode.Escape))
+                else if (_input.GetKeyDown(KeyCode.Escape))
                 {
                     OnPause();
                 }
             }
             if (!_walker.IsWalking)
             {
-                if (Input.GetKeyDown(KeyCode.Alpha1))
+                if (_input.GetKeyDown(KeyCode.Alpha1))
                 {
                     if (!_battleActions[0].IsActive && _battleActions[0].Available)
                     {
                         ActivateBattleAction(_battleActions[0]);
                     }
                 }
-                if (Input.GetKeyDown(KeyCode.Alpha2) && _battleActions[1].Available)
+                if (_input.GetKeyDown(KeyCode.Alpha2) && _battleActions[1].Available)
                 {
                     if (!_battleActions[1].IsActive)
                     {
@@ -135,6 +137,7 @@ public class Unit : NetworkBehaviour
                 }
             }
         }
+        _input.Clear();
     }
 
     [Command]

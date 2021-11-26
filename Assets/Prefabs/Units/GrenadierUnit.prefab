@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 4
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineColor: {r: 1, g: 0.5019608, b: 0, a: 0.1254902}
   outlineWidth: 2
   precomputeOutline: 0
   bakeKeys: []
@@ -360,7 +360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 4
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineColor: {r: 1, g: 0.5019608, b: 0, a: 0.1254902}
   outlineWidth: 2
   precomputeOutline: 0
   bakeKeys: []
@@ -813,7 +813,7 @@ MonoBehaviour:
   Highlighted: 0
   Silhouetted: 0
   _highlightMaterial: {fileID: 2100000, guid: 29fd3cc01cf24d148866ac93c630b595, type: 2}
-  _silhouetteMaterial: {fileID: 2100000, guid: bb3f605e4621cc148b73de34ed0c0290, type: 2}
+  _silhouetteMaterial: {fileID: 2100000, guid: bec8fccf65ce4254795a04ffa49046c8, type: 2}
 --- !u!114 &6522350665809467912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -878,6 +878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8dde1ce87b4b3e48814a4e7b7aefacc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _range: 20
 --- !u!114 &2051201266655917792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1325,6 +1326,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 4101c9a3458649e47853ef291f8e8a67, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bb3f605e4621cc148b73de34ed0c0290, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4101c9a3458649e47853ef291f8e8a67, type: 3}
 --- !u!1 &7354361747547769078 stripped

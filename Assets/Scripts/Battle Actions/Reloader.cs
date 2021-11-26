@@ -9,15 +9,24 @@ public class Reloader : BattleAction
     public override string ActionName { get { return base.ActionName + " " + _weapon.Name; } }
     public override string ConfirmText { get { return base.ActionName + " " + _weapon.Name; } }
 
+    private void Update()
+    {
+        if (IsActive)
+        {
+            _input.Update();
+        }
+    }
+
     private void LateUpdate() // NOTE: Late Update to avoid right click read by GridPathSelector as well
     {
         if (IsActive)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
+            if (_input.GetKeyDown(KeyCode.Escape) || _input.GetMouseButtonDown(1))
             {
                 Cancel();
             }
         }
+        _input.Clear();
     }
 
     public override void Init(int numActions)

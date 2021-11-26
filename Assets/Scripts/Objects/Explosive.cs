@@ -3,15 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Explosive : MonoBehaviour
+public class Explosive : MonoBehaviour, IDescription
 {
-    [SerializeField] int _damage = 4;
-    [SerializeField] int _radius = 10;
-    [SerializeField] GameObject _detonationFXPrefab;
-    [SerializeField] AudioClip _detonationAudioClip;
+    [SerializeField] ExplosiveData _data;
 
-    public int Damage { get { return _damage; } set { _damage = value; } }
-    public int Radius { get { return _radius; } set { _radius = value; } }
+    public Damage Damage { get { return _data.Damage; } }
+    public int Radius { get { return _data.Radius; } }
+    public string Description { get { return _data.Description; } }
 
     private void Awake()
     {
@@ -20,15 +18,15 @@ public class Explosive : MonoBehaviour
 
     private void HandleExplosive_OnDied()
     {
-        BattleEventExplosion _explosion = new BattleEventExplosion(this);
-        NetworkMatchManager.Instance.AddBattleEvent(_explosion, true);
+        BattleEventExplosion explosion = new BattleEventExplosion(this);
+        NetworkMatchManager.Instance.AddBattleEvent(explosion, true);
     }
 
     public void Detonate()
     {
         // show detonation FX
-        Instantiate(_detonationFXPrefab, transform.position, Quaternion.identity);
-        AudioSource.PlayClipAtPoint(_detonationAudioClip, transform.position);
+        Instantiate(_data.DetonationFXPrefab, transform.position, Quaternion.identity);
+        AudioSource.PlayClipAtPoint(_data.DetonationAudioClip, transform.position);
         Destroy(this.gameObject);
     }
 }

@@ -4,6 +4,8 @@ using Mirror;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
+public delegate void SetTargetDelegate(GridEntity e);
+
 public class GridNeighborSelector : NetworkBehaviour
 {
     [SerializeField] LayerMask _layerMask;
@@ -12,7 +14,7 @@ public class GridNeighborSelector : NetworkBehaviour
     GridManager _gridManager;
     Pathfinder _pathfinder;
 
-    Healer _healer;
+    private SetTargetDelegate _SetTarget = delegate { };
     GameObject _marker;
     GridEntity _gridEntity;
     GridAgent _gridAgent;
@@ -24,9 +26,10 @@ public class GridNeighborSelector : NetworkBehaviour
 
     public bool IsActive { get; private set; }
 
+    InputCache _input = new InputCache();
+
     private void Awake()
     {
-        _healer = GetComponent<Healer>();
         _marker = Instantiate(_markerPrefab, Vector3.zero, Quaternion.identity);
         _marker.SetActive(false);
         _marker.transform.Find("Line").GetComponent<LineRenderer>().material.color = Color.green;
@@ -42,6 +45,14 @@ public class GridNeighborSelector : NetworkBehaviour
     }
 
     private void Update()
+    {
+        if (IsActive)
+        {
+            _input.Update();
+        }
+    }
+
+    private void LateUpdate()
     {
         if (IsActive)
         {
@@ -108,7 +119,7 @@ public class GridNeighborSelector : NetworkBehaviour
                 }
                 if (_targetNode != null)
                 {
-                    if (Input.GetMouseButtonDown(0))
+                    if (_input.GetMouseButtonDown(0))
                     {
                         SetTarget(_targetNode);
                         Deactivate();
@@ -122,6 +133,7 @@ public class GridNeighborSelector : NetworkBehaviour
             }
             UpdateHighlight();
         }
+        _input.Clear();
     }
 
     void ShowMarker(GridNode target)
@@ -173,7 +185,7 @@ public class GridNeighborSelector : NetworkBehaviour
         GridNode targetNode = _gridManager.GetGridNode(target.x, target.y, target.z);
         GridEntity targetEntity;
         targetNode.GetOccupierOfType<GridEntity>(out targetEntity);
-        _healer.SetTarget(targetEntity);
+        _SetTarget(targetEntity);
     }
 
 

@@ -41,7 +41,7 @@ public static class DamageDealer
         }
         else if (damage.MaxExplosiveDamage > 0)
         {
-            Debug.Log($"explosive damage");
+            //Debug.Log($"explosive damage");
             int dmg = 0;
             if (hit)
             {
@@ -54,12 +54,16 @@ public static class DamageDealer
                     dmg = NetworkRandomGenerator.Instance.RandomRange(damage.BaseExplosiveDamage, damage.MaxExplosiveDamage + 1);
                 }
             }
-            Debug.Log($"dmg = {dmg}");
+            //Debug.Log($"dmg = {dmg}");
             if (armor)
             {
-                armorDamage = Mathf.CeilToInt(0.25f * dmg);
+                while (dmg > 1 && armorDamage < armor.Value)
+                {
+                    armorDamage++;
+                    dmg -= 2; 
+                }
                 armor.TakeDamage(armorDamage);
-                healthDamage = Mathf.Clamp(Mathf.CeilToInt(0.5f * dmg - armor.Value), 0, int.MaxValue);
+                healthDamage = Mathf.Clamp(dmg - armor.Value, 0, int.MaxValue); // if 1 dmg and armor left, health damage is zero
                 health.TakeDamage(healthDamage, hit, crit);
             }
             else

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3359883494933650188}
   - component: {fileID: 6907935215407435000}
   - component: {fileID: 7852509400677822340}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PathLineRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -62,10 +62,16 @@ public class BattleEventExplosion : BattleEvent
                             targets.Sort((a, b) => a.Id.CompareTo(b.Id));
                             foreach (var health in targets)
                             {
-                                bool crit = NetworkRandomGenerator.Instance.RandomRange(0, 2) == 1 ? true : false;
-                                bool hit = true;
-                                int damage = NetworkRandomGenerator.Instance.RandomRange(crit ? _explosive.Damage + 1 : 1, (crit ? 2 * _explosive.Damage : _explosive.Damage) + 1);
-                                health.TakeDamage(damage, hit, crit);
+                                bool hit = false;
+                                bool crit = false;
+                                DamageDealer.DealDamage(
+                                    health,
+                                    health.GetComponent<Armor>(),
+                                    _explosive.Damage,
+                                    100,
+                                    50,
+                                    out hit,
+                                    out crit);
                                 NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false);
                             }
                             _explosive.Detonate();

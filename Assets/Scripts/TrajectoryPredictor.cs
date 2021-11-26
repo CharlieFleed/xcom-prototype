@@ -54,24 +54,7 @@ public class TrajectoryPredictor : MonoBehaviour
         GameObject obj = Instantiate(_lineRendererPrefab, transform);
         _lineRenderer = obj.GetComponent<LineRenderer>();
         _lineRenderer.material.color = Color.red;
-        _lineRenderer.loop = false;
-
-        
-    }
-
-    private void OnEnable()
-    {
-        _networkMatchManager.OnTurnBegin += HandleNetworkMatchManager_OnNewTurn;
-    }
-
-    private void OnDisable()
-    {
-        _networkMatchManager.OnTurnBegin -= HandleNetworkMatchManager_OnNewTurn;
-    }
-
-    private void HandleNetworkMatchManager_OnNewTurn()
-    {
-        _trajectoriesCache.Clear();
+        _lineRenderer.loop = false;        
     }
 
     private void CloneColliders()
@@ -89,6 +72,21 @@ public class TrajectoryPredictor : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        _networkMatchManager.OnTurnBegin += HandleNetworkMatchManager_OnNewTurn;
+    }
+
+    private void OnDisable()
+    {
+        _networkMatchManager.OnTurnBegin -= HandleNetworkMatchManager_OnNewTurn;
+    }
+
+    private void HandleNetworkMatchManager_OnNewTurn()
+    {
+        _trajectoriesCache.Clear();
+    }
+    
     private void FixedUpdate()
     {
         if (_currentPhysicsScene.IsValid())
@@ -143,15 +141,15 @@ public class TrajectoryPredictor : MonoBehaviour
                         imp = Quaternion.AngleAxis(-a, rotationAxis) * (f * direction.normalized);
                         // instantiate the grenade
                         GameObject grenadeObject = Instantiate(_grenadePrefab, Vector3.zero, Quaternion.identity);
-                        GrenadeSim grenade = grenadeObject.GetComponent<GrenadeSim>();
-                        grenade.Impulse = imp;
-                        grenade.Init(150);
+                        GrenadeSim grenadeSim = grenadeObject.GetComponent<GrenadeSim>();
+                        grenadeSim.Impulse = imp;
+                        grenadeSim.InitTrajectory(150);
                         SceneManager.MoveGameObjectToScene(grenadeObject, _predictionScene);
                         grenadeObject.transform.position = origins[o];
-                        grenade.Origin = origins[o];
+                        grenadeSim.Origin = origins[o];
                         grenadeObject.GetComponent<Rigidbody>().AddForce(imp, ForceMode.Impulse);
                         //
-                        _grenades.Add(grenade);
+                        _grenades.Add(grenadeSim);
                     }
                 }
             }
@@ -166,8 +164,8 @@ public class TrajectoryPredictor : MonoBehaviour
             _predictionPhysicsScene.Simulate(Time.fixedDeltaTime);
             foreach (var grenade in _grenades)
             {
-                grenade.AddPoint(grenade.transform.position);
-                if ((grenade.transform.position - target).magnitude < 0.5f)
+                grenade.SavePoint();
+                if ((grenade.Transform.position - target).magnitude < 0.5f)
                 {
                     impulse = grenade.Impulse;
                     trajectory = grenade.Trajectory;

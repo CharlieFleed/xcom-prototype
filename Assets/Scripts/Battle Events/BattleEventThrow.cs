@@ -100,8 +100,6 @@ public class BattleEventThrow : BattleEvent
                                     50,
                                     out hit,
                                     out crit);
-                                //int damage = NetworkRandomGenerator.Instance.RandomRange(crit ? _grenade.Damage.BaseExplosiveDamage + 1 : 1, (crit ? 2 * _grenade.Damage.BaseExplosiveDamage : _grenade.Damage.BaseExplosiveDamage) + 1);
-                                //health.TakeDamage(damage, hit, crit);
                                 NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false);
                             }
                             OnThrowingEnd();

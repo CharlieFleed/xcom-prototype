@@ -38,6 +38,8 @@ public class NetworkMatchManager : NetworkBehaviour
 
     bool _armorsSet;
 
+    InputCache _input = new InputCache();
+
     #endregion
 
     private void Awake()
@@ -151,9 +153,14 @@ public class NetworkMatchManager : NetworkBehaviour
 
     private void Update()
     {
+        _input.Update();
+    }
+
+    private void LateUpdate()
+    {
         if (_state == MatchState.Setup || _state == MatchState.End)
             return;
-        if (!AllUnitsInitialized())
+        if (!AllUnitsStarted())
             return;
         if (!_armorsSet)
         {
@@ -189,25 +196,26 @@ public class NetworkMatchManager : NetworkBehaviour
         }
         if (_currentUnit == null)
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (_input.GetKeyDown(KeyCode.Escape))
             {
                 OnPause();
             }
         }
+        _input.Clear();
     }
 
-    bool AllUnitsInitialized()
+    bool AllUnitsStarted()
     {
-        bool initialized = true;
+        bool started = true;
 
         foreach (var team in _teams)
         {
             foreach (var unit in team.Units)
             {
-                initialized &= unit.Initialized;
+                started &= unit.Started;
             }
         }
-        return initialized;
+        return started;
     }
 
     void SetRandomArmors()

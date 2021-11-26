@@ -41,6 +41,8 @@ public class GridPathSelector : NetworkBehaviour
 
     GameObject _sceneUI;
 
+    InputCache _input = new InputCache();
+
     #endregion
 
     private void Awake()
@@ -248,6 +250,14 @@ public class GridPathSelector : NetworkBehaviour
     {
         if (IsActive)
         {
+            _input.Update();
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (IsActive)
+        {
             if (EventSystem.current.IsPointerOverGameObject() && EventSystem.current.gameObject.GetComponent<StandAloneInputModuleV2>().GetCurrentFocusedGameObjectPublic() != null)
             {
                 HideHighlights();
@@ -329,6 +339,7 @@ public class GridPathSelector : NetworkBehaviour
                 _cachedNode = null;
             }
         }
+        _input.Clear();
     }
 
     void SetPath(GridNode target)

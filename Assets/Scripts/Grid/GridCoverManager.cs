@@ -10,9 +10,56 @@ public class GridCoverManager : MonoBehaviour
     {
         _instance = this;
     }
+    
+    public int GetCover(GridEntity gridEntity, List<GridEntity> enemies)
+    {
+        int worstCover = 2; // -1: flanked; 1: half cover; 2: full cover;
+        bool isSeen = false;
+        foreach (GridEntity enemy in enemies)
+        {
+            List<GridNode[]> losPoints = new List<GridNode[]>();
+            bool los = LineOfSight(enemy, gridEntity, out Ray ray, out float rayLength, losPoints);
+            if (los)
+            {
+                isSeen = true;
+                foreach (var points in losPoints)
+                {
+                    int cover = GetCoverFromPosition(gridEntity.CurrentNode, points[0]);
+                    worstCover = Mathf.Min(cover, worstCover);
+                }
+            }
+        }
+        if (isSeen)
+        {
+            return worstCover;
+        }
+        else
+        {
+            return GetLocalCover(gridEntity.CurrentNode);
+        }
+    }
+
+    public int GetLocalCover(GridNode currentNode)
+    {
+        int cover = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            // check half-wall
+            if (currentNode.HalfWalls[i])
+            {
+                cover = Mathf.Max(cover, 1);
+            }
+            // check wall
+            if (currentNode.Walls[i])
+            {
+                cover = Mathf.Max(cover, 2);
+            }
+        }
+        return cover;
+    }
 
     /// <summary>
-    /// -1: flanked, 1: half-cover, 2: full-cover
+    /// Returns the best cover. -1: flanked, 1: half-cover, 2: full-cover
     /// </summary>
     /// <param name="target"></param>
     /// <param name="position"></param>
@@ -75,53 +122,6 @@ public class GridCoverManager : MonoBehaviour
         return cover;
     }
 
-    public int GetLocalCover(GridNode currentNode)
-    {
-        int cover = 0;
-        for (int i = 0; i < 4; i++)
-        {
-            // check half-wall
-            if (currentNode.HalfWalls[i])
-            {
-                cover = Mathf.Max(cover, 1);
-            }
-            // check wall
-            if (currentNode.Walls[i])
-            {
-                cover = Mathf.Max(cover, 2);
-            }
-        }
-        return cover;
-    }
-
-    public int GetCover(GridEntity gridEntity, List<GridEntity> enemies)
-    {
-        int worstCover = 2; // -1: flanked; 1: half cover; 2: full cover;
-        bool isSeen = false;
-        foreach (GridEntity enemy in enemies)
-        {
-            List<GridNode[]> losPoints = new List<GridNode[]>();
-            bool los = LineOfSight(enemy, gridEntity, out Ray ray, out float rayLength, losPoints);
-            if (los)
-            {
-                isSeen = true;
-                foreach (var points in losPoints)
-                {
-                    int cover = GetCoverFromPosition(gridEntity.CurrentNode, points[0]);
-                    worstCover = Mathf.Min(cover, worstCover);
-                }
-            }
-        }
-        if (isSeen)
-        {
-            return worstCover;
-        }
-        else
-        {
-            return GetLocalCover(gridEntity.CurrentNode);
-        }
-    }
-
     /// <summary>
     /// Uses entities' CurrentNode.
     /// </summary>
@@ -133,6 +133,18 @@ public class GridCoverManager : MonoBehaviour
     /// <returns></returns>
     public bool LineOfSight(GridEntity a, GridEntity b, out Ray ray, out float rayLength, List<GridNode[]> losPoints)
     {
+        // check viewer range
+        Viewer viewer = a.GetComponent<Viewer>();
+        if (viewer)
+        {
+            if (viewer.Range < (a.CurrentNode.FloorPosition - b.CurrentNode.FloorPosition).magnitude)
+            {
+                ray = new Ray(a.CurrentNode.FloorPosition, b.CurrentNode.FloorPosition - a.CurrentNode.FloorPosition);
+                rayLength = (a.CurrentNode.FloorPosition - b.CurrentNode.FloorPosition).magnitude;
+                return false;
+            }
+        }
+
         //Debug.Log($"LineOfSight - Shooter: {a.gameObject.name}, Target: {b.gameObject.name}.");
 
         // Check direct LOS
@@ -191,6 +203,15 @@ public class GridCoverManager : MonoBehaviour
 
     public bool LineOfSight(GridEntity entity, GridNode node)
     {
+        // check viewer range
+        Viewer viewer = entity.GetComponent<Viewer>();
+        if (viewer)
+        {
+            if (viewer.Range < (entity.CurrentNode.FloorPosition - node.FloorPosition).magnitude)
+            {                
+                return false;
+            }
+        }
         {
             // Check direct LOS
             if (LineOfSight(entity.CurrentNode.FloorPosition + Vector3.up * 1, node.FloorPosition + Vector3.up * 1, out Ray ray, out float rayLength))

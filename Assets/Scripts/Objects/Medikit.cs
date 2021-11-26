@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Medikit : Item
 {
-    [SerializeField] int _healment = 4;
-    [SerializeField] GameObject _effectFXPrefab;
+    [SerializeField] MedikitData _data;
 
-    public int Healment { get { return _healment; } set { _healment = value; } }
+    public override string Name { get { return _data.Name; } }
+    public override float Range { get { return _data.Range; } }
+    public override int BaseDamage { get { return _data.BaseDamage; } }
+    public override int MaxDamage { get { return _data.MaxDamage; } }
+
+    public GameObject EffectFXPrefab { get { return _data.EffectFXPrefab; } }
+
 
     public override bool IsApplicable(GridEntity target)
     {
@@ -27,9 +32,9 @@ public class Medikit : Item
     {
         base.UseOn(target);
         Health health = target.GetComponent<Health>();
-        health.TakeDamage(-Healment, true, false);
+        health.TakeDamage(BaseDamage, true, false); // TODO: convert to use DamageDealer
         NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false);
         // show FX
-        Instantiate(_effectFXPrefab, target.transform.position, _effectFXPrefab.transform.rotation);
+        Instantiate(EffectFXPrefab, target.transform.position, EffectFXPrefab.transform.rotation);
     }
 }
