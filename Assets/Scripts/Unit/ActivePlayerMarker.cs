@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ActivePlayerMarker : MonoBehaviour
 {
-    Unit _unit;
+    UnitLocalController _unit;
     Walker _walker;
     [SerializeField] GameObject _marker;
 
     private void Awake()
     {
-        _unit = GetComponentInParent<Unit>();
+        _unit = GetComponentInParent<UnitLocalController>();
         _walker = GetComponentInParent<Walker>();
     }
 

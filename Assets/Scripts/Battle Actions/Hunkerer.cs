@@ -51,7 +51,7 @@ public class Hunkerer : BattleAction
             _input.Update();
         }
     }
-    private void LateUpdate() // NOTE: Late Update to avoid right click read by GridPathSelector as well
+    private void LateUpdate()
     {
         if (IsActive)
         {
@@ -68,7 +68,7 @@ public class Hunkerer : BattleAction
         Hunker();
     }
 
-    void Hunker()
+    public void Hunker()
     {
         CmdHunker();
     }

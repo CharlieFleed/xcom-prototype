@@ -8,7 +8,6 @@ public class MyGamePlayer : NetworkBehaviour
 {
     #region Fields
 
-    [SerializeField] bool _isAI;
     public MatchSettings MatchSettings = new MatchSettings() { unitClasses = new int[4] };
 
     public bool IsActive { set; get; }
@@ -17,8 +16,7 @@ public class MyGamePlayer : NetworkBehaviour
     Pathfinder _pathfinder;
     GridManager _gridManager;
     GridAgent _gridAgent;
-
-    public event Action OnActionComplete = delegate { };
+    UnitDecisionTree _unitDecisionTree;
 
     MyNetworkRoomManager _networkRoomManager;
     MyNetworkRoomManager NetworkRoomManager
@@ -64,65 +62,16 @@ public class MyGamePlayer : NetworkBehaviour
         IsActive = true;
         if (isLocalPlayer)
         {
-            if (_isAI)
+            if (_matchManager.CurrentTeamMember.Team.IsAI)
             {
-                if (_matchManager.CurrentUnit.NumActions == 2)
-                {
-                    // pick a destination
-                    GridEntity gridEntity = _matchManager.CurrentUnit.GetComponent<GridEntity>();
-                    _gridAgent = _matchManager.CurrentUnit.GetComponent<GridAgent>();
-                    Walker walker = _matchManager.CurrentUnit.GetComponent<Walker>();
-                    walker._NumMoves = _matchManager.CurrentUnit.NumActions;
-                    walker.OnActionComplete += HandleActionComplete;
-                    GridNode _origin = gridEntity.CurrentNode;
-                    int maxDistance = _gridAgent.WalkRange * walker._NumMoves;
-                    float maxJumpUp = _gridAgent.MaxJumpUp;
-                    float maxJumpDown = _gridAgent.MaxJumpDown;
-                    _pathfinder.Initialize(_gridManager.GetGrid(), _origin, _origin, maxDistance, maxJumpUp, maxJumpDown, IsNodeAvailable, true);
-                    List<GridNode> destinations = new List<GridNode>();
-                    foreach (var node in _gridManager.GetGrid().Nodes())
-                    {
-                        if (node.Distance < _gridAgent.WalkRange)
-                        {
-                            destinations.Add(node);
-                        }
-                    }
-                    GridNode destination = destinations[UnityEngine.Random.Range(0, destinations.Count)];
-                    Stack<GridNode> _path = new Stack<GridNode>();
-                    _path = _pathfinder.GetPathTo(destination);
-                    _gridAgent.BookedNode = destination;
-                    destination.IsBooked = true;
-                    walker.SetPath(_path, 1);
-                }
-                else if (_matchManager.CurrentUnit.NumActions == 1)
-                {
-                    Shooter shooter = _matchManager.CurrentUnit.Shooter;
-                    shooter.GetTargets();
-                    if (shooter.HasAvailableTargets())
-                    {
-                        shooter.OnActionComplete += HandleActionComplete;
-                        shooter.ShootRandomTarget();
-                    }
-                    else
-                    {
-                        Skipper skipper = _matchManager.CurrentUnit.GetComponent<Skipper>();
-                        skipper.OnActionComplete += HandleActionComplete;
-                        skipper.Skip();
-                    }
-                }
+                _unitDecisionTree = _matchManager.CurrentTeamMember.GetComponent<UnitDecisionTree>();
+                _unitDecisionTree.Run();                
             }
             else
             {
-                _matchManager.CurrentUnit.Activate();
+                _matchManager.CurrentTeamMember.GetComponent<UnitLocalController>().Activate();
             }
         }
-    }
-
-    void HandleActionComplete(BattleAction battleAction)
-    {
-        //Debug.Log("HandleActionComplete");
-        OnActionComplete();
-        battleAction.OnActionComplete -= HandleActionComplete;
     }
 
     public void Deactivate()

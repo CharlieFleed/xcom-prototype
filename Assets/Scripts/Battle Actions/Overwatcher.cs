@@ -19,7 +19,8 @@ public class Overwatcher : BattleAction
     public event Action<Shooter, GridEntity> OnShoot = delegate { };
 
     public override string ActionName { get { return _shooter.Weapon.Name + " " + base.ActionName; } }
-    public override string ConfirmText { get { return _shooter.Weapon.Name + " " + base.ActionName; } }
+    public override string ConfirmText { get { return base.ActionName; } }
+    public override string DescriptionText { get { return _shooter.Weapon.Name + " " + base.ActionName; } }
 
     #endregion
 
@@ -45,7 +46,7 @@ public class Overwatcher : BattleAction
 
     void HandleWalker_OnMove(Walker walker, GridNode origin, GridNode destination)
     {
-        if (!GetComponent<Health>().IsDead && _isOverwatching && walker.GetComponent<Unit>().Team != GetComponent<Unit>().Team)
+        if (!GetComponent<Health>().IsDead && _isOverwatching && walker.GetComponent<TeamMember>().Team != GetComponent<TeamMember>().Team)
         {
             // if (GridCoverManager.Instance.LineOfSight(GetComponent<GridEntity>(), walker.GetComponent<GridEntity>(), out Ray ray, out float rayLength, new List<GridNode[]>()))
             if (GridCoverManager.Instance.LineOfSight(GetComponent<GridEntity>(), origin) || GridCoverManager.Instance.LineOfSight(GetComponent<GridEntity>(), destination))
@@ -67,7 +68,7 @@ public class Overwatcher : BattleAction
     }
 
     // Update is called once per frame
-    void LateUpdate() // NOTE: Late Update to avoid right click read by GridPathSelector as well
+    void LateUpdate()
     {
         if (IsActive)
         {
@@ -88,7 +89,7 @@ public class Overwatcher : BattleAction
         Overwatch();
     }
 
-    void Overwatch()
+    public void Overwatch()
     {
         CmdOverwatch();
     }

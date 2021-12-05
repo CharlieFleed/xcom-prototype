@@ -94,7 +94,7 @@ public class GridNeighborSelector : NetworkBehaviour
                         Health occupier;
                         if (gridNode.GetOccupierOfType<Health>(out occupier))
                         {
-                            if (occupier.IsFull())
+                            if (occupier.IsFull)
                             {
                                 ShowNoAccessMarker(gridNode);
                                 _targetNode = null;

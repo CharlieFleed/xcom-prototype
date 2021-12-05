@@ -13,18 +13,23 @@ public class GridCoverManager : MonoBehaviour
     
     public int GetCover(GridEntity gridEntity, List<GridEntity> enemies)
     {
-        int worstCover = 2; // -1: flanked; 1: half cover; 2: full cover;
+        return GetCover(gridEntity, gridEntity.CurrentNode, enemies);
+    }
+
+    public int GetCover(GridEntity gridEntity, GridNode entityNode, List<GridEntity> enemies)
+    {
+        int worstCover = 2; // -1: flanked; 0: no cover; 1: half cover; 2: full cover;
         bool isSeen = false;
         foreach (GridEntity enemy in enemies)
         {
             List<GridNode[]> losPoints = new List<GridNode[]>();
-            bool los = LineOfSight(enemy, gridEntity, out Ray ray, out float rayLength, losPoints);
+            bool los = LineOfSight(gridEntity, entityNode, enemy, out Ray ray, out float rayLength, losPoints);
             if (los)
             {
                 isSeen = true;
                 foreach (var points in losPoints)
                 {
-                    int cover = GetCoverFromPosition(gridEntity.CurrentNode, points[0]);
+                    int cover = GetCoverFromPosition(entityNode, points[1]);
                     worstCover = Mathf.Min(cover, worstCover);
                 }
             }
@@ -35,10 +40,17 @@ public class GridCoverManager : MonoBehaviour
         }
         else
         {
-            return GetLocalCover(gridEntity.CurrentNode);
+            return GetLocalCover(entityNode);
         }
     }
 
+    /// <summary>
+    /// 0: no cover
+    /// 1: half cover
+    /// 2: full cover
+    /// </summary>
+    /// <param name="currentNode"></param>
+    /// <returns></returns>
     public int GetLocalCover(GridNode currentNode)
     {
         int cover = 0;
@@ -122,25 +134,31 @@ public class GridCoverManager : MonoBehaviour
         return cover;
     }
 
+    public bool LineOfSight(GridEntity a, GridEntity b, out Ray ray, out float rayLength, List<GridNode[]> losPoints)
+    {
+        return LineOfSight(a, a.CurrentNode, b, out ray, out rayLength, losPoints);
+    }
+
     /// <summary>
-    /// Uses entities' CurrentNode.
+    /// Uses b's CurrentNode.
     /// </summary>
     /// <param name="a"></param>
+    /// <param name="aNode"></param>
     /// <param name="b"></param>
     /// <param name="ray"></param>
     /// <param name="rayLength"></param>
     /// <param name="losPoints"></param>
     /// <returns></returns>
-    public bool LineOfSight(GridEntity a, GridEntity b, out Ray ray, out float rayLength, List<GridNode[]> losPoints)
+    public bool LineOfSight(GridEntity a, GridNode aNode, GridEntity b, out Ray ray, out float rayLength, List<GridNode[]> losPoints)
     {
         // check viewer range
         Viewer viewer = a.GetComponent<Viewer>();
         if (viewer)
         {
-            if (viewer.Range < (a.CurrentNode.FloorPosition - b.CurrentNode.FloorPosition).magnitude)
+            if (viewer.Range < (aNode.FloorPosition - b.CurrentNode.FloorPosition).magnitude)
             {
-                ray = new Ray(a.CurrentNode.FloorPosition, b.CurrentNode.FloorPosition - a.CurrentNode.FloorPosition);
-                rayLength = (a.CurrentNode.FloorPosition - b.CurrentNode.FloorPosition).magnitude;
+                ray = new Ray(aNode.FloorPosition, b.CurrentNode.FloorPosition - aNode.FloorPosition);
+                rayLength = (aNode.FloorPosition - b.CurrentNode.FloorPosition).magnitude;
                 return false;
             }
         }
@@ -148,26 +166,26 @@ public class GridCoverManager : MonoBehaviour
         //Debug.Log($"LineOfSight - Shooter: {a.gameObject.name}, Target: {b.gameObject.name}.");
 
         // Check direct LOS
-        if (LineOfSight(a.CurrentNode.FloorPosition + Vector3.up * _unitHeightOfSight, b.CurrentNode.FloorPosition + Vector3.up * _unitHeightOfSight, out ray, out rayLength))
+        if (LineOfSight(aNode.FloorPosition + Vector3.up * _unitHeightOfSight, b.CurrentNode.FloorPosition + Vector3.up * _unitHeightOfSight, out ray, out rayLength))
         {
             //Debug.Log($"Direct LOS.");
-            losPoints.Add(new GridNode[] { a.CurrentNode, b.CurrentNode });
+            losPoints.Add(new GridNode[] { aNode, b.CurrentNode });
         }
 
         // Check b's sidesteps
-        List<GridNode> targetSideSteps = SideSteps(b, a.CurrentNode);
+        List<GridNode> targetSideSteps = SideSteps(b, aNode);
         foreach (var targetSideStep in targetSideSteps)
         {
             //Debug.Log($"Checking target sidestep {targetSideStep.X},{targetSideStep.Y},{targetSideStep.Z}.");
-            if (LineOfSight(a.CurrentNode.FloorPosition + Vector3.up * _unitHeightOfSight, targetSideStep.FloorPosition + Vector3.up * _unitHeightOfSight, out ray, out rayLength))
+            if (LineOfSight(aNode.FloorPosition + Vector3.up * _unitHeightOfSight, targetSideStep.FloorPosition + Vector3.up * _unitHeightOfSight, out ray, out rayLength))
             {
                 //Debug.Log($"LOS to target's sidestep.");
-                losPoints.Add(new GridNode[] { a.CurrentNode, targetSideStep });
+                losPoints.Add(new GridNode[] { aNode, targetSideStep });
             }
         }
 
         // Check a's sidesteps
-        List<GridNode> sideSteps = SideSteps(a, b.CurrentNode);
+        List<GridNode> sideSteps = SideSteps(a, aNode, b.CurrentNode);
         //Debug.Log($"# of shooter sidesteps: {sideSteps.Count}");
         foreach (GridNode sideStep in sideSteps)
         {
@@ -201,6 +219,12 @@ public class GridCoverManager : MonoBehaviour
         return hits.Length == 0;
     }
 
+    /// <summary>
+    /// Returns true if entity has LOS to node from its current node or its sidesteps.
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <param name="node"></param>
+    /// <returns></returns>
     public bool LineOfSight(GridEntity entity, GridNode node)
     {
         // check viewer range
@@ -233,24 +257,28 @@ public class GridCoverManager : MonoBehaviour
 
     public List<GridNode> SideSteps(GridEntity gridEntity, GridNode targetNode)
     {
+        return SideSteps(gridEntity, gridEntity.CurrentNode, targetNode);
+    }
+
+    public List<GridNode> SideSteps(GridEntity gridEntity, GridNode entityNode, GridNode targetNode)
+    {
         List<GridNode> sideSteps = new List<GridNode>();
-        GridNode node = gridEntity.CurrentNode;
         //Debug.Log($"Sidesteps for {agent.name} in position: {node.X},{node.Y},{node.Z}, target: {target.X},{target.Y},{target.Z}.");
         GridAgent gridAgent = gridEntity.GetComponent<GridAgent>();
         if (gridAgent)
         {
-            List<GridNode> neighbors = GridManager.Instance.GetXZNeighbors(node, gridAgent);
+            List<GridNode> neighbors = GridManager.Instance.GetXZNeighbors(entityNode, gridAgent);
             //Debug.Log($"Neighbors:");
             //foreach (var neighbor in neighbors)
             //{
             //    Debug.Log($"{neighbor.X},{neighbor.Y},{neighbor.Z}.");
             //}
-            GridNode east = GridManager.Instance.GetAdjacent(node, GridNode.Orientations.East);
-            GridNode north = GridManager.Instance.GetAdjacent(node, GridNode.Orientations.North);
-            GridNode west = GridManager.Instance.GetAdjacent(node, GridNode.Orientations.West);
-            GridNode south = GridManager.Instance.GetAdjacent(node, GridNode.Orientations.South);
+            GridNode east = GridManager.Instance.GetAdjacent(entityNode, GridNode.Orientations.East);
+            GridNode north = GridManager.Instance.GetAdjacent(entityNode, GridNode.Orientations.North);
+            GridNode west = GridManager.Instance.GetAdjacent(entityNode, GridNode.Orientations.West);
+            GridNode south = GridManager.Instance.GetAdjacent(entityNode, GridNode.Orientations.South);
             // check the North wall for the East and West sidesteps
-            if (targetNode.Z > node.Z && (node.HalfWalls[(int)GridNode.Orientations.North] || node.Walls[(int)GridNode.Orientations.North]))
+            if (targetNode.Z > entityNode.Z && (entityNode.HalfWalls[(int)GridNode.Orientations.North] || entityNode.Walls[(int)GridNode.Orientations.North]))
             {
                 if (east != null && neighbors.Contains(east) && !sideSteps.Contains(east))
                 {
@@ -262,7 +290,7 @@ public class GridCoverManager : MonoBehaviour
                 }
             }
             // check the South wall for the East and West sidesteps
-            if (targetNode.Z < node.Z && (node.HalfWalls[(int)GridNode.Orientations.South] || node.Walls[(int)GridNode.Orientations.South]))
+            if (targetNode.Z < entityNode.Z && (entityNode.HalfWalls[(int)GridNode.Orientations.South] || entityNode.Walls[(int)GridNode.Orientations.South]))
             {
                 if (east != null && neighbors.Contains(east) && !sideSteps.Contains(east))
                 {
@@ -274,7 +302,7 @@ public class GridCoverManager : MonoBehaviour
                 }
             }
             // check the East wall for the North and South sidesteps
-            if (targetNode.X > node.X && (node.HalfWalls[(int)GridNode.Orientations.East] || node.Walls[(int)GridNode.Orientations.East]))
+            if (targetNode.X > entityNode.X && (entityNode.HalfWalls[(int)GridNode.Orientations.East] || entityNode.Walls[(int)GridNode.Orientations.East]))
             {
                 if (north != null && neighbors.Contains(north) && !sideSteps.Contains(north))
                 {
@@ -286,7 +314,7 @@ public class GridCoverManager : MonoBehaviour
                 }
             }
             // check the West wall for the North and South sidesteps
-            if (targetNode.X < node.X && (node.HalfWalls[(int)GridNode.Orientations.West] || node.Walls[(int)GridNode.Orientations.West]))
+            if (targetNode.X < entityNode.X && (entityNode.HalfWalls[(int)GridNode.Orientations.West] || entityNode.Walls[(int)GridNode.Orientations.West]))
             {
                 if (north != null && neighbors.Contains(north) && !sideSteps.Contains(north))
                 {
@@ -301,22 +329,22 @@ public class GridCoverManager : MonoBehaviour
         return sideSteps;
     }
 
-    public List<ShotStats> GetShotStats(BattleAction battleAction, List<GridEntity> enemies)
+    public List<ShotStats> GetShotStats(GridEntity gridEntity, List<GridEntity> targets)
     {
-        List<ShotStats> targets = new List<ShotStats>();
-        foreach (GridEntity enemy in enemies)
+        List<ShotStats> shots = new List<ShotStats>();
+        foreach (GridEntity entity in targets)
         {
             List<GridNode[]> losPoints = new List<GridNode[]>();
-            bool los = LineOfSight(battleAction.GetComponent<GridEntity>(), enemy, out Ray ray, out float rayLength, losPoints);
+            bool los = LineOfSight(gridEntity, entity, out Ray ray, out float rayLength, losPoints);
             if (los)
             {
                 ShotStats target = new ShotStats();
-                target.Target = enemy.GetComponent<GridEntity>();
+                target.Target = entity.GetComponent<GridEntity>();
                 target.Available = true;
                 int worstCover = 2; // -1: flanked; 1: half cover; 2: full cover;
                 foreach (var points in losPoints)
                 {
-                    int cover = GetCoverFromPosition(enemy.CurrentNode, points[0]);
+                    int cover = GetCoverFromPosition(entity.CurrentNode, points[0]);
                     worstCover = Mathf.Min(cover, worstCover);
                 }
                 if (worstCover == -1)
@@ -331,10 +359,10 @@ public class GridCoverManager : MonoBehaviour
                 {
                     target.Cover = true;
                 }
-                targets.Add(target);
+                shots.Add(target);
             }
         }
-        return targets;
+        return shots;
     }
 
     #region Singleton

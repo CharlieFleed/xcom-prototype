@@ -23,10 +23,10 @@ public class NetworkMatchManager : NetworkBehaviour
     public event Action OnPause = delegate { };
 
     List<Team> _teams = new List<Team>();
-    Unit _currentUnit;
+    TeamMember _currentTeamMember;
     Queue<BattleEventGroup> _battleEventGroups = new Queue<BattleEventGroup>();
 
-    public Unit CurrentUnit { get { return _currentUnit; } }
+    public TeamMember CurrentTeamMember { get { return _currentTeamMember; } }
     public Team ActiveTeam { get { return _teams[0]; } }
 
     public Color[] TeamColors = new Color[3] { Color.cyan, Color.red, Color.green };
@@ -54,21 +54,22 @@ public class NetworkMatchManager : NetworkBehaviour
         {
             RegisterPlayer(player);
             Team team = _teams.ToArray()[i];
+            team.IsAI = (i == 1);
             List<GridNode> spawnPositions = GridManager.Instance.GetSpawnPositions(team.Id, _NumOfUnits);
             for (int c = 0; c < _NumOfUnits; c++)
             {
                 GameObject unit = Instantiate(_unitPrefabs[player.MatchSettings.unitClasses[c]], Vector3.zero, Quaternion.identity);
-                unit.name = team.Name + "-" + team.Units.Count;
+                unit.name = team.Name + "-" + team.Members.Count;
                 unit.transform.position = spawnPositions[c].FloorPosition;
                 NetworkServer.Spawn(unit, player.gameObject);
                 // Registering Unit
-                team.Units.Add(unit.GetComponent<Unit>());
-                unit.GetComponent<Unit>().Team = team;
+                team.Members.Add(unit.GetComponent<TeamMember>());
+                unit.GetComponent<TeamMember>().Team = team;
                 // register events
-                unit.GetComponent<Unit>().OnActionComplete += HandleUnit_ActionComplete;
-                unit.GetComponent<Unit>().OnPass += HandleUnit_Pass;
-                unit.GetComponent<Unit>().OnEndTurn += HandleUnit_EndTurn;
-                unit.GetComponent<Unit>().OnPause += HandleUnit_OnPause;
+                unit.GetComponent<ActionsController>().OnActionComplete += HandleActionsController_ActionComplete;
+                unit.GetComponent<UnitLocalController>().OnPass += HandleUnit_Pass;
+                unit.GetComponent<UnitLocalController>().OnEndTurn += HandleUnit_EndTurn;
+                unit.GetComponent<UnitLocalController>().OnPause += HandleUnit_OnPause;
                 // internal setup
                 unit.GetComponent<GridEntity>().CurrentNode = GridManager.Instance.GetGridNodeFromWorldPosition(unit.transform.position);
             }
@@ -94,8 +95,6 @@ public class NetworkMatchManager : NetworkBehaviour
         team.Id = _teams.Count;
         team.Name = _teams.Count.ToString();
         _teams.Add(team);
-        //
-        player.OnActionComplete += HandlePlayer_ActionComplete;
     }
 
     public void InstantiateUnits(MyGamePlayer player)
@@ -118,14 +117,14 @@ public class NetworkMatchManager : NetworkBehaviour
     {
         //Debug.Log("Registering Unit");        
         Team team = GetTeam(player);
-        unit.name = team.Name + "-" + team.Units.Count;
-        team.Units.Add(unit.GetComponent<Unit>());
-        unit.GetComponent<Unit>().Team = team;
+        unit.name = team.Name + "-" + team.Members.Count;
+        team.Members.Add(unit.GetComponent<TeamMember>());
+        unit.GetComponent<TeamMember>().Team = team;
         // register events
-        unit.GetComponent<Unit>().OnActionComplete += HandleUnit_ActionComplete;
-        unit.GetComponent<Unit>().OnPass += HandleUnit_Pass;
-        unit.GetComponent<Unit>().OnEndTurn += HandleUnit_EndTurn;
-        unit.GetComponent<Unit>().OnPause += HandleUnit_OnPause;
+        unit.GetComponent<ActionsController>().OnActionComplete += HandleActionsController_ActionComplete;
+        unit.GetComponent<UnitLocalController>().OnPass += HandleUnit_Pass;
+        unit.GetComponent<UnitLocalController>().OnEndTurn += HandleUnit_EndTurn;
+        unit.GetComponent<UnitLocalController>().OnPause += HandleUnit_OnPause;
         // internal setup
         unit.GetComponent<GridEntity>().CurrentNode = GridManager.Instance.GetGridNodeFromWorldPosition(unit.transform.position);
     }
@@ -170,7 +169,7 @@ public class NetworkMatchManager : NetworkBehaviour
         UpdateBattleEvents();
         if (_battleEventGroups.Count == 0)
         {
-            if (_currentUnit == null)
+            if (_currentTeamMember == null)
             {
                 RemoveDefeatedTeams();
                 if (_teams.Count == 1)
@@ -185,7 +184,7 @@ public class NetworkMatchManager : NetworkBehaviour
                     return;
                 }
                 SelectNextUnit();
-                if (_currentUnit != null)
+                if (_currentTeamMember != null)
                 {
                     //Debug.Log("New Turn");
                     OnBeforeTurnBegin();
@@ -194,7 +193,7 @@ public class NetworkMatchManager : NetworkBehaviour
                 }
             }
         }
-        if (_currentUnit == null)
+        if (_currentTeamMember == null)
         {
             if (_input.GetKeyDown(KeyCode.Escape))
             {
@@ -210,7 +209,7 @@ public class NetworkMatchManager : NetworkBehaviour
 
         foreach (var team in _teams)
         {
-            foreach (var unit in team.Units)
+            foreach (var unit in team.Members)
             {
                 started &= unit.Started;
             }
@@ -224,7 +223,7 @@ public class NetworkMatchManager : NetworkBehaviour
         {
             foreach (var team in _teams)
             {
-                foreach (var unit in team.Units)
+                foreach (var unit in team.Members)
                 {
                     unit.GetComponent<Armor>().SetValue(NetworkRandomGenerator.Instance.RandomRange(1, 4));
                 }
@@ -261,13 +260,13 @@ public class NetworkMatchManager : NetworkBehaviour
 
     void SelectNextUnit()
     {
-        _currentUnit = ActiveTeam.GetFirstReadyUnit();
-        if (_currentUnit == null)
+        _currentTeamMember = ActiveTeam.GetFirstReadyMember();
+        if (_currentTeamMember == null)
         {
             ActiveTeam.EndTurn();
             RotateTeams();
             ActiveTeam.StartTurn();
-            _currentUnit = ActiveTeam.GetFirstReadyUnit();
+            _currentTeamMember = ActiveTeam.GetFirstReadyMember();
         }
     }
 
@@ -289,31 +288,25 @@ public class NetworkMatchManager : NetworkBehaviour
         }
     }
 
-    void HandlePlayer_ActionComplete()
+    void HandleActionsController_ActionComplete(TeamMember member)
     {
-        _currentUnit = null;
-        ActiveTeam.Owner.Deactivate();
-    }
-
-    void HandleUnit_ActionComplete(Unit unit)
-    {
-        if (unit == _currentUnit)
+        if (member == _currentTeamMember)
         {
-            _currentUnit = null;
+            _currentTeamMember = null;
             ActiveTeam.Owner.Deactivate();
         }
     }
 
     void HandleUnit_Pass()
     {
-        _currentUnit = null;
+        _currentTeamMember = null;
         ActiveTeam.Owner.Deactivate();
-        ActiveTeam.RotateReadyUnits();
+        ActiveTeam.RotateReadyMembers();
     }
 
     void HandleUnit_EndTurn()
     {
-        _currentUnit = null;
+        _currentTeamMember = null;
         ActiveTeam.Owner.Deactivate();
         ActiveTeam.EndTurn();
     }
@@ -323,14 +316,14 @@ public class NetworkMatchManager : NetworkBehaviour
         OnPause();
     }
 
-    public List<T> GetEnemiesAs<T>(Unit unit)
+    public List<T> GetEnemiesAs<T>(TeamMember teamMember)
     {
         List<T> enemies = new List<T>();
         foreach (Team team in _teams)
         {
-            if (team != unit.Team)
+            if (team != teamMember.Team)
             {
-                foreach (Unit enemy in team.Units)
+                foreach (TeamMember enemy in team.Members)
                 {
                     if (!enemy.GetComponent<Health>().IsDead)
                     {
@@ -342,14 +335,14 @@ public class NetworkMatchManager : NetworkBehaviour
         return enemies;
     }
 
-    public List<T> GetFriendsAs<T>(Unit unit)
+    public List<T> GetFriendsAs<T>(TeamMember teamMember)
     {
         List<T> friends = new List<T>();
         foreach (Team team in _teams)
         {
-            if (team == unit.Team)
+            if (team == teamMember.Team)
             {
-                foreach (Unit friend in team.Units)
+                foreach (TeamMember friend in team.Members)
                 {
                     if (!friend.GetComponent<Health>().IsDead)
                     {
@@ -370,20 +363,21 @@ public class NetworkMatchManager : NetworkBehaviour
 
     private void OnDrawGizmos()
     {
-        if (_currentUnit != null)
+        if (_currentTeamMember != null)
         {
             foreach (Team team in _teams)
             {
-                if (!team.Units.Contains(_currentUnit))
+                if (!team.Members.Contains(_currentTeamMember))
                 {
-                    foreach (Unit unit in team.Units)
+                    foreach (TeamMember member in team.Members)
                     {
-                        Ray ray;
-                        float rayLength;
-                        if (GridCoverManager.Instance.LineOfSight(_currentUnit.GetComponent<GridEntity>(), unit.GetComponent<GridEntity>(), out ray, out rayLength, new List<GridNode[]>()))
+                        List<GridNode[]> losPoints = new List<GridNode[]>();
+                        if (GridCoverManager.Instance.LineOfSight(_currentTeamMember.GetComponent<GridEntity>(), member.GetComponent<GridEntity>(), out Ray ray, out float rayLength, losPoints))
                         {
                             Gizmos.color = Color.green;
-                            Gizmos.DrawRay(ray.origin, ray.direction * rayLength);
+                            Ray ray2 = new Ray(losPoints[0][0].FloorPosition, losPoints[0][1].FloorPosition - losPoints[0][0].FloorPosition);
+                            float rayLength2 = (losPoints[0][1].FloorPosition - losPoints[0][0].FloorPosition).magnitude;
+                            Gizmos.DrawRay(ray2.origin, ray2.direction * rayLength2);
                         }
                         else
                         {

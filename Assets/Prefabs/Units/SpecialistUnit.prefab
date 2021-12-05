@@ -500,6 +500,9 @@ GameObject:
   - component: {fileID: 7427874011771246962}
   - component: {fileID: -3644775270910341861}
   - component: {fileID: 4991704241548405486}
+  - component: {fileID: 8368952828861383412}
+  - component: {fileID: 4974930461905163177}
+  - component: {fileID: 1295520942273042757}
   m_Layer: 9
   m_Name: SpecialistUnit
   m_TagString: Untagged
@@ -557,14 +560,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  _walker: {fileID: 1302842514496740068}
-  _battleActions:
-  - {fileID: 5692046987926806819}
-  - {fileID: 1062933398414497127}
-  - {fileID: -3668424734374455656}
-  - {fileID: -1050468727797104950}
-  - {fileID: 6522350665809467912}
-  - {fileID: 4138352691193341199}
 --- !u!114 &7622501244342492299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -596,6 +591,7 @@ MonoBehaviour:
   syncInterval: 0.1
   _actionName: 
   _confirmText: 
+  _descriptionText: 
   Cost: 1
   Available: 1
   EndsTurn: 0
@@ -653,6 +649,7 @@ MonoBehaviour:
   syncInterval: 0.1
   _actionName: 
   _confirmText: 
+  _descriptionText: 
   Cost: 1
   Available: 1
   EndsTurn: 0
@@ -688,6 +685,7 @@ MonoBehaviour:
   syncInterval: 0.1
   _actionName: Skip
   _confirmText: Skip
+  _descriptionText: 
   Cost: 1
   Available: 1
   EndsTurn: 1
@@ -749,6 +747,7 @@ MonoBehaviour:
   syncInterval: 0.1
   _actionName: Overwatch
   _confirmText: Overwatch
+  _descriptionText: 
   Cost: 1
   Available: 1
   EndsTurn: 1
@@ -783,6 +782,7 @@ MonoBehaviour:
   syncInterval: 0.1
   _actionName: Reload
   _confirmText: Reload
+  _descriptionText: 
   Cost: 1
   Available: 1
   EndsTurn: 0
@@ -803,7 +803,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Highlighted: 0
   Silhouetted: 0
-  _highlightMaterial: {fileID: 2100000, guid: 29fd3cc01cf24d148866ac93c630b595, type: 2}
+  _highlightMaterial: {fileID: 2100000, guid: c9ffc795322d2c745850f72ca6fa214c, type: 2}
   _silhouetteMaterial: {fileID: 2100000, guid: bec8fccf65ce4254795a04ffa49046c8, type: 2}
 --- !u!114 &6522350665809467912
 MonoBehaviour:
@@ -821,6 +821,7 @@ MonoBehaviour:
   syncInterval: 0.1
   _actionName: Hunker
   _confirmText: Hunker
+  _descriptionText: 
   Cost: 1
   Available: 1
   EndsTurn: 1
@@ -859,6 +860,7 @@ MonoBehaviour:
   syncInterval: 0.1
   _actionName: Use
   _confirmText: Use
+  _descriptionText: 
   Cost: 1
   Available: 1
   EndsTurn: 0
@@ -919,6 +921,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _armorDefault: 0
+--- !u!114 &8368952828861383412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590575594350318540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd04e436492f4b458e3fa33c726ac1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4974930461905163177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590575594350318540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51acb9f26db5b3c43965967220ba5024, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1295520942273042757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590575594350318540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 453d1776d4e533749b0034694c9c438c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1051574122627388261
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1276,14 +1314,14 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: dac8231fb02c8564397c993a99dee4f5, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 860793eb3324391468f1c120a75ec049, type: 3}
---- !u!4 &1051574122627516839 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400066, guid: 860793eb3324391468f1c120a75ec049, type: 3}
-  m_PrefabInstance: {fileID: 1051574122627388261}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1051574122627421575 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100066, guid: 860793eb3324391468f1c120a75ec049, type: 3}
+  m_PrefabInstance: {fileID: 1051574122627388261}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1051574122627516839 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400066, guid: 860793eb3324391468f1c120a75ec049, type: 3}
   m_PrefabInstance: {fileID: 1051574122627388261}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7354361747547868758

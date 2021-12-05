@@ -9,11 +9,11 @@ public class DoubleShooter : Shooter
 
     protected override void Shoot()
     {
-        if (_targets.Count > 0 && _targets.Peek().Available)
+        if (_shots.Count > 0 && _shots.Peek().Available)
         {
             HideTargets();
             InvokeTargetingEnd();
-            CmdShoot(_targets.Peek().Target.gameObject);
+            CmdShoot(_shots.Peek().Target.gameObject);
         }
     }
 
@@ -21,9 +21,9 @@ public class DoubleShooter : Shooter
     protected override void RpcShoot(GameObject target)
     {
         Debug.Log("DoubleShooter RpcShoot");
-        GetTargets();
+        UpdateShots();
         ShotStats shotStats = null;
-        foreach (var shot in _targets)
+        foreach (var shot in _shots)
         {
             if (shot.Target == target.GetComponent<GridEntity>())
             {
@@ -45,8 +45,6 @@ public class DoubleShooter : Shooter
     public override void Init(int numActions)
     {
         base.Init(numActions);
-        GetTargets();
-        Available &= HasAvailableTargets();
         Available &= _weapon.Bullets > 1;
     }
 }

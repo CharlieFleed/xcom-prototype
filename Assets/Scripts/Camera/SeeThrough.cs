@@ -4,30 +4,14 @@ using UnityEngine;
 
 public class SeeThrough : MonoBehaviour
 {
-    bool _shouldHide = true;
+    [SerializeField] Material[] _seeThroughMaterials;
 
-    public bool Hidden
-    {
-        set
-        {
-            _hidden = value;
-            if (value)
-            {
-                if (_group != null)
-                {
-                    _group.Hide();
-                }
-            }
-        }
-        get { return _hidden; }
-    }
-    bool _hidden;
+    bool _shouldHide = true;
+    bool _hide;
     bool _isHidden;
 
     int _hideCounter = 0;
     int _hideCounterMax = 10;
-
-    [SerializeField] Material[] _materials;
 
     Renderer[] _renderers;
     Material[] _originalMaterials;
@@ -76,7 +60,7 @@ public class SeeThrough : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (_hidden && _shouldHide)
+        if (_hide && _shouldHide)
         {
             _hideCounter = Mathf.Min(_hideCounter + 1, _hideCounterMax);
         }
@@ -85,10 +69,10 @@ public class SeeThrough : MonoBehaviour
             _hideCounter = Mathf.Max(_hideCounter - 1, 0);
         }
 
-        bool hide = (_isHidden == false && _hideCounter == _hideCounterMax);
-        bool show = (_isHidden == true && _hideCounter == 0);
+        bool mustHide = (_isHidden == false && _hideCounter == _hideCounterMax);
+        bool mustShow = (_isHidden == true && _hideCounter == 0);
 
-        if (hide)
+        if (mustHide)
         {
             _isHidden = true;
             for (int i = 0; i < _renderers.Length; i++)
@@ -96,13 +80,13 @@ public class SeeThrough : MonoBehaviour
                 if (_renderers[i] != null)
                 {
                     //_renderers[i].enabled = false;
-                    _renderers[i].material = _materials[0];
-                    _renderers[i].materials = _materials;
+                    _renderers[i].material = _seeThroughMaterials[0];
+                    _renderers[i].materials = _seeThroughMaterials;
                 }
             }
         }
 
-        if (show)
+        if (mustShow)
         {
             _isHidden = false;
             for (int i = 0; i < _renderers.Length; i++)
@@ -131,11 +115,20 @@ public class SeeThrough : MonoBehaviour
             }
         }
 
-        _hidden = false;
+        _hide = false;
     }
 
-    public void HideOnlyYou()
+    public void Hide()
     {
-        _hidden = true;
+        _hide = true;
+        if (_group != null)
+        {
+            _group.Hide();
+        }
+    }
+
+    public void HideSingle()
+    {
+        _hide = true;
     }
 }

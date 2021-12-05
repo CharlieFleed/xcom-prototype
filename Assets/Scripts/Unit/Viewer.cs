@@ -23,22 +23,22 @@ public class Viewer : MonoBehaviour
     /// </summary>
     public static event Action<Viewer, bool> OnVisibleChanged = delegate { };
 
-    Unit _unit;
     Health _health;
+    TeamMember _teamMember;
     GridEntity _gridEntity;
     Renderer[] _renderers;
 
 
     // cached values for performance
-    public Unit Unit { get { return _unit; } }
+    public TeamMember TeamMember { get { return _teamMember; } }
     public Health Health { get { return _health; } }
     public int Range { get { return _range; } }
 
     private void Awake()
     {
         SeenByList = new List<Viewer>();
-        _unit = GetComponent<Unit>();
         _health = GetComponent<Health>();
+        _teamMember = GetComponent<TeamMember>();
         _gridEntity = GetComponent<GridEntity>();
         _renderers = GetComponentsInChildren<Renderer>();
     }
@@ -87,7 +87,7 @@ public class Viewer : MonoBehaviour
 
     void UpdateViewers()
     {
-        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(_unit);
+        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(_teamMember);
         SeenByList.Clear();
         foreach (var enemy in enemies)
         {
@@ -107,24 +107,24 @@ public class Viewer : MonoBehaviour
         switch (ViewMode)
         {
             case ViewMode.Single:
-                if (NetworkMatchManager.Instance.CurrentUnit != null)
+                if (NetworkMatchManager.Instance.CurrentTeamMember != null)
                 {
-                    if (NetworkMatchManager.Instance.CurrentUnit.Team.Owner.isLocalPlayer)
+                    if (NetworkMatchManager.Instance.CurrentTeamMember.Team.Owner.isLocalPlayer)
                     {
-                        IsVisible = _unit.Team.Owner.isLocalPlayer || SeenByList.Contains(NetworkMatchManager.Instance.CurrentUnit.GetComponent<Viewer>());
+                        IsVisible = _teamMember.Team.Owner.isLocalPlayer || SeenByList.Contains(NetworkMatchManager.Instance.CurrentTeamMember.GetComponent<Viewer>());
                     }
                     else
                     {
-                        IsVisible = _unit.Team.Owner.isLocalPlayer || IsSeenByLocalPlayer();
+                        IsVisible = _teamMember.Team.Owner.isLocalPlayer || IsSeenByLocalPlayer();
                     }
                 }
                 else
                 {
-                    IsVisible = _unit.Team.Owner.isLocalPlayer || IsSeenByLocalPlayer();
+                    IsVisible = _teamMember.Team.Owner.isLocalPlayer || IsSeenByLocalPlayer();
                 }
                 break;
             case ViewMode.Team:
-                IsVisible = (SeenByList.Count > 0) || _unit.Team.Owner.isLocalPlayer;
+                IsVisible = (SeenByList.Count > 0) || (_teamMember.Team.Owner.isLocalPlayer && !_teamMember.Team.IsAI);
                 break;
             case ViewMode.Always:
                 IsVisible = true;
@@ -138,7 +138,7 @@ public class Viewer : MonoBehaviour
     {
         foreach (var viewer in SeenByList)
         {
-            if (viewer.Unit.Team.Owner.isLocalPlayer)
+            if (viewer.TeamMember.Team.Owner.isLocalPlayer)
             {
                 return true;
             }

@@ -114,4 +114,10 @@ public class Walker : BattleAction
         //Debug.Log("Resume");
         _pauseLocks--;
     }
+
+    public override void Init(int numActions)
+    {
+        base.Init(numActions);
+        _NumMoves = numActions;
+    }
 }

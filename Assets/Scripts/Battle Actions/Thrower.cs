@@ -43,7 +43,7 @@ public class Thrower : BattleAction
     }
 
     // Update is called once per frame
-    void LateUpdate() // NOTE: Late Update to avoid right click read by GridPathSelector as well
+    void LateUpdate()
     {
         if (IsActive)
         {

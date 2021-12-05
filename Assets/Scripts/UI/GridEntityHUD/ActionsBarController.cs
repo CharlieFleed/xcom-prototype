@@ -7,41 +7,41 @@ public class ActionsBarController : MonoBehaviour, IUIChildController
     [SerializeField] ActionsBar _actionsBarPrefab;
     [SerializeField] GridEntityHUDController _gridEntityHUDController;
 
-    Dictionary<Unit, ActionsBar> _actionsBars = new Dictionary<Unit, ActionsBar>();
+    Dictionary<ActionsController, ActionsBar> _actionsBars = new Dictionary<ActionsController, ActionsBar>();
 
     public void Init()
     {
-        Unit.OnUnitAdded += HandleUnitAdded;
-        Unit.OnUnitRemoved += HandleUnitRemoved;
+        ActionsController.OnActionsControllerAdded += HandleActionsControllerAdded;
+        ActionsController.OnActionsControllerRemoved += HandleActionsControllerRemoved;
     }
 
-    private void HandleUnitRemoved(Unit unit)
+    private void HandleActionsControllerRemoved(ActionsController actionsController)
     {
-        if (_actionsBars.ContainsKey(unit) == true)
+        if (_actionsBars.ContainsKey(actionsController) == true)
         {
-            if (_actionsBars[unit] != null)
+            if (_actionsBars[actionsController] != null)
             {
-                Destroy(_actionsBars[unit].gameObject);
+                Destroy(_actionsBars[actionsController].gameObject);
             }
-            _actionsBars.Remove(unit);
+            _actionsBars.Remove(actionsController);
         }
     }
 
-    private void HandleUnitAdded(Unit unit)
+    private void HandleActionsControllerAdded(ActionsController actionsController)
     {
-        if (_actionsBars.ContainsKey(unit) == false)
+        if (_actionsBars.ContainsKey(actionsController) == false)
         {
-            GridEntity gridEntity = unit.GetComponent<GridEntity>();
+            GridEntity gridEntity = actionsController.GetComponent<GridEntity>();
             var actionsBar = Instantiate(_actionsBarPrefab, _gridEntityHUDController.GridEntityHUD(gridEntity).transform);
-            _actionsBars.Add(unit, actionsBar);
-            actionsBar.SetUnit(unit);
+            _actionsBars.Add(actionsController, actionsBar);
+            actionsBar.SetActionsController(actionsController);
         }
     }
 
     private void OnDestroy()
     {
-        Unit.OnUnitAdded -= HandleUnitAdded;
-        Unit.OnUnitRemoved -= HandleUnitRemoved;
+        ActionsController.OnActionsControllerAdded -= HandleActionsControllerAdded;
+        ActionsController.OnActionsControllerRemoved -= HandleActionsControllerRemoved;
     }
 }
 

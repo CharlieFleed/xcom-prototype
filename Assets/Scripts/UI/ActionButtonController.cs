@@ -11,8 +11,8 @@ public class ActionButtonController : MonoBehaviour
 
     private void Awake()
     {
-        Unit.OnUnitAdded += HandleUnitAdded;
-        Unit.OnUnitRemoved += HandleUnitRemoved;
+        UnitLocalController.OnUnitAdded += HandleUnitAdded;
+        UnitLocalController.OnUnitRemoved += HandleUnitRemoved;
     }
 
     void HandleActionAdded(BattleAction obj)
@@ -40,16 +40,16 @@ public class ActionButtonController : MonoBehaviour
 
     private void HandleActionClick(BattleAction battleAction)
     {
-        battleAction.GetComponent<Unit>().SelectAction(battleAction);
+        battleAction.GetComponent<UnitLocalController>().SelectAction(battleAction);
     }
 
-    private void HandleUnitAdded(Unit unit)
+    private void HandleUnitAdded(UnitLocalController unit)
     {
         unit.OnActionAdded += HandleActionAdded;
         unit.OnActionsCleared += HandleActionsCleared;
     }
 
-    private void HandleUnitRemoved(Unit unit)
+    private void HandleUnitRemoved(UnitLocalController unit)
     {
         unit.OnActionAdded -= HandleActionAdded;
         unit.OnActionsCleared -= HandleActionsCleared;
@@ -57,7 +57,7 @@ public class ActionButtonController : MonoBehaviour
 
     private void OnDestroy()
     {
-        Unit.OnUnitAdded -= HandleUnitAdded;
-        Unit.OnUnitRemoved -= HandleUnitRemoved;
+        UnitLocalController.OnUnitAdded -= HandleUnitAdded;
+        UnitLocalController.OnUnitRemoved -= HandleUnitRemoved;
     }
 }

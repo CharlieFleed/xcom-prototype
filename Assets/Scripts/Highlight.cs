@@ -8,9 +8,15 @@ public class Highlight : MonoBehaviour
     public bool Silhouetted;
     [SerializeField] Material _highlightMaterial;
     [SerializeField] Material _silhouetteMaterial;
+    Outline _outline;
 
     Renderer[] _renderers;
     Material[] _originalMaterials;
+
+    private void Awake()
+    {
+        _outline = GetComponentInChildren<Outline>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +33,8 @@ public class Highlight : MonoBehaviour
     {
         if (Highlighted)
         {
+            //Debug.Log($"{name} is highlighted.");
+            if (_outline) _outline.enabled = false;
             foreach (var renderer in _renderers)
             {
                 renderer.material = _highlightMaterial;
@@ -35,6 +43,8 @@ public class Highlight : MonoBehaviour
         }
         else if (Silhouetted)
         {
+            //Debug.Log($"{name} is silhouetted.");
+            if (_outline) _outline.enabled = false;
             foreach (var renderer in _renderers)
             {
                 renderer.material = _silhouetteMaterial;
@@ -43,6 +53,7 @@ public class Highlight : MonoBehaviour
         }
         else
         {
+            if (_outline) _outline.enabled = true;
             for (int i = 0; i < _renderers.Length; i++)
             {
                 _renderers[i].material = _originalMaterials[i];

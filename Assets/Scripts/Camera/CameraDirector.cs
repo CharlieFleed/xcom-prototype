@@ -30,9 +30,9 @@ public class CameraDirector : MonoBehaviour
 
     private void OnEnable()
     {
-        Unit.OnUnitAdded += HandleUnit_OnUnitAdded;
-        Unit.OnUnitRemoved += HandleUnit_OnUnitRemoved;
-        Unit.OnActiveChanged += HandleUnit_OnActiveChanged;
+        UnitLocalController.OnUnitAdded += HandleUnit_OnUnitAdded;
+        UnitLocalController.OnUnitRemoved += HandleUnit_OnUnitRemoved;
+        UnitLocalController.OnActiveChanged += HandleUnit_OnActiveChanged;
         GridEntity.OnGridEntityAdded += HandleGridEntity_OnGridEntityAdded;
         GridEntity.OnGridEntityRemoved += HandleGridEntity_OnGridEntityRemoved;
         Shooter.OnShooterAdded += HandleShooterAdded;
@@ -49,9 +49,9 @@ public class CameraDirector : MonoBehaviour
     
     private void OnDisable()
     {
-        Unit.OnUnitAdded -= HandleUnit_OnUnitAdded;
-        Unit.OnUnitRemoved -= HandleUnit_OnUnitRemoved;
-        Unit.OnActiveChanged -= HandleUnit_OnActiveChanged;
+        UnitLocalController.OnUnitAdded -= HandleUnit_OnUnitAdded;
+        UnitLocalController.OnUnitRemoved -= HandleUnit_OnUnitRemoved;
+        UnitLocalController.OnActiveChanged -= HandleUnit_OnActiveChanged;
         GridEntity.OnGridEntityAdded -= HandleGridEntity_OnGridEntityAdded;
         GridEntity.OnGridEntityRemoved -= HandleGridEntity_OnGridEntityRemoved;
         Shooter.OnShooterAdded -= HandleShooterAdded;
@@ -90,13 +90,13 @@ public class CameraDirector : MonoBehaviour
         }
     }
 
-    void HandleUnit_OnUnitAdded(Unit unit)
+    void HandleUnit_OnUnitAdded(UnitLocalController unit)
     {
         unit.OnMouseOverTarget += HandleUnit_OnMouseOverTarget;
         unit.OnMouseExitTarget += HandleUnit_OnMouseExitTarget;
     }
 
-    void HandleUnit_OnUnitRemoved(Unit unit)
+    void HandleUnit_OnUnitRemoved(UnitLocalController unit)
     {
         unit.OnMouseOverTarget -= HandleUnit_OnMouseOverTarget;
         unit.OnMouseExitTarget -= HandleUnit_OnMouseExitTarget;
@@ -152,9 +152,9 @@ public class CameraDirector : MonoBehaviour
         // disable any active camera
         _actionCamera.gameObject.SetActive(false);
         _activeEntityCamera.gameObject.SetActive(false);
-        if (_matchManager.CurrentUnit.GetComponent<Viewer>().IsVisible)
+        if (_matchManager.CurrentTeamMember.GetComponent<Viewer>().IsVisible)
         {
-            _activeEntityCamera = _entityCameras[_matchManager.CurrentUnit.GetComponent<GridEntity>()];
+            _activeEntityCamera = _entityCameras[_matchManager.CurrentTeamMember.GetComponent<GridEntity>()];
             _activeEntityCamera.gameObject.SetActive(true);
             _lastActivatedUnitCamera = _activeEntityCamera;
         }
@@ -167,9 +167,9 @@ public class CameraDirector : MonoBehaviour
             _activeEntityCamera.gameObject.SetActive(true);
             _lastActivatedUnitCamera = _activeEntityCamera;
         }
-        _aimingCamera.m_Follow = _matchManager.CurrentUnit.transform;
+        _aimingCamera.m_Follow = _matchManager.CurrentTeamMember.transform;
         _actionCameraTargetGroup.m_Targets = new CinemachineTargetGroup.Target[0];
-        _actionCameraTargetGroup.AddMember(_matchManager.CurrentUnit.transform, 1, 5); // pre-align action camera with current unit
+        _actionCameraTargetGroup.AddMember(_matchManager.CurrentTeamMember.transform, 1, 5); // pre-align action camera with current unit
     }
 
     void HandleBattleEventShot_OnShooting(Shooter shooter, GridEntity target)
@@ -211,7 +211,7 @@ public class CameraDirector : MonoBehaviour
     {
     }
 
-    void HandleUnit_OnActiveChanged(Unit unit, bool active)
+    void HandleUnit_OnActiveChanged(UnitLocalController unit, bool active)
     {
         if (active) // NOTE: Only local units are activated
         {
@@ -259,14 +259,14 @@ public class CameraDirector : MonoBehaviour
     {
         if (visible)
         {
-            if (_matchManager.CurrentUnit != null && _matchManager.CurrentUnit.GetComponent<GridEntity>() == viewer.GetComponent<GridEntity>())
+            if (_matchManager.CurrentTeamMember != null && _matchManager.CurrentTeamMember.GetComponent<GridEntity>() == viewer.GetComponent<GridEntity>())
             {
                 //Debug.Log("this is the active unit who became visible");
                 // this is the active unit who became visible
                 // disable any active camera
                 _activeEntityCamera.gameObject.SetActive(false);
                 //
-                _activeEntityCamera = _entityCameras[_matchManager.CurrentUnit.GetComponent<GridEntity>()];
+                _activeEntityCamera = _entityCameras[_matchManager.CurrentTeamMember.GetComponent<GridEntity>()];
                 _activeEntityCamera.gameObject.SetActive(true);
                 _lastActivatedUnitCamera = _activeEntityCamera;
             }

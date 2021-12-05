@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &210290
 MonoBehaviour:
@@ -311,6 +311,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 490890, guid: 0401a3f0164b9cf40bd8c14f152e69ab, type: 3}
   m_PrefabInstance: {fileID: 3103794}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3103796 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 140358, guid: 0401a3f0164b9cf40bd8c14f152e69ab, type: 3}
+  m_PrefabInstance: {fileID: 3103794}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3103797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3103796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1 &3262934 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: cbdda53aa8be0d841a4f044817656a44, type: 3}
@@ -348,7 +367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &3262938
 MeshCollider:
@@ -651,7 +670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &11096333
 MeshCollider:
@@ -704,7 +723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &12052073
 MeshCollider:
@@ -1100,7 +1119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &21415939
 MeshCollider:
@@ -1345,7 +1364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &22300305
 MonoBehaviour:
@@ -1497,7 +1516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &26825111
 MonoBehaviour:
@@ -1699,7 +1718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &27835024
 MeshCollider:
@@ -1737,7 +1756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &28335317
 MonoBehaviour:
@@ -1870,7 +1889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &31210712
 MeshCollider:
@@ -1937,7 +1956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1001 &38619007
 PrefabInstance:
@@ -2041,7 +2060,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &38619012
 MeshCollider:
@@ -2144,7 +2163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &39277429
 MonoBehaviour:
@@ -2285,7 +2304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &42797263
 MeshCollider:
@@ -2407,7 +2426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &45148676
 MeshCollider:
@@ -2533,7 +2552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &53210068
 MeshCollider:
@@ -2740,7 +2759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &62200544
 MeshCollider:
@@ -3135,7 +3154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &71644174
 MonoBehaviour:
@@ -3188,7 +3207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &73353499
 MonoBehaviour:
@@ -3317,7 +3336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &86243368
 MonoBehaviour:
@@ -3369,7 +3388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &93817393
 MonoBehaviour:
@@ -3771,7 +3790,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &110731907
 MeshCollider:
@@ -3974,7 +3993,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!65 &114918333
 BoxCollider:
@@ -4189,7 +4208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &123344566
 MonoBehaviour:
@@ -4447,7 +4466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &135907878
 MonoBehaviour:
@@ -4580,7 +4599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &138971553
 MeshCollider:
@@ -4702,7 +4721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &143117580
 MeshCollider:
@@ -4805,7 +4824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &143226173
 MonoBehaviour:
@@ -5434,7 +5453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &180670839
 MonoBehaviour:
@@ -5603,7 +5622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &183876941
 MonoBehaviour:
@@ -5835,7 +5854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &192387570
 MeshCollider:
@@ -5953,7 +5972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &193587335
 MeshCollider:
@@ -6020,7 +6039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1001 &195413838
 PrefabInstance:
@@ -6128,7 +6147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &195413843
 MeshCollider:
@@ -6212,7 +6231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &196541269
 MeshCollider:
@@ -6315,7 +6334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &198529265
 MonoBehaviour:
@@ -6437,7 +6456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &203146082
 MonoBehaviour:
@@ -6591,7 +6610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &209426391
 MonoBehaviour:
@@ -6692,6 +6711,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4465056388393302, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
   m_PrefabInstance: {fileID: 213318855}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &213318857 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1829909544980582, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
+  m_PrefabInstance: {fileID: 213318855}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &213318858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213318857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1 &215606364 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: c61783dd79ffb5443ac65c3892395ad7, type: 3}
@@ -6714,7 +6752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &215606367
 MonoBehaviour:
@@ -6832,7 +6870,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &219372880
 MonoBehaviour:
@@ -6977,7 +7015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!65 &221456434
 BoxCollider:
@@ -7094,7 +7132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &223676360
 MeshCollider:
@@ -7360,7 +7398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &228702644
 MeshCollider:
@@ -7478,7 +7516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &232026113
 MeshCollider:
@@ -7593,7 +7631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &233947159
 MonoBehaviour:
@@ -7710,7 +7748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &241150481
 MonoBehaviour:
@@ -7905,7 +7943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &245535486
 MeshCollider:
@@ -8032,7 +8070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &245642512
 MonoBehaviour:
@@ -8329,7 +8367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &255918104
 MeshCollider:
@@ -8492,6 +8530,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 490890, guid: 0401a3f0164b9cf40bd8c14f152e69ab, type: 3}
   m_PrefabInstance: {fileID: 258159712}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &258159714 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 140358, guid: 0401a3f0164b9cf40bd8c14f152e69ab, type: 3}
+  m_PrefabInstance: {fileID: 258159712}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &258159715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258159714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1 &261147867 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: cbdda53aa8be0d841a4f044817656a44, type: 3}
@@ -8529,7 +8586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &261147871
 MeshCollider:
@@ -8614,7 +8671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &262559040
 MeshCollider:
@@ -8717,7 +8774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &264635276
 MonoBehaviour:
@@ -8770,7 +8827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &267326957
 MonoBehaviour:
@@ -8912,7 +8969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &268374443
 MeshCollider:
@@ -8965,7 +9022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &274500120
 MeshCollider:
@@ -9100,7 +9157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &283660078
 MonoBehaviour:
@@ -9173,7 +9230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &289853696
 MeshCollider:
@@ -9295,7 +9352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &291839820
 MeshCollider:
@@ -9584,7 +9641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &298666037
 MonoBehaviour:
@@ -9757,7 +9814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &302562459
 MonoBehaviour:
@@ -9926,7 +9983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &303040037
 MeshCollider:
@@ -10029,7 +10086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &306136305
 MonoBehaviour:
@@ -10162,7 +10219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &307906367
 MeshCollider:
@@ -10265,7 +10322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &310749587
 MonoBehaviour:
@@ -10333,7 +10390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &311340096
 MeshCollider:
@@ -10451,7 +10508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &313260156
 MeshCollider:
@@ -10569,7 +10626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &314097594
 MeshCollider:
@@ -10672,7 +10729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &317481422
 MonoBehaviour:
@@ -10798,7 +10855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &317944589
 MonoBehaviour:
@@ -10935,7 +10992,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &323966300
 MeshCollider:
@@ -10988,7 +11045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &325250006
 MeshCollider:
@@ -11106,7 +11163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &333512602
 MeshCollider:
@@ -11209,7 +11266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &335591479
 MonoBehaviour:
@@ -11432,7 +11489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &342842040
 MonoBehaviour:
@@ -11480,7 +11537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &344840337
 MonoBehaviour:
@@ -11612,7 +11669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &344889577
 MeshCollider:
@@ -11752,7 +11809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &354165013
 MeshCollider:
@@ -11905,7 +11962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &356773879
 MeshCollider:
@@ -12008,7 +12065,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &357351674
 MonoBehaviour:
@@ -12145,7 +12202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!65 &363008744
 BoxCollider:
@@ -12331,7 +12388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &372452554
 MeshCollider:
@@ -12453,7 +12510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &373904044
 MeshCollider:
@@ -12560,7 +12617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &375989163
 MonoBehaviour:
@@ -12678,7 +12735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &378690638
 MonoBehaviour:
@@ -12819,7 +12876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &379896072
 MeshCollider:
@@ -12991,7 +13048,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &382883449
 MeshCollider:
@@ -13147,7 +13204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &393059028
 MonoBehaviour:
@@ -13479,7 +13536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &393374632
 MeshCollider:
@@ -13637,7 +13694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &394339437
 MonoBehaviour:
@@ -13770,7 +13827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &395586929
 MeshCollider:
@@ -13877,7 +13934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &398936076
 MonoBehaviour:
@@ -13945,7 +14002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &400889927
 MeshCollider:
@@ -14048,7 +14105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &401532416
 MonoBehaviour:
@@ -14101,7 +14158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &402831233
 MonoBehaviour:
@@ -14223,7 +14280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &405959628
 MonoBehaviour:
@@ -14694,7 +14751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &421574278
 MeshCollider:
@@ -14832,7 +14889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &432152761
 MonoBehaviour:
@@ -15016,7 +15073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &434589531
 MeshCollider:
@@ -15134,7 +15191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &444697633
 MeshCollider:
@@ -15256,7 +15313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &446267116
 MeshCollider:
@@ -15508,7 +15565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &453833473
 MeshCollider:
@@ -15561,7 +15618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &457295940
 MeshCollider:
@@ -15687,7 +15744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &459901438
 MeshCollider:
@@ -15931,7 +15988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &464399029
 MeshCollider:
@@ -16148,7 +16205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &485563342
 MonoBehaviour:
@@ -16266,7 +16323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &486488978
 MonoBehaviour:
@@ -16467,7 +16524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &493868064
 MonoBehaviour:
@@ -16604,7 +16661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &496899872
 MeshCollider:
@@ -17336,6 +17393,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 490890, guid: 0401a3f0164b9cf40bd8c14f152e69ab, type: 3}
   m_PrefabInstance: {fileID: 512866583}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &512866585 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 140358, guid: 0401a3f0164b9cf40bd8c14f152e69ab, type: 3}
+  m_PrefabInstance: {fileID: 512866583}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &512866586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512866585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1001 &514540490
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17423,7 +17499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &514540494
 MonoBehaviour:
@@ -17476,7 +17552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &515125981
 MonoBehaviour:
@@ -17594,7 +17670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &516279058
 MonoBehaviour:
@@ -17865,7 +17941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &522919952
 MonoBehaviour:
@@ -17987,7 +18063,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &523897740
 MonoBehaviour:
@@ -18105,7 +18181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &528410124
 MonoBehaviour:
@@ -18238,7 +18314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &531499493
 MeshCollider:
@@ -18377,7 +18453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &532449008
 MonoBehaviour:
@@ -18499,7 +18575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &539201694
 MonoBehaviour:
@@ -18617,7 +18693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &540876227
 MonoBehaviour:
@@ -18750,7 +18826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &543223024
 MeshCollider:
@@ -18926,7 +19002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &546352086
 MonoBehaviour:
@@ -19048,7 +19124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &548404560
 MonoBehaviour:
@@ -19185,7 +19261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &548540306
 MeshCollider:
@@ -19296,7 +19372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &549627646
 MonoBehaviour:
@@ -19433,7 +19509,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &553439370
 MeshCollider:
@@ -19703,7 +19779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &571643308
 MonoBehaviour:
@@ -19869,7 +19945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &573007870
 MonoBehaviour:
@@ -20002,7 +20078,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &573852052
 MeshCollider:
@@ -20170,7 +20246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &579957308
 MonoBehaviour:
@@ -20545,7 +20621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &590445418
 MonoBehaviour:
@@ -20717,6 +20793,25 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: c70e075a2144ba04784d74b7b2889fd3, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 517a8607e4b54054b9216e69695d6e53, type: 3}
+--- !u!1 &590991956 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1250922492522612, guid: 517a8607e4b54054b9216e69695d6e53, type: 3}
+  m_PrefabInstance: {fileID: 590991955}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &590991957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590991956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1001 &595824067
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20823,7 +20918,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!65 &595824072
 BoxCollider:
@@ -20875,7 +20970,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &600007325
 MeshCollider:
@@ -21004,7 +21099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &609047599
 MeshCollider:
@@ -21085,6 +21180,25 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: c70e075a2144ba04784d74b7b2889fd3, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 517a8607e4b54054b9216e69695d6e53, type: 3}
+--- !u!1 &610088557 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1250922492522612, guid: 517a8607e4b54054b9216e69695d6e53, type: 3}
+  m_PrefabInstance: {fileID: 610088556}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &610088558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610088557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1001 &610228175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21176,7 +21290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &610228179
 MonoBehaviour:
@@ -21312,7 +21426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &611275305
 MeshCollider:
@@ -21483,7 +21597,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &614670800
 MonoBehaviour:
@@ -21726,6 +21840,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4465056388393302, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
   m_PrefabInstance: {fileID: 623644742}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &623644744 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1829909544980582, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
+  m_PrefabInstance: {fileID: 623644742}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &623644745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623644744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1 &624295879
 GameObject:
   m_ObjectHideFlags: 0
@@ -21869,7 +22002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &639240702
 MonoBehaviour:
@@ -21987,7 +22120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &640084863
 MonoBehaviour:
@@ -22055,7 +22188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &640997524
 MeshCollider:
@@ -22219,7 +22352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &655292160
 MonoBehaviour:
@@ -22337,7 +22470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &665748455
 MonoBehaviour:
@@ -22405,7 +22538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &667126191
 MeshCollider:
@@ -22869,7 +23002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &676747143
 MeshCollider:
@@ -22972,7 +23105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &677829552
 MonoBehaviour:
@@ -23206,7 +23339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &684460935
 MeshCollider:
@@ -23244,7 +23377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &686290656
 MonoBehaviour:
@@ -23362,7 +23495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &689554710
 MonoBehaviour:
@@ -23540,6 +23673,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 490890, guid: 0401a3f0164b9cf40bd8c14f152e69ab, type: 3}
   m_PrefabInstance: {fileID: 695834945}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &695834947 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 140358, guid: 0401a3f0164b9cf40bd8c14f152e69ab, type: 3}
+  m_PrefabInstance: {fileID: 695834945}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &695834948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695834947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1 &697897941
 GameObject:
   m_ObjectHideFlags: 0
@@ -23660,6 +23812,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 490890, guid: 0401a3f0164b9cf40bd8c14f152e69ab, type: 3}
   m_PrefabInstance: {fileID: 704847869}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &704847871 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 140358, guid: 0401a3f0164b9cf40bd8c14f152e69ab, type: 3}
+  m_PrefabInstance: {fileID: 704847869}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &704847872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704847871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -24009,7 +24180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &710395516
 MonoBehaviour:
@@ -24072,7 +24243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1 &715864518
 GameObject:
@@ -24160,7 +24331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &718381626
 MonoBehaviour:
@@ -24278,7 +24449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &728778384
 MonoBehaviour:
@@ -24415,7 +24586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &729011556
 MeshCollider:
@@ -24522,7 +24693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &730027078
 MonoBehaviour:
@@ -24659,7 +24830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &731090245
 MeshCollider:
@@ -24847,7 +25018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &740669461
 MeshCollider:
@@ -24950,7 +25121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &743589509
 MonoBehaviour:
@@ -25097,7 +25268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &744047704
 MeshCollider:
@@ -25215,7 +25386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &744448394
 MeshCollider:
@@ -25619,7 +25790,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &753945718
 MeshCollider:
@@ -25726,7 +25897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &754008322
 MonoBehaviour:
@@ -25844,7 +26015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &754099361
 MonoBehaviour:
@@ -25970,7 +26141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &755737991
 MonoBehaviour:
@@ -26038,7 +26209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!65 &760422961
 BoxCollider:
@@ -26140,7 +26311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &763355614
 MonoBehaviour:
@@ -26385,7 +26556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &773128928
 MonoBehaviour:
@@ -26522,7 +26693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &774469326
 MeshCollider:
@@ -26737,7 +26908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &782380572
 MeshCollider:
@@ -26844,7 +27015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &785875917
 MonoBehaviour:
@@ -26962,7 +27133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &787580554
 MonoBehaviour:
@@ -27103,7 +27274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &789812873
 MeshCollider:
@@ -27206,7 +27377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &791602942
 MonoBehaviour:
@@ -27389,7 +27560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &805644524
 MonoBehaviour:
@@ -27709,7 +27880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!65 &814998949
 BoxCollider:
@@ -27761,7 +27932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &815128251
 MeshCollider:
@@ -27814,7 +27985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1 &819273078
 GameObject:
@@ -27997,6 +28168,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 490890, guid: 0401a3f0164b9cf40bd8c14f152e69ab, type: 3}
   m_PrefabInstance: {fileID: 821292149}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &821292151 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 140358, guid: 0401a3f0164b9cf40bd8c14f152e69ab, type: 3}
+  m_PrefabInstance: {fileID: 821292149}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &821292152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821292151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1 &822361873
 GameObject:
   m_ObjectHideFlags: 0
@@ -28189,7 +28379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &823603821
 MonoBehaviour:
@@ -28372,7 +28562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &830765344
 MeshCollider:
@@ -28540,7 +28730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &844254398
 MonoBehaviour:
@@ -28718,7 +28908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &846935663
 MonoBehaviour:
@@ -28835,7 +29025,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &847849009
 MonoBehaviour:
@@ -28953,7 +29143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &848624648
 MonoBehaviour:
@@ -29122,7 +29312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &865043449
 MeshCollider:
@@ -29248,7 +29438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &865686388
 MeshCollider:
@@ -29286,7 +29476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &870386726
 MonoBehaviour:
@@ -29408,7 +29598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &871199765
 MonoBehaviour:
@@ -29526,7 +29716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &874131552
 MonoBehaviour:
@@ -29694,7 +29884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &877353113
 MeshCollider:
@@ -29795,7 +29985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!65 &887179202
 BoxCollider:
@@ -29847,7 +30037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &887671259
 MeshCollider:
@@ -29962,7 +30152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &888456087
 MonoBehaviour:
@@ -30090,7 +30280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &893369410
 MonoBehaviour:
@@ -30177,7 +30367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &903783860
 MonoBehaviour:
@@ -30435,7 +30625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &908131135
 MeshCollider:
@@ -30553,7 +30743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &908739471
 MeshCollider:
@@ -30671,7 +30861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &911288368
 MeshCollider:
@@ -30774,7 +30964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &920477153
 MonoBehaviour:
@@ -30907,6 +31097,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4465056388393302, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
   m_PrefabInstance: {fileID: 934848290}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &934848292 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1829909544980582, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
+  m_PrefabInstance: {fileID: 934848290}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &934848293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934848292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1 &946386813
 GameObject:
   m_ObjectHideFlags: 0
@@ -31146,7 +31355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &948561776
 MeshCollider:
@@ -31272,7 +31481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &955356266
 MeshCollider:
@@ -31545,7 +31754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &972066950
 MeshCollider:
@@ -31684,7 +31893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &977252569
 MonoBehaviour:
@@ -31817,7 +32026,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &981498700
 MeshCollider:
@@ -32039,7 +32248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &995363604
 MonoBehaviour:
@@ -32157,7 +32366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &997400975
 MonoBehaviour:
@@ -32225,7 +32434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1001798756
 MeshCollider:
@@ -32380,6 +32589,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4465056388393302, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
   m_PrefabInstance: {fileID: 1011321188}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1011321190 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1829909544980582, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
+  m_PrefabInstance: {fileID: 1011321188}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1011321191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011321190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1 &1011710960
 GameObject:
   m_ObjectHideFlags: 0
@@ -32545,7 +32773,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1017349172
 MeshCollider:
@@ -32648,7 +32876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1020210793
 MonoBehaviour:
@@ -32716,7 +32944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1020553899
 MeshCollider:
@@ -32884,7 +33112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1023785709
 MonoBehaviour:
@@ -32950,7 +33178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1024030948
 MonoBehaviour:
@@ -33069,7 +33297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1028083050
 MeshCollider:
@@ -33229,7 +33457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1031301998
 MonoBehaviour:
@@ -33347,7 +33575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1039741771
 MonoBehaviour:
@@ -33469,7 +33697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1040788648
 MonoBehaviour:
@@ -33688,6 +33916,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 490890, guid: 0401a3f0164b9cf40bd8c14f152e69ab, type: 3}
   m_PrefabInstance: {fileID: 1048258006}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1048258008 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 140358, guid: 0401a3f0164b9cf40bd8c14f152e69ab, type: 3}
+  m_PrefabInstance: {fileID: 1048258006}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1048258009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048258008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1001 &1052298356
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33775,7 +34022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1052298360
 MonoBehaviour:
@@ -34039,7 +34286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1055180882
 MonoBehaviour:
@@ -34140,6 +34387,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 490890, guid: 0401a3f0164b9cf40bd8c14f152e69ab, type: 3}
   m_PrefabInstance: {fileID: 1056436679}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1056436681 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 140358, guid: 0401a3f0164b9cf40bd8c14f152e69ab, type: 3}
+  m_PrefabInstance: {fileID: 1056436679}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1056436682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056436681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1 &1058265616 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 7403adb434a6d0c4b99d6da9b43beba8, type: 3}
@@ -34177,7 +34443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1058265620
 MeshCollider:
@@ -34311,7 +34577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1058767820
 MeshCollider:
@@ -34437,7 +34703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1060064414
 MeshCollider:
@@ -34563,7 +34829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1061521570
 MeshCollider:
@@ -34685,7 +34951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1062246605
 MeshCollider:
@@ -34788,7 +35054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1064946512
 MonoBehaviour:
@@ -34921,7 +35187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1067282685
 MeshCollider:
@@ -35039,7 +35305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1067718070
 MeshCollider:
@@ -35157,7 +35423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1074547776
 MeshCollider:
@@ -35224,7 +35490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1001 &1077031107
 PrefabInstance:
@@ -35394,7 +35660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1077338757
 MonoBehaviour:
@@ -35543,7 +35809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1081148739
 MeshCollider:
@@ -35596,7 +35862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1082111835
 MeshCollider:
@@ -35649,7 +35915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1085781943
 MeshCollider:
@@ -35767,7 +36033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1088067482
 MeshCollider:
@@ -35902,7 +36168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1090774609
 MonoBehaviour:
@@ -36024,7 +36290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1091176766
 MonoBehaviour:
@@ -36247,7 +36513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1095790913
 MonoBehaviour:
@@ -36454,7 +36720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1107463828
 MeshCollider:
@@ -36557,7 +36823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1108654699
 MonoBehaviour:
@@ -36679,7 +36945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1115554364
 MonoBehaviour:
@@ -36747,7 +37013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1125751048
 MeshCollider:
@@ -36877,7 +37143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!65 &1128382253
 BoxCollider:
@@ -37038,7 +37304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1145021597
 MeshCollider:
@@ -37410,7 +37676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1157116014
 MeshCollider:
@@ -37661,7 +37927,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1166773807
 MeshCollider:
@@ -37779,7 +38045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1167733124
 MeshCollider:
@@ -37890,7 +38156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1167929184
 MonoBehaviour:
@@ -38181,7 +38447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1170766580
 MeshCollider:
@@ -38299,7 +38565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1171851352
 MeshCollider:
@@ -38352,7 +38618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1172591927
 MeshCollider:
@@ -38455,7 +38721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1173040922
 MonoBehaviour:
@@ -38604,7 +38870,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1174420972
 MeshCollider:
@@ -38707,7 +38973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1177959184
 MonoBehaviour:
@@ -39121,7 +39387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1199698566
 MeshCollider:
@@ -39293,7 +39559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1207238922
 MonoBehaviour:
@@ -39447,7 +39713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1215897374
 MonoBehaviour:
@@ -39634,7 +39900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1218604147
 MonoBehaviour:
@@ -39752,7 +40018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1220294605
 MonoBehaviour:
@@ -39885,7 +40151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1221203238
 MeshCollider:
@@ -40133,7 +40399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1227071664
 MeshCollider:
@@ -40255,7 +40521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1228912833
 MeshCollider:
@@ -40507,7 +40773,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1231009954
 MeshCollider:
@@ -40690,7 +40956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1235828407
 MeshCollider:
@@ -40797,7 +41063,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1235848161
 MonoBehaviour:
@@ -40977,7 +41243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1237660241
 MeshCollider:
@@ -41099,7 +41365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1244911630
 MeshCollider:
@@ -41221,7 +41487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!65 &1246596300
 BoxCollider:
@@ -41323,7 +41589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1250568824
 MonoBehaviour:
@@ -41391,7 +41657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1254617595
 MeshCollider:
@@ -41444,7 +41710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1259284889
 MeshCollider:
@@ -41530,6 +41796,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4465056388393302, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
   m_PrefabInstance: {fileID: 1259962718}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1259962720 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1829909544980582, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
+  m_PrefabInstance: {fileID: 1259962718}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1259962721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1259962720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1 &1260043926
 GameObject:
   m_ObjectHideFlags: 0
@@ -41733,7 +42018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1266107130
 MonoBehaviour:
@@ -41855,7 +42140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1272297388
 MonoBehaviour:
@@ -42048,7 +42333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1278149398
 MeshCollider:
@@ -42202,7 +42487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1282966963
 MeshCollider:
@@ -42401,7 +42686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1286662968
 MeshCollider:
@@ -42482,6 +42767,25 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: c70e075a2144ba04784d74b7b2889fd3, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
+--- !u!1 &1289119594 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1829909544980582, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
+  m_PrefabInstance: {fileID: 1289119593}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1289119595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289119594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1 &1294031760
 GameObject:
   m_ObjectHideFlags: 0
@@ -42637,7 +42941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1294772542
 MeshCollider:
@@ -42873,7 +43177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!65 &1303735176
 BoxCollider:
@@ -42990,7 +43294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1308302098
 MeshCollider:
@@ -43150,7 +43454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1314840593
 MeshCollider:
@@ -43272,7 +43576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1318661729
 MeshCollider:
@@ -43398,7 +43702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1320295061
 MeshCollider:
@@ -43570,7 +43874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1326218841
 MonoBehaviour:
@@ -43703,7 +44007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1327099331
 MeshCollider:
@@ -43810,7 +44114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1328020528
 MonoBehaviour:
@@ -43947,7 +44251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1328563700
 MeshCollider:
@@ -44065,7 +44369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1329659641
 MeshCollider:
@@ -44183,7 +44487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1332081807
 MeshCollider:
@@ -44286,7 +44590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1332660956
 MonoBehaviour:
@@ -44442,7 +44746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1341493592
 MonoBehaviour:
@@ -44629,7 +44933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1351151814
 MonoBehaviour:
@@ -44762,7 +45066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1367693247
 MeshCollider:
@@ -44865,7 +45169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1367722755
 MonoBehaviour:
@@ -44998,7 +45302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1370213873
 MeshCollider:
@@ -45036,7 +45340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1385211820
 MonoBehaviour:
@@ -45169,7 +45473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1386959305
 MeshCollider:
@@ -45484,7 +45788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1394475908
 MeshCollider:
@@ -45719,7 +46023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1413321257
 MeshCollider:
@@ -45841,7 +46145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1413913689
 MeshCollider:
@@ -46019,7 +46323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!65 &1414613846
 BoxCollider:
@@ -46287,7 +46591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1416185928
 MonoBehaviour:
@@ -46423,7 +46727,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1416645994
 MeshCollider:
@@ -46611,7 +46915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1419421391
 MonoBehaviour:
@@ -46733,7 +47037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1420701373
 MonoBehaviour:
@@ -46855,7 +47159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1423489223
 MonoBehaviour:
@@ -46977,7 +47281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1429602109
 MonoBehaviour:
@@ -47161,7 +47465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1431090268
 MeshCollider:
@@ -47268,7 +47572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1434110519
 MonoBehaviour:
@@ -47385,7 +47689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1434941734
 MonoBehaviour:
@@ -47511,7 +47815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1436963490
 MonoBehaviour:
@@ -47629,7 +47933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1440225766
 MonoBehaviour:
@@ -47751,7 +48055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1444045865
 MonoBehaviour:
@@ -47852,6 +48156,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4465056388393302, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
   m_PrefabInstance: {fileID: 1444709053}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1444709055 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1829909544980582, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
+  m_PrefabInstance: {fileID: 1444709053}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1444709056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1444709055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1001 &1448327411
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47939,7 +48262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1448327415
 MonoBehaviour:
@@ -48126,7 +48449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1448650144
 MonoBehaviour:
@@ -48290,7 +48613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1451460017
 MeshCollider:
@@ -48397,7 +48720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1452500957
 MonoBehaviour:
@@ -48519,7 +48842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1454491002
 MonoBehaviour:
@@ -48685,6 +49008,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4465056388393302, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
   m_PrefabInstance: {fileID: 1461283654}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1461283656 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1829909544980582, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
+  m_PrefabInstance: {fileID: 1461283654}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1461283657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461283656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1001 &1461377717
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48772,7 +49114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1461377721
 MonoBehaviour:
@@ -49039,7 +49381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1475438463
 MeshCollider:
@@ -49193,7 +49535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1475911995
 MeshCollider:
@@ -49385,7 +49727,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1477359286
 MonoBehaviour:
@@ -49534,7 +49876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1484738051
 MeshCollider:
@@ -49637,7 +49979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1484998399
 MonoBehaviour:
@@ -49771,7 +50113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1485816152
 MonoBehaviour:
@@ -49889,7 +50231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1486569318
 MonoBehaviour:
@@ -50007,7 +50349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1488001240
 MonoBehaviour:
@@ -50140,7 +50482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1489525596
 MeshCollider:
@@ -50368,7 +50710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1498892354
 MonoBehaviour:
@@ -50436,7 +50778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1499898938
 MeshCollider:
@@ -50620,7 +50962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1506399591
 MonoBehaviour:
@@ -50757,7 +51099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1519519475
 MeshCollider:
@@ -50920,7 +51262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1540190575
 MeshCollider:
@@ -51038,7 +51380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1543421302
 MeshCollider:
@@ -51222,7 +51564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1550397276
 MonoBehaviour:
@@ -51359,7 +51701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1556026176
 MeshCollider:
@@ -51462,7 +51804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1565387088
 MonoBehaviour:
@@ -51580,7 +51922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1565942680
 MonoBehaviour:
@@ -51743,7 +52085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1591385166
 MonoBehaviour:
@@ -51866,7 +52208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1591396244
 MonoBehaviour:
@@ -51996,7 +52338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1593115615
 MonoBehaviour:
@@ -52136,7 +52478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1602778799
 MeshCollider:
@@ -52286,7 +52628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1605507226
 MeshCollider:
@@ -52404,7 +52746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1612671182
 MeshCollider:
@@ -52538,7 +52880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1613202791
 MonoBehaviour:
@@ -52623,7 +52965,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1615579902
 MonoBehaviour:
@@ -52676,7 +53018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1616189790
 MonoBehaviour:
@@ -52926,7 +53268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1638766113
 MonoBehaviour:
@@ -53183,7 +53525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1650954644
 MeshCollider:
@@ -53286,7 +53628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1660258746
 MonoBehaviour:
@@ -53404,7 +53746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1663480148
 MonoBehaviour:
@@ -53717,7 +54059,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1676444745
 MonoBehaviour:
@@ -53799,7 +54141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1 &1679549489 stripped
 GameObject:
@@ -53823,7 +54165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1679549492
 MonoBehaviour:
@@ -53891,7 +54233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1687041823
 MeshCollider:
@@ -54010,7 +54352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1687807482
 MonoBehaviour:
@@ -54448,6 +54790,25 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: c70e075a2144ba04784d74b7b2889fd3, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 517a8607e4b54054b9216e69695d6e53, type: 3}
+--- !u!1 &1706815882 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1250922492522612, guid: 517a8607e4b54054b9216e69695d6e53, type: 3}
+  m_PrefabInstance: {fileID: 1706815881}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1706815883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706815882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1001 &1707096904
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54558,7 +54919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1707096909
 MeshCollider:
@@ -54709,7 +55070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1716627244
 MonoBehaviour:
@@ -54835,7 +55196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1719391288
 MonoBehaviour:
@@ -54957,7 +55318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1720855499
 MonoBehaviour:
@@ -55129,7 +55490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1727239559
 MeshCollider:
@@ -55489,7 +55850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1732581337
 MeshCollider:
@@ -55765,7 +56126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1742776624
 MeshCollider:
@@ -55803,7 +56164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1745518732
 MonoBehaviour:
@@ -55856,7 +56217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1752431974
 MonoBehaviour:
@@ -55997,7 +56358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1753454940
 MeshCollider:
@@ -56115,7 +56476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1754620278
 MeshCollider:
@@ -56218,7 +56579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1767063736
 MonoBehaviour:
@@ -56449,7 +56810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1773613024
 MeshCollider:
@@ -56592,7 +56953,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1779097673
 MonoBehaviour:
@@ -57007,7 +57368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!65 &1791568008
 BoxCollider:
@@ -57167,6 +57528,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4465056388393302, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
   m_PrefabInstance: {fileID: 1797715349}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1797715351 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1829909544980582, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
+  m_PrefabInstance: {fileID: 1797715349}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1797715352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797715351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1001 &1799044110
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57285,7 +57665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1799044115
 MeshCollider:
@@ -57525,7 +57905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1802211295
 MonoBehaviour:
@@ -57647,7 +58027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1804895573
 MonoBehaviour:
@@ -57806,7 +58186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1827602934
 MonoBehaviour:
@@ -57979,7 +58359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1830261918
 MeshCollider:
@@ -58086,7 +58466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1837865985
 MonoBehaviour:
@@ -58400,7 +58780,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1848320487
 MeshCollider:
@@ -58519,7 +58899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1849897700
 MonoBehaviour:
@@ -58737,7 +59117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1858687710
 MeshCollider:
@@ -58923,7 +59303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1001 &1875214427
 PrefabInstance:
@@ -59027,7 +59407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1875214432
 MeshCollider:
@@ -59292,7 +59672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1885294635
 MonoBehaviour:
@@ -59524,7 +59904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1897034613
 MeshCollider:
@@ -59772,7 +60152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1918517441
 MeshCollider:
@@ -59945,7 +60325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1935891056
 MeshCollider:
@@ -60048,7 +60428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1939674965
 MonoBehaviour:
@@ -60247,7 +60627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1946860228
 MonoBehaviour:
@@ -60300,7 +60680,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1950089378
 MonoBehaviour:
@@ -60433,7 +60813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1950260936
 MeshCollider:
@@ -60555,7 +60935,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1951367155
 MeshCollider:
@@ -60796,7 +61176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1963118673
 MeshCollider:
@@ -60918,7 +61298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1965240849
 MeshCollider:
@@ -60971,7 +61351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1966290687
 MeshCollider:
@@ -61170,7 +61550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1986671481
 MonoBehaviour:
@@ -61345,7 +61725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!65 &1988542023
 BoxCollider:
@@ -61447,7 +61827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1989395163
 MonoBehaviour:
@@ -61500,7 +61880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &1992241514
 MonoBehaviour:
@@ -61568,7 +61948,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &1998208171
 MeshCollider:
@@ -61690,7 +62070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &2000545238
 MeshCollider:
@@ -61793,7 +62173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &2002359690
 MonoBehaviour:
@@ -61926,7 +62306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &2003451329
 MeshCollider:
@@ -62033,7 +62413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &2004174372
 MonoBehaviour:
@@ -62166,7 +62546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &2004910227
 MeshCollider:
@@ -62569,7 +62949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &2006380400
 MeshCollider:
@@ -62719,7 +63099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &2010430408
 MeshCollider:
@@ -63033,7 +63413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &2012624361
 MeshCollider:
@@ -63136,7 +63516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &2015227711
 MonoBehaviour:
@@ -63258,7 +63638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &2017123381
 MonoBehaviour:
@@ -63391,7 +63771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &2018889252
 MeshCollider:
@@ -63443,7 +63823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &2019434632
 MonoBehaviour:
@@ -63631,7 +64011,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &2021294616
 MeshCollider:
@@ -63783,7 +64163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &2025064218
 MonoBehaviour:
@@ -63851,7 +64231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &2026683432
 MeshCollider:
@@ -64113,7 +64493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &2035440828
 MonoBehaviour:
@@ -64235,7 +64615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &2036893977
 MonoBehaviour:
@@ -64372,7 +64752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &2037279387
 MeshCollider:
@@ -64485,7 +64865,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1001 &2046145938
 PrefabInstance:
@@ -64593,7 +64973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!65 &2046145943
 BoxCollider:
@@ -64695,7 +65075,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &2047704851
 MonoBehaviour:
@@ -64828,7 +65208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &2049446185
 MeshCollider:
@@ -65126,7 +65506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &2077083318
 MonoBehaviour:
@@ -65291,7 +65671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &2096153489
 MeshCollider:
@@ -65398,7 +65778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &2100532258
 MonoBehaviour:
@@ -65760,6 +66140,25 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: c70e075a2144ba04784d74b7b2889fd3, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
+--- !u!1 &2118681412 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1829909544980582, guid: b8fbd80bb369bdc418c404e87bf5821b, type: 3}
+  m_PrefabInstance: {fileID: 2118681411}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2118681413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118681412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeThroughMaterials:
+  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!1001 &2119402262
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65862,7 +66261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &2119402267
 MeshCollider:
@@ -66071,8 +66470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
-  - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
+  _seeThroughMaterials: []
 --- !u!1001 &2120638673
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -66160,7 +66558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &2120638677
 MonoBehaviour:
@@ -66282,7 +66680,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!114 &2122377633
 MonoBehaviour:
@@ -66494,7 +66892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &2128823747
 MeshCollider:
@@ -66620,7 +67018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &2129476162
 MeshCollider:
@@ -66789,7 +67187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &2135335316
 MeshCollider:
@@ -66985,7 +67383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25451a1d79f11a84ab618e016c7de9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materials:
+  _seeThroughMaterials:
   - {fileID: 2100000, guid: 9cf2b9ccf4c3ed542a2de4e06bb640fc, type: 2}
 --- !u!64 &2147214569
 MeshCollider:

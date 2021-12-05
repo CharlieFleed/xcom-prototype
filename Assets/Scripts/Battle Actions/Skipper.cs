@@ -11,7 +11,7 @@ public class Skipper : BattleAction
         }
     }
 
-    private void LateUpdate() // NOTE: Late Update to avoid right click read by GridPathSelector as well
+    private void LateUpdate()
     {
         if (IsActive)
         {
@@ -42,7 +42,7 @@ public class Skipper : BattleAction
     [ClientRpc]
     void RpcSkip()
     {
-        Debug.Log("Skipper RpcSkip");
+        Debug.Log($"{name} Skipper RpcSkip");
         InvokeActionConfirmed(this);
         Deactivate();
         InvokeActionComplete(this);

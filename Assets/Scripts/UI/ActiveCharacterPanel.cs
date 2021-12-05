@@ -13,10 +13,10 @@ public class ActiveCharacterPanel : MonoBehaviour
     {
         _cg = GetComponent<CanvasGroup>();
         _cg.alpha = 0;
-        Unit.OnActiveChanged += HandleUnit_OnActiveChanged;
+        UnitLocalController.OnActiveChanged += HandleUnit_OnActiveChanged;
     }
 
-    private void HandleUnit_OnActiveChanged(Unit unit, bool active)
+    private void HandleUnit_OnActiveChanged(UnitLocalController unit, bool active)
     {
         if (active)
         {
@@ -34,6 +34,6 @@ public class ActiveCharacterPanel : MonoBehaviour
 
     private void OnDestroy()
     {
-        Unit.OnActiveChanged -= HandleUnit_OnActiveChanged;
+        UnitLocalController.OnActiveChanged -= HandleUnit_OnActiveChanged;
     }
 }

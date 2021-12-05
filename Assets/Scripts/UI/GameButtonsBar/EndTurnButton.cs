@@ -9,22 +9,22 @@ public class EndTurnButton : MonoBehaviour
 
     private void OnEnable()
     {
-        Unit.OnUnitAdded += HandleUnit_OnUnitAdded;
-        Unit.OnUnitRemoved += HandleUnit_OnUnitRemoved;
+        UnitLocalController.OnUnitAdded += HandleUnit_OnUnitAdded;
+        UnitLocalController.OnUnitRemoved += HandleUnit_OnUnitRemoved;
     }
 
     private void OnDisable()
     {
-        Unit.OnUnitAdded -= HandleUnit_OnUnitAdded;
-        Unit.OnUnitRemoved -= HandleUnit_OnUnitRemoved;
+        UnitLocalController.OnUnitAdded -= HandleUnit_OnUnitAdded;
+        UnitLocalController.OnUnitRemoved -= HandleUnit_OnUnitRemoved;
     }
 
-    private void HandleUnit_OnUnitAdded(Unit unit)
+    private void HandleUnit_OnUnitAdded(UnitLocalController unit)
     {
         OnClick += unit.HandleEndTurn;
     }
 
-    private void HandleUnit_OnUnitRemoved(Unit unit)
+    private void HandleUnit_OnUnitRemoved(UnitLocalController unit)
     {
         OnClick -= unit.HandleEndTurn;
     }

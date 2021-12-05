@@ -23,15 +23,15 @@ public class WeaponPanel : MonoBehaviour
 
     private void OnEnable()
     {
-        Unit.OnActiveChanged += HandleUnit_OnActiveChanged;
+        UnitLocalController.OnActiveChanged += HandleUnit_OnActiveChanged;
     }
 
     private void OnDisable()
     {
-        Unit.OnActiveChanged -= HandleUnit_OnActiveChanged;
+        UnitLocalController.OnActiveChanged -= HandleUnit_OnActiveChanged;
     }
 
-    private void HandleUnit_OnActiveChanged(Unit unit, bool active)
+    private void HandleUnit_OnActiveChanged(UnitLocalController unit, bool active)
     {
         if (active)
         {

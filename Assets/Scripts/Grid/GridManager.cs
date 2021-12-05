@@ -206,7 +206,6 @@ public class GridManager : MonoBehaviour
             RaycastHit hit;
             // start from the top of the box
             Vector3 origin = gridNode.WorldPosition + Vector3.up * 0.5f * _yScale;
-            origin.y += 0.5f * _yScale;
             //Debug.Log($"{origin.x},{origin.y},{origin.z}");
             if (Physics.BoxCast(origin, new Vector3(0.5f * _unitColliderExtents.x, 0.001f, 0.5f * _unitColliderExtents.z), Vector3.down, out hit, Quaternion.identity, _yScale, _floorLayerMask)) // only look for floor
             {
@@ -528,7 +527,7 @@ public class GridManager : MonoBehaviour
         int count = 0;
         foreach (Team team in teams)
         {
-            count += team.Units.Count;
+            count += team.Members.Count;
         }
         List<GridNode> walkableNodes = new List<GridNode>();
         // repeat until count walkable nodes are found, stop at 1000 attempts;
@@ -550,11 +549,11 @@ public class GridManager : MonoBehaviour
         {
             foreach (Team team in teams)
             {
-                foreach (Unit unit in team.Units)
+                foreach (TeamMember member in team.Members)
                 {
-                    unit.gameObject.transform.position = walkableNodes[count].FloorPosition;
+                    member.gameObject.transform.position = walkableNodes[count].FloorPosition;
                     Debug.Log("Set Current Node");
-                    unit.gameObject.GetComponent<GridEntity>().CurrentNode = walkableNodes[count];
+                    member.gameObject.GetComponent<GridEntity>().CurrentNode = walkableNodes[count];
                     count++;
                 }
             }

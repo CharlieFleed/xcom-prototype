@@ -7,7 +7,7 @@ public class ActionsBar : MonoBehaviour
 {
     [SerializeField] List<Image> _actions;
 
-    Unit _unit;
+    ActionsController _actionsController;
 
     void HandleActionsChanged(int actions)
     {
@@ -17,14 +17,14 @@ public class ActionsBar : MonoBehaviour
         }
     }
 
-    public void SetUnit(Unit unit)
+    public void SetActionsController(ActionsController actionsController)
     {
-        _unit = unit;
-        _unit.OnNumActionsChanged += HandleActionsChanged;
+        _actionsController = actionsController;
+        _actionsController.OnNumActionsChanged += HandleActionsChanged;
     }
 
     private void OnDestroy()
     {
-        _unit.OnNumActionsChanged -= HandleActionsChanged;
+        _actionsController.OnNumActionsChanged -= HandleActionsChanged;
     }
 }

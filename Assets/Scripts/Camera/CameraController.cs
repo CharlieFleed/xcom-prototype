@@ -41,23 +41,23 @@ public class CameraController : MonoBehaviour
 
     private void OnEnable()
     {
-        Unit.OnUnitAdded += HandleUnitAdded;
-        Unit.OnUnitRemoved += HandleUnitRemoved;
+        UnitLocalController.OnUnitAdded += HandleUnitAdded;
+        UnitLocalController.OnUnitRemoved += HandleUnitRemoved;
     }
 
     private void OnDisable()
     {
-        Unit.OnUnitAdded -= HandleUnitAdded;
-        Unit.OnUnitRemoved -= HandleUnitRemoved;
+        UnitLocalController.OnUnitAdded -= HandleUnitAdded;
+        UnitLocalController.OnUnitRemoved -= HandleUnitRemoved;
     }
 
-    private void HandleUnitAdded(Unit unit)
+    private void HandleUnitAdded(UnitLocalController unit)
     {
         unit.OnActionActivated += HandleActionActivated;
         unit.OnActionConfirmed += HandleActionConfirmed;
     }
 
-    private void HandleUnitRemoved(Unit unit)
+    private void HandleUnitRemoved(UnitLocalController unit)
     {
         unit.OnActionActivated -= HandleActionActivated;
         unit.OnActionConfirmed -= HandleActionConfirmed;

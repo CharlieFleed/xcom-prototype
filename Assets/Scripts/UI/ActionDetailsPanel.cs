@@ -12,8 +12,8 @@ public class ActionDetailsPanel : MonoBehaviour
 
     private void Awake()
     {
-        Unit.OnUnitAdded += HandleUnitAdded;
-        Unit.OnUnitRemoved += HandleUnitRemoved;
+        UnitLocalController.OnUnitAdded += HandleUnitAdded;
+        UnitLocalController.OnUnitRemoved += HandleUnitRemoved;
         Shooter.OnShotSelected += HandleShooter_OnShotSelected;
         Thrower.OnThrowing += HandleThrower_OnThrowing;
         //
@@ -27,19 +27,19 @@ public class ActionDetailsPanel : MonoBehaviour
     private void OnDestroy()
     {
         // de-registration of events cannot be on OnDisable
-        Unit.OnUnitAdded -= HandleUnitAdded;
-        Unit.OnUnitRemoved -= HandleUnitRemoved;
+        UnitLocalController.OnUnitAdded -= HandleUnitAdded;
+        UnitLocalController.OnUnitRemoved -= HandleUnitRemoved;
         Shooter.OnShotSelected -= HandleShooter_OnShotSelected;
         Thrower.OnThrowing -= HandleThrower_OnThrowing;
     }
 
-    private void HandleUnitAdded(Unit unit)
+    private void HandleUnitAdded(UnitLocalController unit)
     {
         //Debug.Log("ActionDetailsPanel HandleUnitAdded");
         unit.OnActionActivated += HandleActionActivated;
     }
 
-    private void HandleUnitRemoved(Unit unit)
+    private void HandleUnitRemoved(UnitLocalController unit)
     {
         unit.OnActionActivated -= HandleActionActivated;
     }
@@ -71,6 +71,8 @@ public class ActionDetailsPanel : MonoBehaviour
     {
         battleAction.OnActionConfirmed += HandleActionConfirmed;
         battleAction.OnActionCancelled += HandleActionCancelled;
+        _descriptionText.text = battleAction.DescriptionText;
+        _descriptionText.GetComponent<CanvasGroup>().alpha = 1;
         gameObject.SetActive(true);
     }
 

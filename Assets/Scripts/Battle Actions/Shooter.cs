@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using Cinemachine;
 using Mirror;
-
+using System.Linq;
 
 public class Shooter : BattleAction
 {
@@ -31,7 +31,7 @@ public class Shooter : BattleAction
     public event Action OnShot = delegate { };
     public event Action<Shooter> OnShoot = delegate { };
 
-    protected Queue<ShotStats> _targets = new Queue<ShotStats>();
+    protected Queue<ShotStats> _shots = new Queue<ShotStats>();
 
     [SerializeField] protected Weapon _weapon;
     public Weapon Weapon { get { return _weapon; } set { _weapon = value; } }
@@ -41,7 +41,14 @@ public class Shooter : BattleAction
 
     public static event Action<ShotStats> OnShotSelected = delegate { };
 
+    GridEntity _gridEntity;
+
     #endregion
+
+    private void Awake()
+    {
+        _gridEntity = GetComponent<GridEntity>();
+    }
 
     private void OnEnable()
     {
@@ -62,7 +69,7 @@ public class Shooter : BattleAction
     }
 
     // Update is called once per frame
-    void LateUpdate() // NOTE: Late Update to avoid right click read by GridPathSelector as well
+    void LateUpdate()
     {
         if (IsActive)
         {
@@ -84,11 +91,11 @@ public class Shooter : BattleAction
 
     protected virtual void Shoot()
     {
-        if (_targets.Count > 0 && _targets.Peek().Available)
+        if (_shots.Count > 0 && _shots.Peek().Available)
         {
             HideTargets();
             OnTargetingEnd();
-            CmdShoot(_targets.Peek().Target.gameObject);
+            CmdShoot(_shots.Peek().Target.gameObject);
         }
     }
 
@@ -102,9 +109,9 @@ public class Shooter : BattleAction
     protected virtual void RpcShoot(GameObject target)
     {
         Debug.Log($"{name} Shooter RpcShoot");
-        GetTargets();
+        UpdateShots();
         ShotStats shotStats = null;
-        foreach (var shot in _targets)
+        foreach (var shot in _shots)
         {
             if (shot.Target == target.GetComponent<GridEntity>())
             {
@@ -135,17 +142,17 @@ public class Shooter : BattleAction
 
     void NextTarget()
     {
-        if (_targets.Count > 0)
+        if (_shots.Count > 0)
         {
             // unselect current target
-            _targets.Peek().Target.IsTargeted = false;
+            _shots.Peek().Target.IsTargeted = false;
             // rotate targets
-            ShotStats target = _targets.Dequeue();
-            _targets.Enqueue(target);
+            ShotStats target = _shots.Dequeue();
+            _shots.Enqueue(target);
             // select new target
-            _targets.Peek().Target.IsTargeted = true;
-            OnTargetSelected(this, _targets.Peek().Target);
-            OnShotSelected(_targets.Peek());
+            _shots.Peek().Target.IsTargeted = true;
+            OnTargetSelected(this, _shots.Peek().Target);
+            OnShotSelected(_shots.Peek());
         }
     }
 
@@ -160,9 +167,9 @@ public class Shooter : BattleAction
     override public void Cancel()
     {
         //Debug.Log("Shooter - Cancel");
-        if (_targets.Count > 0)
+        if (_shots.Count > 0)
         {
-            _targets.Peek().Target.IsTargeted = false;
+            _shots.Peek().Target.IsTargeted = false;
         }
         HideTargets();
         OnTargetingEnd();
@@ -171,36 +178,36 @@ public class Shooter : BattleAction
 
     void StartTargetSelection()
     {
-        if (_targets.Count > 0)
+        if (_shots.Count > 0)
         {
-            _targets.Peek().Target.IsTargeted = true;
-            OnTargetSelected(this, _targets.Peek().Target);
-            OnShotSelected(_targets.Peek());
+            _shots.Peek().Target.IsTargeted = true;
+            OnTargetSelected(this, _shots.Peek().Target);
+            OnShotSelected(_shots.Peek());
         }
     }
 
-    public void GetTargets()
+    public void UpdateShots()
     {
-        _targets.Clear();
-        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(GetComponent<Unit>());
-        foreach (var shotStats in GridCoverManager.Instance.GetShotStats(this, enemies))
+        _shots.Clear();
+        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(GetComponent<TeamMember>());
+        foreach (var shot in GridCoverManager.Instance.GetShotStats(_gridEntity, enemies))
         {
-            shotStats.Available = Vector3.Distance(transform.position, shotStats.Target.transform.position) <= _weapon.Range;
-            shotStats.HitChance = 100 + Weapon.HitChanceBonus(shotStats.Target);
-            if (shotStats.Cover)
-                shotStats.HitChance -= 40;
-            if (shotStats.HalfCover)
-                shotStats.HitChance -= 20;
-            if (shotStats.Flanked)
-                shotStats.CritChance += 50;
-            Hunkerer hunkerer = shotStats.Target.GetComponent<Hunkerer>();
+            shot.Available = Vector3.Distance(transform.position, shot.Target.transform.position) <= _weapon.Range;
+            shot.HitChance = 100 + Weapon.HitChanceBonus(shot.Target);
+            if (shot.Cover)
+                shot.HitChance -= 40;
+            if (shot.HalfCover)
+                shot.HitChance -= 20;
+            if (shot.Flanked)
+                shot.CritChance += 50;
+            Hunkerer hunkerer = shot.Target.GetComponent<Hunkerer>();
             if (hunkerer != null && hunkerer.IsHunkering)
-                shotStats.HitChance -= 30;
-            shotStats.HitChance = Mathf.Clamp(shotStats.HitChance, 0, 100);
-            shotStats.CritChance = Mathf.Clamp(shotStats.CritChance, 0, 100);
-            shotStats.BaseDamage = Weapon.BaseDamage;
-            shotStats.MaxDamage = Weapon.MaxDamage; 
-            _targets.Enqueue(shotStats);
+                shot.HitChance -= 30;
+            shot.HitChance = Mathf.Clamp(shot.HitChance, 0, 100);
+            shot.CritChance = Mathf.Clamp(shot.CritChance, 0, 100);
+            shot.BaseDamage = Weapon.BaseDamage;
+            shot.MaxDamage = Weapon.MaxDamage; 
+            _shots.Enqueue(shot);
         }
         List<GridEntity> gridEntities = NetworkMatchManager.Instance.GetGridEntities();
         // Add map entities
@@ -209,7 +216,7 @@ public class Shooter : BattleAction
             GridAgent gridAgent = gridEntity.GetComponent<GridAgent>();
             if (gridAgent == null)
             {
-                if (GridCoverManager.Instance.LineOfSight(GetComponent<GridEntity>(), gridEntity, out Ray ray, out float rayLength, new List<GridNode[]>()))
+                if (GridCoverManager.Instance.LineOfSight(_gridEntity, gridEntity, out Ray ray, out float rayLength, new List<GridNode[]>()))
                 {
                     ShotStats shotStats = new ShotStats();
                     shotStats.Target = gridEntity;
@@ -218,7 +225,7 @@ public class Shooter : BattleAction
                     shotStats.CritChance = 0;
                     shotStats.BaseDamage = Weapon.BaseDamage;
                     shotStats.MaxDamage = Weapon.MaxDamage;
-                    _targets.Enqueue(shotStats);
+                    _shots.Enqueue(shotStats);
                 }
             }
         }
@@ -227,7 +234,7 @@ public class Shooter : BattleAction
     public void ShowTargets()
     {
         //Debug.Log($"Shooter - ShowTargets. #targets: {_targets.Count}.");
-        foreach (var target in _targets)
+        foreach (var target in _shots)
         {
             OnTargetAdded(target);
         }
@@ -235,7 +242,7 @@ public class Shooter : BattleAction
 
     public void HideTargets()
     {
-        foreach (var target in _targets)
+        foreach (var target in _shots)
         {
             target.Target.IsTargeted = false;
         }
@@ -244,7 +251,7 @@ public class Shooter : BattleAction
 
     public bool HasAvailableTargets()
     {
-        foreach (var target in _targets)
+        foreach (var target in _shots)
         {
             if (target.Available)
                 return true;
@@ -252,11 +259,16 @@ public class Shooter : BattleAction
         return false;
     }
 
+    public List<ShotStats> GetTargets()
+    {
+        return _shots.ToList();
+    }
+
     public void SelectTarget(ShotStats target)
     {
-        if (_targets.Count > 0)
+        if (_shots.Count > 0)
         {
-            while (_targets.Peek().Target != target.Target)
+            while (_shots.Peek().Target != target.Target)
             {
                 NextTarget();
             }
@@ -266,15 +278,24 @@ public class Shooter : BattleAction
     public void ShootRandomTarget()
     {
         List<ShotStats> availableShots = new List<ShotStats>();
-        foreach (var shot in _targets)
+        foreach (var shot in _shots)
         {
             if (shot.Available)
                 availableShots.Add(shot);
         }
         ShotStats selectedShot = availableShots[UnityEngine.Random.Range(0, availableShots.Count)];
-        _targets.Clear();
-        _targets.Enqueue(selectedShot);
+        _shots.Clear();
+        _shots.Enqueue(selectedShot);
         OnTargetSelected(this, selectedShot.Target);
+        OnTargetingEnd();
+        Shoot();
+    }
+
+    public void ShootTarget(ShotStats shot)
+    {
+        _shots.Clear();
+        _shots.Enqueue(shot);
+        OnTargetSelected(this, shot.Target);
         OnTargetingEnd();
         Shoot();
     }
@@ -284,7 +305,7 @@ public class Shooter : BattleAction
         if (IsActive)
         {
             //Debug.Log("Shooter HandleTargetClick - " + gameObject.name + " - " + ActionName + " target: " + target.Unit.gameObject.name);
-            while (_targets.Peek().Target != target.Target)
+            while (_shots.Peek().Target != target.Target)
             {
                 NextTarget();
             }
@@ -314,7 +335,7 @@ public class Shooter : BattleAction
     public override void Init(int numActions)
     {
         base.Init(numActions);
-        GetTargets();
+        UpdateShots();
         Available &= HasAvailableTargets();
         Available &= _weapon.Bullets > 0;
     }

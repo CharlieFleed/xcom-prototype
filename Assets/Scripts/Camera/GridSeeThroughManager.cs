@@ -26,7 +26,7 @@ public class GridSeeThroughManager : MonoBehaviour
                 {
                     if (obj.Y > _cameraController.Level)
                     {
-                        obj.GetComponent<SeeThrough>().Hidden = true;
+                        obj.GetComponent<SeeThrough>().Hide();
                     }
                 }
             }

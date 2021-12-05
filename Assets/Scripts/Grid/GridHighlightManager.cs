@@ -31,7 +31,8 @@ public class GridHighlightManager : MonoBehaviour
 
     public void HighlightNode(GridNode node)
     {
-        _gridNodeHighlights[node.X, node.Y, node.Z].Highlighted = true;
+        if (_gridNodeHighlights[node.X, node.Y, node.Z] != null)
+            _gridNodeHighlights[node.X, node.Y, node.Z].Highlighted = true;
     }
 
     #region Singleton

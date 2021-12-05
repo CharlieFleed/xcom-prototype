@@ -18,7 +18,7 @@ public class Medikit : Item
     {
         bool result = base.IsApplicable(target);
         Health health = target.GetComponent<Health>();
-        if (health != null && !health.IsFull())
+        if (health != null && !health.IsFull)
         {
             return true;
         }

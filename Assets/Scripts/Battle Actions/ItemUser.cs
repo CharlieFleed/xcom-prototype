@@ -68,7 +68,7 @@ public class ItemUser : BattleAction
         }
     }
     // Update is called once per frame
-    void LateUpdate() // NOTE: Late Update to avoid right click read by GridPathSelector as well
+    void LateUpdate()
     {
         if (IsActive)
         {
@@ -109,7 +109,7 @@ public class ItemUser : BattleAction
     protected virtual void RpcUse(GameObject target)
     {
         Debug.Log(" ItemUser RpcUse");
-        GetTargets();
+        UpdateTargets();
         ShotStats shotStats = null;
         foreach (var shot in _targets)
         {
@@ -195,11 +195,11 @@ public class ItemUser : BattleAction
         }
     }
 
-    public void GetTargets()
+    public void UpdateTargets()
     {
         _targets.Clear();
-        List<GridEntity> friends = NetworkMatchManager.Instance.GetFriendsAs<GridEntity>(GetComponent<Unit>());
-        foreach (var shotStats in GridCoverManager.Instance.GetShotStats(this, friends))
+        List<GridEntity> friends = NetworkMatchManager.Instance.GetFriendsAs<GridEntity>(GetComponent<TeamMember>());
+        foreach (var shotStats in GridCoverManager.Instance.GetShotStats(_gridEntity, friends))
         {
             if (Vector3.Distance(transform.position, shotStats.Target.CurrentNode.FloorPosition) <= _item.Range)
             {
@@ -287,7 +287,7 @@ public class ItemUser : BattleAction
     public override void Init(int numActions)
     {
         base.Init(numActions);
-        GetTargets();
+        UpdateTargets();
         Available &= HasAvailableTargets();
         Available &= _item.Uses > 0;
         //
@@ -299,11 +299,5 @@ public class ItemUser : BattleAction
                 _targetNodes.Add(node);
             }
         }
-
-        //GridNode origin = _gridEntity.CurrentNode;
-        //float maxJumpUp = _gridAgent.MaxJumpUp;
-        //float maxJumpDown = _gridAgent.MaxJumpDown;
-        //_pathfinder.Initialize(_gridManager.GetGrid(), origin, origin, _item.Range, maxJumpUp, maxJumpDown, (node) => { return true; }, false);
-        //_targetNodes = _pathfinder.GetNodes(_item.Range);
     }
 }

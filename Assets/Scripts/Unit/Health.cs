@@ -16,15 +16,11 @@ public class Health : MonoBehaviour
     // Used by DamageBarController
     public event Action<Health, int, bool, bool> OnTakeDamage = delegate { };
 
-    // Set by DamageBarController, used by GridEntityHUD
-    private bool _isDamaged;
-    public bool IsDamaged { get { return _isDamaged; } set { _isDamaged = value; OnDamagedChanged(_isDamaged); } }
-    public event Action<bool> OnDamagedChanged = delegate { };
-
     public event Action OnDied = delegate { };
 
     int _maxHealth;
     int _currentHealth;
+
     public int Id;
 
     private void Awake()
@@ -68,8 +64,7 @@ public class Health : MonoBehaviour
 
     public bool IsDead { get { return _currentHealth == 0; }}
 
-    internal bool IsFull()
-    {
-        return _currentHealth == _maxHealth;
-    }
+    public bool IsLow { get { return _currentHealth < .3f * _maxHealth; } }
+
+    public bool IsFull { get { return _currentHealth == _maxHealth; } }
 }

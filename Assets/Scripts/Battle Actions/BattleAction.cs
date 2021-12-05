@@ -12,6 +12,9 @@ public class BattleAction : NetworkBehaviour
     [SerializeField] string _confirmText;
     public virtual string ConfirmText { get { return _confirmText; } }
 
+    [SerializeField] string _descriptionText;
+    public virtual string DescriptionText { get { return _descriptionText; } }
+
     public int Cost = 1;
     public bool Available = true;
     public bool EndsTurn = false;

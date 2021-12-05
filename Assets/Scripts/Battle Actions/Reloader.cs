@@ -17,7 +17,7 @@ public class Reloader : BattleAction
         }
     }
 
-    private void LateUpdate() // NOTE: Late Update to avoid right click read by GridPathSelector as well
+    private void LateUpdate()
     {
         if (IsActive)
         {
@@ -40,7 +40,7 @@ public class Reloader : BattleAction
         Reload();
     }
 
-    void Reload()
+    public void Reload()
     {
         CmdReload();
     }
@@ -54,7 +54,7 @@ public class Reloader : BattleAction
     [ClientRpc]
     void RpcReload()
     {
-        Debug.Log("Reloader RpcReload");
+        Debug.Log($"{name} Reloader RpcReload");
         _weapon.Reload();
         InvokeActionConfirmed(this);
         Deactivate();

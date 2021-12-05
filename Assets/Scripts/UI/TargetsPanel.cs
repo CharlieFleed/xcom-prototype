@@ -18,8 +18,8 @@ public class TargetsPanel : MonoBehaviour
 
     private void OnEnable()
     {
-        Unit.OnUnitAdded += HandleUnit_OnUnitAdded;
-        Unit.OnUnitRemoved += HandleUnit_OnUnitRemoved;
+        UnitLocalController.OnUnitAdded += HandleUnit_OnUnitAdded;
+        UnitLocalController.OnUnitRemoved += HandleUnit_OnUnitRemoved;
         Shooter.OnShooterAdded += HandleShooterAdded;
         Shooter.OnShooterRemoved += HandleShooterRemoved;
         ItemUser.OnItemUserAdded += HandleItemUser_OnItemUserAdded;
@@ -28,8 +28,8 @@ public class TargetsPanel : MonoBehaviour
 
     private void OnDisable()
     {
-        Unit.OnUnitAdded -= HandleUnit_OnUnitAdded;
-        Unit.OnUnitRemoved -= HandleUnit_OnUnitRemoved;
+        UnitLocalController.OnUnitAdded -= HandleUnit_OnUnitAdded;
+        UnitLocalController.OnUnitRemoved -= HandleUnit_OnUnitRemoved;
         Shooter.OnShooterAdded -= HandleShooterAdded;
         Shooter.OnShooterRemoved -= HandleShooterRemoved;
         ItemUser.OnItemUserAdded -= HandleItemUser_OnItemUserAdded;
@@ -86,14 +86,14 @@ public class TargetsPanel : MonoBehaviour
         OnTargetClick(obj);
     }
 
-    private void HandleUnit_OnUnitAdded(Unit unit)
+    private void HandleUnit_OnUnitAdded(UnitLocalController unit)
     {
         OnTargetClick += unit.HandleTargetClick; // NOTE: reversed event dependency
         OnMouseOverTarget += unit.HandleMouseOverTarget; // NOTE: reversed event dependency
         OnMouseExitTarget += unit.HandleMouseExitTarget; // NOTE: reversed event dependency
     }
 
-    private void HandleUnit_OnUnitRemoved(Unit unit)
+    private void HandleUnit_OnUnitRemoved(UnitLocalController unit)
     {
         OnTargetClick -= unit.HandleTargetClick;
         OnMouseOverTarget -= unit.HandleMouseOverTarget;

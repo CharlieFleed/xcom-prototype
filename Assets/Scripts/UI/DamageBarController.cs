@@ -45,17 +45,12 @@ public class DamageBarController : MonoBehaviour
         damageBar.SetDamage(damage, hit, crit);
         damageBar.OnEnd += HandleDamageBar_End;
         _damageBars[health].Add(damageBar);
-        health.IsDamaged = true;
     }
 
     void HandleDamageBar_End(DamageBar damageBar)
     {
         _damageBars[damageBar.Health].Remove(damageBar);
         Destroy(damageBar);
-        if (_damageBars[damageBar.Health].Count == 0)
-        {
-            damageBar.Health.IsDamaged = false;
-        }
     }
 
     private void OnDestroy()

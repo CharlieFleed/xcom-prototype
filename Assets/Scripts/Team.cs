@@ -4,86 +4,88 @@ using UnityEngine;
 
 public class Team
 {
-    public List<Unit> Units = new List<Unit>();
+    public List<TeamMember> Members = new List<TeamMember>();
     public bool IsActive { set; get; }
     public MyGamePlayer Owner { set; get; }
     public int Id;
     public string Name;
 
-    Queue<Unit> ReadyUnits = new Queue<Unit>();
+    Queue<TeamMember> ReadyMembers = new Queue<TeamMember>();
+
+    public bool IsAI { set; get; }
 
     /// <summary>
-    /// Populates ready units and calls StartTurn for all units.
+    /// Populates ready members and calls StartTurn for all members.
     /// </summary>
     public void StartTurn()
     {
         IsActive = true;
-        foreach (Unit unit in Units)
+        foreach (TeamMember member in Members)
         {
-            unit.StartTurn();
-            ReadyUnits.Enqueue(unit);
+            member.GetComponent<ActionsController>().StartTurn();
+            ReadyMembers.Enqueue(member);
         }
     }
 
     public void EndTurn()
     {
         IsActive = false;
-        ReadyUnits.Clear();
+        ReadyMembers.Clear();
     }
 
-    public void RotateReadyUnits()
+    public void RotateReadyMembers()
     {
-        Unit unit = ReadyUnits.Dequeue();
-        ReadyUnits.Enqueue(unit);
+        TeamMember member = ReadyMembers.Dequeue();
+        ReadyMembers.Enqueue(member);
     }
 
     /// <summary>
-    /// Returns null if there are no ready units left.
+    /// Returns null if there are no ready members left.
     /// </summary>
     /// <returns></returns>
-    public Unit GetFirstReadyUnit()
+    public TeamMember GetFirstReadyMember()
     {
-        //Debug.Log($"ReadyUnits.Count: {ReadyUnits.Count}");
-        while (ReadyUnits.Count > 0)
+        //Debug.Log($"ReadyMembers.Count: {ReadyMembers.Count}");
+        while (ReadyMembers.Count > 0)
         {
-            if (ReadyUnits.Peek().NumActions > 0 && !ReadyUnits.Peek().GetComponent<Health>().IsDead)
+            if (ReadyMembers.Peek().GetComponent<ActionsController>().NumActions > 0 && !ReadyMembers.Peek().GetComponent<Health>().IsDead)
             {
-                return ReadyUnits.Peek();
+                return ReadyMembers.Peek();
             }
             else
             {
                 //Debug.Log($"ReadyUnits.Peek().NumActions: {ReadyUnits.Peek().NumActions} ReadyUnits.Peek().GetComponent<Health>().IsDead: {ReadyUnits.Peek().GetComponent<Health>().IsDead}");
-                ReadyUnits.Dequeue();
+                ReadyMembers.Dequeue();
             }
         }
         return null;
     }
 
-    public void RemoveUnit(Unit unit)
+    public void RemoveMember(TeamMember member)
     {
-        if (Units.Contains(unit))
-            Units.Remove(unit);
+        if (Members.Contains(member))
+            Members.Remove(member);
         // rebuild ReadyUnits queue
-        List<Unit> queue = new List<Unit>();
-        while (ReadyUnits.Count > 0)
+        List<TeamMember> queue = new List<TeamMember>();
+        while (ReadyMembers.Count > 0)
         {
-            if (ReadyUnits.Peek() != unit)
+            if (ReadyMembers.Peek() != member)
             {
-                queue.Add(ReadyUnits.Peek());
+                queue.Add(ReadyMembers.Peek());
             }
-            ReadyUnits.Dequeue();
+            ReadyMembers.Dequeue();
         }
         foreach (var c in queue)
         {
-            ReadyUnits.Enqueue(c);
+            ReadyMembers.Enqueue(c);
         }
     }
 
     public bool IsDefeated()
     {
-        foreach (var unit in Units)
+        foreach (var member in Members)
         {
-            if (!unit.GetComponent<Health>().IsDead)
+            if (!member.GetComponent<Health>().IsDead)
             {
                 return false;
             }

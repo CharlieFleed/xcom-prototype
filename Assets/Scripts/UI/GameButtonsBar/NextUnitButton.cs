@@ -9,23 +9,23 @@ public class NextUnitButton : MonoBehaviour
 
     private void Awake()
     {
-        Unit.OnUnitAdded += HandleUnit_OnUnitAdded;
-        Unit.OnUnitRemoved += HandleUnit_OnUnitRemoved;
+        UnitLocalController.OnUnitAdded += HandleUnit_OnUnitAdded;
+        UnitLocalController.OnUnitRemoved += HandleUnit_OnUnitRemoved;
     }
 
-    private void HandleUnit_OnUnitAdded(Unit obj)
+    private void HandleUnit_OnUnitAdded(UnitLocalController obj)
     {
         OnClick += obj.HandlePass;
     }
 
-    private void HandleUnit_OnUnitRemoved(Unit obj)
+    private void HandleUnit_OnUnitRemoved(UnitLocalController obj)
     {
         OnClick -= obj.HandlePass;
     }
 
     private void OnDestroy()
     {
-        Unit.OnUnitAdded -= HandleUnit_OnUnitAdded;
+        UnitLocalController.OnUnitAdded -= HandleUnit_OnUnitAdded;
     }
 
     public void Click()

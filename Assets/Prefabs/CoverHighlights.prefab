@@ -1115,6 +1115,10 @@ MonoBehaviour:
   - {fileID: 2760708739609248710}
   - {fileID: 8499331226548498026}
   - {fileID: 1871385382969758918}
+  _coverMaterial: {fileID: 2100000, guid: 021f4fc28caed4d4493f192b06f6b588, type: 2}
+  _halfCoverMaterial: {fileID: 2100000, guid: 1a072d31956ca1e41863680033563f35, type: 2}
+  _coverMaterialFlanked: {fileID: 2100000, guid: a977e65f41f3d22459f7c1bb12680c84, type: 2}
+  _halfCoverMaterialFlanked: {fileID: 2100000, guid: 1f9341ca13f74bb49965217d987b534e, type: 2}
   _flags: 
   _hFlags: 
 --- !u!1 &7513790811456755291

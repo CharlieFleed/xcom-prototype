@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: Medikit
   m_EditorClassIdentifier: 
   Name: Medikit
-  Healment: 4
+  Range: 2
+  BaseDamage: -4
+  MaxDamage: -4
   EffectFXPrefab: {fileID: 100000, guid: ada5d62ffe762ce4fbccc70dcdbc9022, type: 3}

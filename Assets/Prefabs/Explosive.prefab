@@ -238,8 +238,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Highlighted: 0
   Silhouetted: 0
-  _highlightMaterial: {fileID: 2100000, guid: 29fd3cc01cf24d148866ac93c630b595, type: 2}
-  _silhouetteMaterial: {fileID: 2100000, guid: bb3f605e4621cc148b73de34ed0c0290, type: 2}
+  _highlightMaterial: {fileID: 2100000, guid: c9ffc795322d2c745850f72ca6fa214c, type: 2}
+  _silhouetteMaterial: {fileID: 2100000, guid: bec8fccf65ce4254795a04ffa49046c8, type: 2}
 --- !u!114 &-7019379659615793772
 MonoBehaviour:
   m_ObjectHideFlags: 0

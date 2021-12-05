@@ -26,6 +26,7 @@ public class GridPathSelector : NetworkBehaviour
     Walker _walker;
     GridEntity _gridEntity;
     GridAgent _gridAgent;
+    TeamMember _teamMember;
     List<GridNode> _walkRegion = new List<GridNode>();
     List<GridNode> _runRegion = new List<GridNode>();
     CoverHighlights[] _coverHighlights = new CoverHighlights[9];
@@ -50,6 +51,7 @@ public class GridPathSelector : NetworkBehaviour
         _walker = GetComponent<Walker>();
         _gridEntity = GetComponent<GridEntity>();
         _gridAgent = GetComponent<GridAgent>();
+        _teamMember = GetComponent<TeamMember>();
         GameObject obj = Instantiate(_pathLineRendererPrefab, transform);
         _lineRenderer = obj.GetComponent<LineRenderer>();
         _lineRenderer.positionCount = 0;
@@ -172,6 +174,7 @@ public class GridPathSelector : NetworkBehaviour
 
     void ShowCover(Stack<GridNode> path)
     {
+        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(_teamMember);
         //Debug.Log("ShowCover");
         GridNode n = path.ToArray()[path.Count - 1];
         for (int x = -1; x <= 1; x++)
@@ -183,15 +186,17 @@ public class GridPathSelector : NetworkBehaviour
                 if (node != null)
                 {
                     ch.transform.position = node.FloorPosition;
-                    if (x == 0 && z == 0)
-                    {
-                        ch.Main = true;
-                    }
                     for (int i = 0; i < 4; i++)
                     {
                         //Debug.Log($"Node: {node.X},{node.Y},{node.Z} Walkable:{node.IsWalkable} Wall[{i}]{node.Walls[i]} HalfWall[{i}]{node.HalfWalls[i]} ");
                         ch._flags[i] = node.IsWalkable && node.Walls[i];
                         ch._hFlags[i] = node.IsWalkable && node.HalfWalls[i];
+                    }
+                    int cover = GridCoverManager.Instance.GetCover(_gridEntity, node, enemies);
+                    ch.Flanked = (cover == -1);
+                    if (x == 0 && z == 0)
+                    {
+                        ch.Main = true;
                     }
                 }
             }

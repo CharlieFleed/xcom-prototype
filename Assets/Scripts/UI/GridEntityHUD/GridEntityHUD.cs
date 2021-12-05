@@ -7,16 +7,18 @@ public class GridEntityHUD : MonoBehaviour
     [SerializeField] float _transparency = 0.5f;
     [SerializeField] int _positionOffset = 3;
 
-    Unit _unit;
+    UnitLocalController _unit;
     Health _health;
     GridEntity _gridEntity;
     Viewer _viewer;
+    TeamMember _teamMember;
 
     Camera _camera;
 
     CanvasGroup _cg;
     int _display; // 0: hide, 1: transparent, 2: opaque 
     float _fadeSpeed = 15f;
+    float _displayTimer = 0; // used to force display
 
     Vector3 _screenPoint;
 
@@ -30,9 +32,16 @@ public class GridEntityHUD : MonoBehaviour
     public void SetGridEntity(GridEntity gridEntity)
     {
         _gridEntity = gridEntity;
-        _unit = _gridEntity.GetComponent<Unit>();
+        _unit = _gridEntity.GetComponent<UnitLocalController>();
         _health = _gridEntity.GetComponent<Health>();
+        _health.OnTakeDamage += HandleHealth_TakeDamage;
         _viewer = _gridEntity.GetComponent<Viewer>();
+        _teamMember = _gridEntity.GetComponent<TeamMember>();
+    }
+
+    private void OnDestroy()
+    {
+        _health.OnTakeDamage -= HandleHealth_TakeDamage;
     }
 
     private void Update()
@@ -43,6 +52,12 @@ public class GridEntityHUD : MonoBehaviour
 
     private void Check()
     {
+        if (_displayTimer > 0)
+        {
+            _displayTimer -= Time.deltaTime;
+            _display = 2;
+            return;
+        }
         if (_health.IsDead || (_viewer != null && !_viewer.IsVisible))
         {
             _display = 0;
@@ -54,8 +69,7 @@ public class GridEntityHUD : MonoBehaviour
         else if ((_unit != null && _unit.IsActive) ||
             _gridEntity.IsTargeted ||
             _gridEntity.IsSoftTargeted ||
-            _health.IsDamaged ||
-            (_unit != null && (NetworkMatchManager.Instance.CurrentUnit != null && NetworkMatchManager.Instance.CurrentUnit.GetComponent<Walker>().IsActive && !NetworkMatchManager.Instance.CurrentUnit.GetComponent<Walker>().IsWalking && !_unit.Team.IsActive)))
+            (_unit != null && (NetworkMatchManager.Instance.CurrentTeamMember != null && NetworkMatchManager.Instance.CurrentTeamMember.GetComponent<Walker>().IsActive && !NetworkMatchManager.Instance.CurrentTeamMember.GetComponent<Walker>().IsWalking && !_teamMember.Team.IsActive)))
         {
             _display = 2;
         }
@@ -85,5 +99,10 @@ public class GridEntityHUD : MonoBehaviour
     {
         _screenPoint = _camera.WorldToScreenPoint(_gridEntity.transform.position);
         transform.position = _camera.WorldToScreenPoint(_gridEntity.transform.position + Vector3.up * _positionOffset);
+    }
+
+    void HandleHealth_TakeDamage(Health health, int damage, bool hit, bool crit)
+    {
+        _displayTimer = 2;
     }
 }
