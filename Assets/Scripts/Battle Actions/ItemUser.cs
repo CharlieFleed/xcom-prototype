@@ -60,13 +60,6 @@ public class ItemUser : BattleAction
         OnItemUserRemoved(this);
     }
 
-    private void Update()
-    {
-        if (IsActive)
-        {
-            _input.Update();
-        }
-    }
     // Update is called once per frame
     void LateUpdate()
     {
@@ -120,9 +113,9 @@ public class ItemUser : BattleAction
         }
         OnTargetSelected(this, shotStats.Target);
         OnTargetingEnd();
-        Debug.Log($"Use {_item.name} on {shotStats.Target.name}");
+        Debug.Log($"Use {_item.Name} on {shotStats.Target.name}");
         BattleEventItemUse itemUseEvent = new BattleEventItemUse(this, shotStats);
-        NetworkMatchManager.Instance.AddBattleEvent(itemUseEvent, true);
+        NetworkMatchManager.Instance.AddBattleEvent(itemUseEvent, true, 2);
         InvokeActionConfirmed(this);
         Deactivate();
         InvokeActionComplete(this);
@@ -198,7 +191,7 @@ public class ItemUser : BattleAction
     public void UpdateTargets()
     {
         _targets.Clear();
-        List<GridEntity> friends = NetworkMatchManager.Instance.GetFriendsAs<GridEntity>(GetComponent<TeamMember>());
+        List<GridEntity> friends = NetworkMatchManager.Instance.GetFriendsAs<GridEntity>(GetComponent<Unit>());
         foreach (var shotStats in GridCoverManager.Instance.GetShotStats(_gridEntity, friends))
         {
             if (Vector3.Distance(transform.position, shotStats.Target.CurrentNode.FloorPosition) <= _item.Range)

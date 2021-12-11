@@ -9,9 +9,10 @@ public class Walker : BattleAction
     public static event Action<Walker, GridNode, GridNode> OnMove = delegate { };
     public static event Action<Walker, GridNode> OnDestinationReached = delegate { };
 
-    [SerializeField] Movement _movement;    
+    [SerializeField] Movement _movement;
 
-    public int _NumMoves = 2;
+    int _numMoves;
+    public int NumMoves { get { return _numMoves; } set { _numMoves = value; } }
 
     GridEntity _gridEntity;
     GridAgent _gridAgent;
@@ -19,6 +20,7 @@ public class Walker : BattleAction
     Stack<GridNode> _path = new Stack<GridNode>();
 
     public bool IsWalking { get; private set; }
+    public bool IsRunning { get; private set; }
 
     // overwatch management 
     Health _health;
@@ -32,21 +34,14 @@ public class Walker : BattleAction
         _health = GetComponent<Health>();
     }
 
-    void Update()
+    override protected void Update()
     {
-
+        base.Update();
         if (_path.Count > 0 && _pauseLocks == 0)
         {
             if (_health.IsDead)
             {
-                _gridEntity.CurrentNode = _path.Peek();
-                _gridAgent.BookedNode.IsBooked = false;
-                _gridAgent.BookedNode = null;
-                _path.Clear();
-                IsWalking = false;
-                Deactivate();
-                OnDestinationReached(this, _gridEntity.CurrentNode);
-                InvokeActionComplete(this);
+                Stop();
             }
             // if next step reached
             else if (_movement.IsAtDestination())
@@ -63,12 +58,26 @@ public class Walker : BattleAction
                     _gridAgent.BookedNode.IsBooked = false;
                     _gridAgent.BookedNode = null;
                     IsWalking = false;
+                    IsRunning = false;
                     Deactivate();
                     OnDestinationReached(this, _gridEntity.CurrentNode);
                     InvokeActionComplete(this);
                 }
             }
         }
+    }
+
+    public void Stop()
+    {
+        _gridEntity.CurrentNode = _path.Peek();
+        _gridAgent.BookedNode.IsBooked = false;
+        _gridAgent.BookedNode = null;
+        _path.Clear();
+        IsWalking = false;
+        IsRunning = false;
+        Deactivate();
+        OnDestinationReached(this, _gridEntity.CurrentNode);
+        InvokeActionComplete(this);
     }
 
     public void SetPath(Stack<GridNode> path, int cost)
@@ -78,6 +87,7 @@ public class Walker : BattleAction
         InvokeActionConfirmed(this);
         MoveToNextNode();
         IsWalking = true;
+        IsRunning = Cost > 1;
     }
 
     void MoveToNextNode()
@@ -118,6 +128,6 @@ public class Walker : BattleAction
     public override void Init(int numActions)
     {
         base.Init(numActions);
-        _NumMoves = numActions;
+        _numMoves = numActions;
     }
 }

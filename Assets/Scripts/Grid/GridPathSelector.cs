@@ -26,7 +26,7 @@ public class GridPathSelector : NetworkBehaviour
     Walker _walker;
     GridEntity _gridEntity;
     GridAgent _gridAgent;
-    TeamMember _teamMember;
+    Unit _unit;
     List<GridNode> _walkRegion = new List<GridNode>();
     List<GridNode> _runRegion = new List<GridNode>();
     CoverHighlights[] _coverHighlights = new CoverHighlights[9];
@@ -51,7 +51,7 @@ public class GridPathSelector : NetworkBehaviour
         _walker = GetComponent<Walker>();
         _gridEntity = GetComponent<GridEntity>();
         _gridAgent = GetComponent<GridAgent>();
-        _teamMember = GetComponent<TeamMember>();
+        _unit = GetComponent<Unit>();
         GameObject obj = Instantiate(_pathLineRendererPrefab, transform);
         _lineRenderer = obj.GetComponent<LineRenderer>();
         _lineRenderer.positionCount = 0;
@@ -79,7 +79,7 @@ public class GridPathSelector : NetworkBehaviour
     {
         if (IsActive)
         {
-            int maxDistance = _gridAgent.WalkRange * _walker._NumMoves;
+            int maxDistance = _gridAgent.WalkRange * _walker.NumMoves;
             UpdateRanges(maxDistance - _gridAgent.WalkRange, maxDistance);
             _cachedNode = null; // to force an update
         }
@@ -174,7 +174,7 @@ public class GridPathSelector : NetworkBehaviour
 
     void ShowCover(Stack<GridNode> path)
     {
-        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(_teamMember);
+        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(_unit);
         //Debug.Log("ShowCover");
         GridNode n = path.ToArray()[path.Count - 1];
         for (int x = -1; x <= 1; x++)
@@ -328,7 +328,7 @@ public class GridPathSelector : NetworkBehaviour
                     HideHighlights();
                     _path = _pathfinder.GetPathTo(_targetNode);
                     //Debug.Log($"Path to {targetNode.X}, {targetNode.Y}, {targetNode.Z}.");
-                    ShowHighlights(_path, _walker._NumMoves, _cost);
+                    ShowHighlights(_path, _walker.NumMoves, _cost);
                 }
                 if (Input.GetMouseButtonDown(1))
                 {
@@ -363,7 +363,7 @@ public class GridPathSelector : NetworkBehaviour
     {
         GridNode targetNode = _gridManager.GetGridNode(target.x, target.y, target.z);
         _origin = _gridEntity.CurrentNode;
-        int maxDistance = _gridAgent.WalkRange * _walker._NumMoves;
+        int maxDistance = _gridAgent.WalkRange * _walker.NumMoves;
         float maxJumpUp = _gridAgent.MaxJumpUp;
         float maxJumpDown = _gridAgent.MaxJumpDown;
         _pathfinder.Initialize(_gridManager.GetGrid(), _origin, _origin, maxDistance, maxJumpUp, maxJumpDown, IsNodeAvailable, true);
@@ -379,7 +379,7 @@ public class GridPathSelector : NetworkBehaviour
     {
         IsActive = true;
         _origin = _gridEntity.CurrentNode;
-        int maxDistance = _gridAgent.WalkRange * _walker._NumMoves;
+        int maxDistance = _gridAgent.WalkRange * _walker.NumMoves;
         float maxJumpUp = _gridAgent.MaxJumpUp;
         float maxJumpDown = _gridAgent.MaxJumpDown;
         _pathfinder.Initialize(_gridManager.GetGrid(), _origin, _origin, maxDistance, maxJumpUp, maxJumpDown, IsNodeAvailable, true);

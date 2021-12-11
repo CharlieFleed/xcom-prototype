@@ -34,9 +34,9 @@ public class DoubleShooter : Shooter
         InvokeOnTargetSelected(this, shotStats.Target);
         InvokeOnTargetingEnd();
         BattleEventShot shotEvent1 = new BattleEventShot(this, shotStats);
-        NetworkMatchManager.Instance.AddBattleEvent(shotEvent1, true);
+        NetworkMatchManager.Instance.AddBattleEvent(shotEvent1, true, 2);
         BattleEventConditionalShot shotEvent2 = new BattleEventConditionalShot(this, shotStats);
-        NetworkMatchManager.Instance.AddBattleEvent(shotEvent2, true);
+        NetworkMatchManager.Instance.AddBattleEvent(shotEvent2, true, 2);
         InvokeActionConfirmed(this);
         Deactivate();
         InvokeActionComplete(this);

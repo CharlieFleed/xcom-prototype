@@ -12,6 +12,8 @@ public class Armor : MonoBehaviour
 
     // Used by ArmorBar
     public event Action<int> OnArmorChanged = delegate { };
+    // Used by ...
+    public event Action<Armor, int, bool, bool> OnTakeDamage = delegate { };
 
     int _value;
     public int Value { get { return _value; } }
@@ -28,11 +30,12 @@ public class Armor : MonoBehaviour
         OnArmorChanged(_value);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool hit, bool crit)
     {
         _value -= damage;
         _value = Mathf.Clamp(_value, 0, int.MaxValue);
         OnArmorChanged(_value);
+        OnTakeDamage(this, damage, hit, crit);
     }
 
     public void SetValue(int value)

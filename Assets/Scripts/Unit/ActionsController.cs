@@ -8,19 +8,19 @@ public class ActionsController : MonoBehaviour
     public static event Action<ActionsController> OnActionsControllerAdded = delegate { };
     public static event Action<ActionsController> OnActionsControllerRemoved = delegate { };
 
-    public event Action<TeamMember> OnActionComplete = delegate { };
+    public event Action<Unit> OnActionComplete = delegate { };
 
     BattleAction[] _battleActions;
-    TeamMember _teamMember;
+    Unit _unit;
 
     private int _numActions;
-    public int NumActions { get { return _numActions; } private set { _numActions = value; OnNumActionsChanged(_numActions); } }
+    public int NumActions { get { return _numActions; } set { _numActions = value; OnNumActionsChanged(_numActions); } }
     public event Action<int> OnNumActionsChanged = delegate { };
 
     private void Awake()
     {
         _battleActions = GetComponents<BattleAction>();
-        _teamMember = GetComponent<TeamMember>();
+        _unit = GetComponent<Unit>();
 
         foreach (var battleAction in _battleActions)
         {
@@ -36,7 +36,7 @@ public class ActionsController : MonoBehaviour
 
     void HandleActionComplete(BattleAction battleAction)
     {
-        OnActionComplete(_teamMember);
+        OnActionComplete(_unit);
     }
 
     void HandleActionConfirmed(BattleAction battleAction)

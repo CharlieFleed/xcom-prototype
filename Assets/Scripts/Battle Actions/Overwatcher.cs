@@ -12,6 +12,7 @@ public class Overwatcher : BattleAction
     public static event Action<Overwatcher> OnOverwatcherRemoved = delegate { };
 
     [SerializeField] Shooter _shooter;
+    GridEntity _gridEntity;
 
     bool _isOverwatching;
     public bool IsOverwatching { get { return _isOverwatching; } }
@@ -23,6 +24,11 @@ public class Overwatcher : BattleAction
     public override string DescriptionText { get { return _shooter.Weapon.Name + " " + base.ActionName; } }
 
     #endregion
+
+    private void Awake()
+    {
+        _gridEntity = GetComponent<GridEntity>();
+    }
 
     private void Start()
     {
@@ -46,24 +52,16 @@ public class Overwatcher : BattleAction
 
     void HandleWalker_OnMove(Walker walker, GridNode origin, GridNode destination)
     {
-        if (!GetComponent<Health>().IsDead && _isOverwatching && walker.GetComponent<TeamMember>().Team != GetComponent<TeamMember>().Team)
+        if (!GetComponent<Health>().IsDead && _isOverwatching && walker.GetComponent<Unit>().Team != GetComponent<Unit>().Team)
         {
             // if (GridCoverManager.Instance.LineOfSight(GetComponent<GridEntity>(), walker.GetComponent<GridEntity>(), out Ray ray, out float rayLength, new List<GridNode[]>()))
-            if (GridCoverManager.Instance.LineOfSight(GetComponent<GridEntity>(), origin) || GridCoverManager.Instance.LineOfSight(GetComponent<GridEntity>(), destination))
+            if (GridCoverManager.Instance.LineOfSight(_gridEntity, origin) || GridCoverManager.Instance.LineOfSight(_gridEntity, destination))
             {
                 if (Vector3.Distance(transform.position, walker.transform.position) <= _shooter.Weapon.Range)
                 {
                     OverwatchShoot(walker.GetComponent<GridEntity>());
                 }
             }
-        }
-    }
-
-    private void Update()
-    {
-        if (IsActive)
-        {
-            _input.Update();
         }
     }
 
@@ -110,16 +108,19 @@ public class Overwatcher : BattleAction
         InvokeActionComplete(this);
     }
 
-    void OverwatchShoot(GridEntity gridEntity)
+    void OverwatchShoot(GridEntity target)
     {
         //Debug.Log($"OverwatchShoot {name} in position {gridAgent.CurrentNode.X},{gridAgent.CurrentNode.Y},{gridAgent.CurrentNode.Z}");
-        ShotStats shotStats = new ShotStats();
-        shotStats.Target = gridEntity;
+        ShotStats shotStats = GridCoverManager.Instance.GetShotStats(_gridEntity, _gridEntity.CurrentNode, new List<GridEntity>() { target })[0];
         shotStats.HitChance = 100 + _shooter.Weapon.HitChanceBonus(shotStats.Target);
+        Walker walker = target.GetComponent<Walker>();
+        shotStats.HitChance -= 15;
+        if (_gridEntity.CurrentNode.Y > target.CurrentNode.Y)
+            shotStats.HitChance += 20;
         shotStats.HitChance = Mathf.Clamp(shotStats.HitChance, 0, 100);
         BattleEventShot shot = new BattleEventShot(_shooter, shotStats);
-        NetworkMatchManager.Instance.AddBattleEvent(shot, true);
-        OnShoot(_shooter, gridEntity);
+        NetworkMatchManager.Instance.AddBattleEvent(shot, true, 2);
+        OnShoot(_shooter, target);
         ClearOverwatch();
     }
 

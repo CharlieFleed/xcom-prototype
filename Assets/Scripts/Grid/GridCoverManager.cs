@@ -16,9 +16,16 @@ public class GridCoverManager : MonoBehaviour
         return GetCover(gridEntity, gridEntity.CurrentNode, enemies);
     }
 
+    /// <summary>
+    /// -1: flanked; 0: no cover; 1: half cover; 2: full cover;
+    /// </summary>
+    /// <param name="gridEntity"></param>
+    /// <param name="entityNode"></param>
+    /// <param name="enemies"></param>
+    /// <returns></returns>
     public int GetCover(GridEntity gridEntity, GridNode entityNode, List<GridEntity> enemies)
     {
-        int worstCover = 2; // -1: flanked; 0: no cover; 1: half cover; 2: full cover;
+        int worstCover = 2;
         bool isSeen = false;
         foreach (GridEntity enemy in enemies)
         {
@@ -140,7 +147,7 @@ public class GridCoverManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Uses b's CurrentNode.
+    /// Uses b's CurrentNode. Takes into account a's view range.
     /// </summary>
     /// <param name="a"></param>
     /// <param name="aNode"></param>
@@ -166,7 +173,7 @@ public class GridCoverManager : MonoBehaviour
         //Debug.Log($"LineOfSight - Shooter: {a.gameObject.name}, Target: {b.gameObject.name}.");
 
         // Check direct LOS
-        if (LineOfSight(aNode.FloorPosition + Vector3.up * _unitHeightOfSight, b.CurrentNode.FloorPosition + Vector3.up * _unitHeightOfSight, out ray, out rayLength))
+        if (LineOfSightCheck(aNode.FloorPosition + Vector3.up * _unitHeightOfSight, b.CurrentNode.FloorPosition + Vector3.up * _unitHeightOfSight, out ray, out rayLength))
         {
             //Debug.Log($"Direct LOS.");
             losPoints.Add(new GridNode[] { aNode, b.CurrentNode });
@@ -177,7 +184,7 @@ public class GridCoverManager : MonoBehaviour
         foreach (var targetSideStep in targetSideSteps)
         {
             //Debug.Log($"Checking target sidestep {targetSideStep.X},{targetSideStep.Y},{targetSideStep.Z}.");
-            if (LineOfSight(aNode.FloorPosition + Vector3.up * _unitHeightOfSight, targetSideStep.FloorPosition + Vector3.up * _unitHeightOfSight, out ray, out rayLength))
+            if (LineOfSightCheck(aNode.FloorPosition + Vector3.up * _unitHeightOfSight, targetSideStep.FloorPosition + Vector3.up * _unitHeightOfSight, out ray, out rayLength))
             {
                 //Debug.Log($"LOS to target's sidestep.");
                 losPoints.Add(new GridNode[] { aNode, targetSideStep });
@@ -190,7 +197,7 @@ public class GridCoverManager : MonoBehaviour
         foreach (GridNode sideStep in sideSteps)
         {
             //Debug.Log($"Checking shooter side-step: {sideStep.X},{sideStep.Y},{sideStep.Z}.");
-            if (LineOfSight(sideStep.FloorPosition + Vector3.up * _unitHeightOfSight, b.CurrentNode.FloorPosition + Vector3.up * _unitHeightOfSight, out ray, out rayLength))
+            if (LineOfSightCheck(sideStep.FloorPosition + Vector3.up * _unitHeightOfSight, b.CurrentNode.FloorPosition + Vector3.up * _unitHeightOfSight, out ray, out rayLength))
             {
                 //Debug.Log($"Shooter side-step LOS against target.");
                 losPoints.Add(new GridNode[] { sideStep, b.CurrentNode });
@@ -199,7 +206,7 @@ public class GridCoverManager : MonoBehaviour
             foreach (var targetSideStep in targetSideSteps)
             {
                 //Debug.Log($"Checking target sidestep {targetSideStep.X},{targetSideStep.Y},{targetSideStep.Z}.");
-                if (LineOfSight(sideStep.FloorPosition + Vector3.up * _unitHeightOfSight, targetSideStep.FloorPosition + Vector3.up * _unitHeightOfSight, out ray, out rayLength))
+                if (LineOfSightCheck(sideStep.FloorPosition + Vector3.up * _unitHeightOfSight, targetSideStep.FloorPosition + Vector3.up * _unitHeightOfSight, out ray, out rayLength))
                 {
                     //Debug.Log($"Shooter side-step LOS against target's sidestep.");
                     losPoints.Add(new GridNode[] { sideStep, targetSideStep });
@@ -209,7 +216,7 @@ public class GridCoverManager : MonoBehaviour
         return losPoints.Count > 0;
     }
 
-    bool LineOfSight(Vector3 a, Vector3 b, out Ray ray, out float rayLength)
+    bool LineOfSightCheck(Vector3 a, Vector3 b, out Ray ray, out float rayLength)
     {
         rayLength = (b - a).magnitude;
         ray = new Ray(a, b - a);
@@ -221,6 +228,7 @@ public class GridCoverManager : MonoBehaviour
 
     /// <summary>
     /// Returns true if entity has LOS to node from its current node or its sidesteps.
+    /// Takes into account view range.
     /// </summary>
     /// <param name="entity"></param>
     /// <param name="node"></param>
@@ -238,7 +246,7 @@ public class GridCoverManager : MonoBehaviour
         }
         {
             // Check direct LOS
-            if (LineOfSight(entity.CurrentNode.FloorPosition + Vector3.up * 1, node.FloorPosition + Vector3.up * 1, out Ray ray, out float rayLength))
+            if (LineOfSightCheck(entity.CurrentNode.FloorPosition + Vector3.up * 1, node.FloorPosition + Vector3.up * 1, out Ray ray, out float rayLength))
             {
                 return true;
             }
@@ -247,7 +255,7 @@ public class GridCoverManager : MonoBehaviour
         List<GridNode> sideSteps = SideSteps(entity, node);
         foreach (GridNode sideStep in sideSteps)
         {
-            if (LineOfSight(sideStep.FloorPosition + Vector3.up * 1, node.FloorPosition + Vector3.up * 1, out Ray ray, out float rayLength))
+            if (LineOfSightCheck(sideStep.FloorPosition + Vector3.up * 1, node.FloorPosition + Vector3.up * 1, out Ray ray, out float rayLength))
             {
                 return true;
             }
@@ -331,35 +339,40 @@ public class GridCoverManager : MonoBehaviour
 
     public List<ShotStats> GetShotStats(GridEntity gridEntity, List<GridEntity> targets)
     {
+        return GetShotStats(gridEntity, gridEntity.CurrentNode, targets);
+    }
+
+    public List<ShotStats> GetShotStats(GridEntity gridEntity, GridNode entityNode, List<GridEntity> targets)
+    {
         List<ShotStats> shots = new List<ShotStats>();
-        foreach (GridEntity entity in targets)
+        foreach (GridEntity target in targets)
         {
             List<GridNode[]> losPoints = new List<GridNode[]>();
-            bool los = LineOfSight(gridEntity, entity, out Ray ray, out float rayLength, losPoints);
+            bool los = LineOfSight(gridEntity, entityNode, target, out Ray ray, out float rayLength, losPoints);
             if (los)
             {
-                ShotStats target = new ShotStats();
-                target.Target = entity.GetComponent<GridEntity>();
-                target.Available = true;
+                ShotStats shot = new ShotStats();
+                shot.Target = target.GetComponent<GridEntity>();
+                shot.Available = true;
                 int worstCover = 2; // -1: flanked; 1: half cover; 2: full cover;
                 foreach (var points in losPoints)
                 {
-                    int cover = GetCoverFromPosition(entity.CurrentNode, points[0]);
+                    int cover = GetCoverFromPosition(target.CurrentNode, points[0]);
                     worstCover = Mathf.Min(cover, worstCover);
                 }
                 if (worstCover == -1)
                 {
-                    target.Flanked = true;
+                    shot.Flanked = true;
                 }
                 if (worstCover == 1)
                 {
-                    target.HalfCover = true;
+                    shot.HalfCover = true;
                 }
                 if (worstCover == 2)
                 {
-                    target.Cover = true;
+                    shot.Cover = true;
                 }
-                shots.Add(target);
+                shots.Add(shot);
             }
         }
         return shots;

@@ -9,7 +9,7 @@ public class BattleEventShot : BattleEvent
 
     protected Shooter _shooter;
     protected ShotStats _shotStats;
-    float _waitTimeout = 2;
+    float _waitTimeout = 1;
 
     enum Phase { Camera, Wait, Shoot, Shooting, Shot }
     Phase _phase;
@@ -88,7 +88,7 @@ public class BattleEventShot : BattleEvent
                     {
                         walker.Resume();
                     }
-                    NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false);
+                    NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false, 0);
                     OnShootingEnd();
                     End();
                 }

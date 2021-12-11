@@ -9,7 +9,6 @@ public class TrajectoryPredictor : MonoBehaviour
 
     [SerializeField] GameObject _grenadePrefab;
     [SerializeField] GameObject _lineRendererPrefab;
-    [SerializeField] NetworkMatchManager _networkMatchManager;
 
     Scene _currentScene;
     Scene _predictionScene;
@@ -40,6 +39,8 @@ public class TrajectoryPredictor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        NetworkMatchManager.Instance.OnTurnBegin += HandleNetworkMatchManager_OnNewTurn;
+
         Physics.autoSimulation = false;
 
         _currentScene = SceneManager.GetActiveScene();
@@ -72,14 +73,9 @@ public class TrajectoryPredictor : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    private void OnDestroy()
     {
-        _networkMatchManager.OnTurnBegin += HandleNetworkMatchManager_OnNewTurn;
-    }
-
-    private void OnDisable()
-    {
-        _networkMatchManager.OnTurnBegin -= HandleNetworkMatchManager_OnNewTurn;
+        NetworkMatchManager.Instance.OnTurnBegin -= HandleNetworkMatchManager_OnNewTurn;
     }
 
     private void HandleNetworkMatchManager_OnNewTurn()

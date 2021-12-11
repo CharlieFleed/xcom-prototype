@@ -6,15 +6,17 @@ namespace HSM
 {
     public class State
     {
-        List<Action> _actions = new List<Action>();
-        List<Action> _entryActions = new List<Action>();
-        List<Action> _exitActions = new List<Action>();
+        public string Name => _name; 
+
+        List<ActionBase> _actions = new List<ActionBase>();
+        List<ActionBase> _entryActions = new List<ActionBase>();
+        List<ActionBase> _exitActions = new List<ActionBase>();
         List<Transition> _transitions = new List<Transition>();
         protected string _name;
 
         public HierarchicalStateMachine _parent;
 
-        public State(string name, List<Action> actions, List<Action> entryActions, List<Action> exitActions)
+        public State(string name, List<ActionBase> actions, List<ActionBase> entryActions, List<ActionBase> exitActions)
         {
             _name = name;
             _actions = actions;
@@ -24,9 +26,8 @@ namespace HSM
 
         public virtual List<State> GetStates()
         {
-            return new List<State>() { this };
-        }
-        
+            return new List<State>() { };
+        }        
 
         public virtual UpdateResult Update()
         {
@@ -35,15 +36,15 @@ namespace HSM
             return result;
         }
 
-        public List<Action> GetActions()
+        public List<ActionBase> GetActions()
         {
             return _actions;
         }
-        public List<Action> GetEntryActions()
+        public List<ActionBase> GetEntryActions()
         {
             return _entryActions;
         }
-        public List<Action> GetExitActions()
+        public List<ActionBase> GetExitActions()
         {
             return _exitActions;
         }

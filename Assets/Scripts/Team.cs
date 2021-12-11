@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Team
 {
-    public List<TeamMember> Members = new List<TeamMember>();
+    public List<Unit> Members = new List<Unit>();
     public bool IsActive { set; get; }
     public MyGamePlayer Owner { set; get; }
     public int Id;
     public string Name;
 
-    Queue<TeamMember> ReadyMembers = new Queue<TeamMember>();
+    Queue<Unit> ReadyMembers = new Queue<Unit>();
 
     public bool IsAI { set; get; }
 
@@ -20,7 +20,7 @@ public class Team
     public void StartTurn()
     {
         IsActive = true;
-        foreach (TeamMember member in Members)
+        foreach (Unit member in Members)
         {
             member.GetComponent<ActionsController>().StartTurn();
             ReadyMembers.Enqueue(member);
@@ -35,7 +35,7 @@ public class Team
 
     public void RotateReadyMembers()
     {
-        TeamMember member = ReadyMembers.Dequeue();
+        Unit member = ReadyMembers.Dequeue();
         ReadyMembers.Enqueue(member);
     }
 
@@ -43,7 +43,7 @@ public class Team
     /// Returns null if there are no ready members left.
     /// </summary>
     /// <returns></returns>
-    public TeamMember GetFirstReadyMember()
+    public Unit GetFirstReadyMember()
     {
         //Debug.Log($"ReadyMembers.Count: {ReadyMembers.Count}");
         while (ReadyMembers.Count > 0)
@@ -61,12 +61,12 @@ public class Team
         return null;
     }
 
-    public void RemoveMember(TeamMember member)
+    public void RemoveMember(Unit member)
     {
         if (Members.Contains(member))
             Members.Remove(member);
         // rebuild ReadyUnits queue
-        List<TeamMember> queue = new List<TeamMember>();
+        List<Unit> queue = new List<Unit>();
         while (ReadyMembers.Count > 0)
         {
             if (ReadyMembers.Peek() != member)

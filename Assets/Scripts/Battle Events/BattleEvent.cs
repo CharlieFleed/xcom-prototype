@@ -4,13 +4,13 @@ using System;
 
 public abstract class BattleEvent
 {
-    public bool ended;
+    public bool _ended;
 
     public virtual void Run()
     { }
 
     public virtual void End()
     {
-        ended = true;
+        _ended = true;
     }
 }

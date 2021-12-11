@@ -453,6 +453,7 @@ GameObject:
   - component: {fileID: -5184987521810231393}
   - component: {fileID: 5244123106874075657}
   - component: {fileID: 6646795498789397795}
+  - component: {fileID: 403601986472274970}
   m_Layer: 9
   m_Name: AssaultUnit
   m_TagString: Untagged
@@ -548,7 +549,6 @@ MonoBehaviour:
   Icon: {fileID: 0}
   IsConfirmable: 1
   _movement: {fileID: 5397399488359967554}
-  _NumMoves: 2
 --- !u!114 &5397399488359967554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -893,6 +893,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 453d1776d4e533749b0034694c9c438c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &403601986472274970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590575594350318540}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f951542a94c6ef848bf26f8a7b405350, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _states: 
 --- !u!1001 &1051574122627388261
 PrefabInstance:
   m_ObjectHideFlags: 0

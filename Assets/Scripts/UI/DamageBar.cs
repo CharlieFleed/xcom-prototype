@@ -41,12 +41,11 @@ public class DamageBar : MonoBehaviour
 
     public void SetDamage(int damage, bool hit, bool crit)
     {
-        _text.text = hit ? (Mathf.Abs(damage).ToString() + (crit ? " CRITICAL" : (damage > 0 ? " DAMAGE" : " HEAL"))) : "MISS";
+        _text.text = hit ? (Mathf.Abs(damage).ToString() + (crit ? " CRITICAL" : (damage >= 0 ? " DAMAGE" : " HEAL"))) : "MISS";
         _bg.enabled = hit && !crit && damage > 0;
         _healBg.enabled = damage < 0;
         _critBg.enabled = crit;
-        _missBg.enabled = !hit;
-        enabled = true;
+        _missBg.enabled = !hit || damage == 0;
         _cg.alpha = 1;
         StartCoroutine(Hide());
     }

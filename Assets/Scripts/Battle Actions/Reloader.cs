@@ -9,14 +9,6 @@ public class Reloader : BattleAction
     public override string ActionName { get { return base.ActionName + " " + _weapon.Name; } }
     public override string ConfirmText { get { return base.ActionName + " " + _weapon.Name; } }
 
-    private void Update()
-    {
-        if (IsActive)
-        {
-            _input.Update();
-        }
-    }
-
     private void LateUpdate()
     {
         if (IsActive)

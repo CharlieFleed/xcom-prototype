@@ -8,11 +8,11 @@ namespace HSM
     public class Transition
     {
         State _targetState;
-        List<Action> _actions;
+        List<ActionBase> _actions;
         int _level;
-        Condition _condition;
+        ConditionBase _condition;
 
-        public Transition(Condition condition, State targetState, int level, List<Action> actions)
+        public Transition(ConditionBase condition, State targetState, int level, List<ActionBase> actions)
         {
             _condition = condition;
             _targetState = targetState;
@@ -32,7 +32,7 @@ namespace HSM
         {
             return _targetState;
         }
-        public virtual List<Action> GetActions()
+        public virtual List<ActionBase> GetActions()
         {
             return _actions;
         }

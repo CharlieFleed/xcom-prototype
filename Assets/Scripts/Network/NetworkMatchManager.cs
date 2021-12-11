@@ -23,11 +23,12 @@ public class NetworkMatchManager : NetworkBehaviour
     public event Action OnPause = delegate { };
 
     List<Team> _teams = new List<Team>();
-    TeamMember _currentTeamMember;
-    Queue<BattleEventGroup> _battleEventGroups = new Queue<BattleEventGroup>();
+    Unit _currentUnit;
+    List<BattleEventGroup> _battleEventGroups = new List<BattleEventGroup>();
 
-    public TeamMember CurrentTeamMember { get { return _currentTeamMember; } }
-    public Team ActiveTeam { get { return _teams[0]; } }
+    public Unit CurrentUnit { get { return _currentUnit; } }
+
+    Team ActiveTeam { get { return _teams[0]; } }
 
     public Color[] TeamColors = new Color[3] { Color.cyan, Color.red, Color.green };
 
@@ -63,15 +64,20 @@ public class NetworkMatchManager : NetworkBehaviour
                 unit.transform.position = spawnPositions[c].FloorPosition;
                 NetworkServer.Spawn(unit, player.gameObject);
                 // Registering Unit
-                team.Members.Add(unit.GetComponent<TeamMember>());
-                unit.GetComponent<TeamMember>().Team = team;
+                team.Members.Add(unit.GetComponent<Unit>());
+                unit.GetComponent<Unit>().Team = team;
                 // register events
                 unit.GetComponent<ActionsController>().OnActionComplete += HandleActionsController_ActionComplete;
-                unit.GetComponent<UnitLocalController>().OnPass += HandleUnit_Pass;
-                unit.GetComponent<UnitLocalController>().OnEndTurn += HandleUnit_EndTurn;
-                unit.GetComponent<UnitLocalController>().OnPause += HandleUnit_OnPause;
+                unit.GetComponent<UnitLocalController>().OnPass += HandleUnitLocalController_Pass;
+                unit.GetComponent<UnitLocalController>().OnEndTurn += HandleUnitLocalController_EndTurn;
+                unit.GetComponent<UnitLocalController>().OnPause += HandleUnitLocalController_Pause;
                 // internal setup
                 unit.GetComponent<GridEntity>().CurrentNode = GridManager.Instance.GetGridNodeFromWorldPosition(unit.transform.position);
+                // AI
+                if (team.IsAI)
+                {
+                    unit.GetComponent<UnitStateMachine>().enabled = true;
+                }
             }
         }
     }
@@ -118,13 +124,13 @@ public class NetworkMatchManager : NetworkBehaviour
         //Debug.Log("Registering Unit");        
         Team team = GetTeam(player);
         unit.name = team.Name + "-" + team.Members.Count;
-        team.Members.Add(unit.GetComponent<TeamMember>());
-        unit.GetComponent<TeamMember>().Team = team;
+        team.Members.Add(unit.GetComponent<Unit>());
+        unit.GetComponent<Unit>().Team = team;
         // register events
         unit.GetComponent<ActionsController>().OnActionComplete += HandleActionsController_ActionComplete;
-        unit.GetComponent<UnitLocalController>().OnPass += HandleUnit_Pass;
-        unit.GetComponent<UnitLocalController>().OnEndTurn += HandleUnit_EndTurn;
-        unit.GetComponent<UnitLocalController>().OnPause += HandleUnit_OnPause;
+        unit.GetComponent<UnitLocalController>().OnPass += HandleUnitLocalController_Pass;
+        unit.GetComponent<UnitLocalController>().OnEndTurn += HandleUnitLocalController_EndTurn;
+        unit.GetComponent<UnitLocalController>().OnPause += HandleUnitLocalController_Pause;
         // internal setup
         unit.GetComponent<GridEntity>().CurrentNode = GridManager.Instance.GetGridNodeFromWorldPosition(unit.transform.position);
     }
@@ -169,31 +175,28 @@ public class NetworkMatchManager : NetworkBehaviour
         UpdateBattleEvents();
         if (_battleEventGroups.Count == 0)
         {
-            if (_currentTeamMember == null)
+            if (_currentUnit == null)
             {
                 RemoveDefeatedTeams();
-                if (_teams.Count == 1)
-                {
-                    _winner = _teams[0];
-                    _state = MatchState.End;
-                    return;
-                }
-                if (_teams.Count == 0)
-                {
-                    _state = MatchState.End;
-                    return;
-                }
+                if (CheckEndBattle())
+                    return;                
                 SelectNextUnit();
-                if (_currentTeamMember != null)
+                if (_currentUnit != null)
                 {
                     //Debug.Log("New Turn");
                     OnBeforeTurnBegin();
                     OnTurnBegin();
                     ActiveTeam.Owner.Activate();
+                    BattleEventTurn battleEventTurn = new BattleEventTurn(this);
+                    AddBattleEvent(battleEventTurn, true, 1);
+                }
+                else
+                {
+                    Debug.Log("This should not happen!!!");
                 }
             }
         }
-        if (_currentTeamMember == null)
+        if (_currentUnit == null)
         {
             if (_input.GetKeyDown(KeyCode.Escape))
             {
@@ -201,6 +204,22 @@ public class NetworkMatchManager : NetworkBehaviour
             }
         }
         _input.Clear();
+    }
+
+    private bool CheckEndBattle()
+    {
+        if (_teams.Count == 1)
+        {
+            _winner = _teams[0];
+            _state = MatchState.End;
+            return true;
+        }
+        if (_teams.Count == 0)
+        {
+            _state = MatchState.End;
+            return true;
+        }
+        return false;
     }
 
     bool AllUnitsStarted()
@@ -236,37 +255,45 @@ public class NetworkMatchManager : NetworkBehaviour
     {
         if (_battleEventGroups.Count > 0)
         {
-            _battleEventGroups.Peek().Run();
-            if (_battleEventGroups.Peek().IsComplete())
+            _battleEventGroups[0].Run();
+            if (_battleEventGroups[0].IsComplete())
             {
-                _battleEventGroups.Dequeue();
+                _battleEventGroups.RemoveAt(0);
             }
         }
     }
 
-    public void AddBattleEvent(BattleEvent battleEvent, bool newPhase)
+    public void AddBattleEvent(BattleEvent battleEvent, bool newGroup, int priority)
     {
-        if (newPhase)
+        if (newGroup)
         {
-            BattleEventGroup battlePhase = new BattleEventGroup();
-            _battleEventGroups.Enqueue(battlePhase);
-            battlePhase.AddBattleEvent(battleEvent);
+            BattleEventGroup battleEventGroup = new BattleEventGroup(priority);
+            int index = 0;
+            for (; index < _battleEventGroups.Count; index++)
+            {
+                if (priority >= _battleEventGroups[index].Priority)
+                {
+                    break;
+                }
+            }
+            _battleEventGroups.Insert(index, battleEventGroup);
+            battleEventGroup.AddBattleEvent(battleEvent);
         }
         else
         {
-            _battleEventGroups.Peek().AddBattleEvent(battleEvent);
+            _battleEventGroups[0].AddBattleEvent(battleEvent);
         }
     }
 
     void SelectNextUnit()
     {
-        _currentTeamMember = ActiveTeam.GetFirstReadyMember();
-        if (_currentTeamMember == null)
+        _currentUnit = ActiveTeam.GetFirstReadyMember();
+        if (_currentUnit == null)
         {
             ActiveTeam.EndTurn();
             RotateTeams();
             ActiveTeam.StartTurn();
-            _currentTeamMember = ActiveTeam.GetFirstReadyMember();
+            _currentUnit = ActiveTeam.GetFirstReadyMember();
         }
     }
 
@@ -288,42 +315,46 @@ public class NetworkMatchManager : NetworkBehaviour
         }
     }
 
-    void HandleActionsController_ActionComplete(TeamMember member)
+    #region Handlers
+
+    void HandleActionsController_ActionComplete(Unit unit)
     {
-        if (member == _currentTeamMember)
+        if (unit == _currentUnit)
         {
-            _currentTeamMember = null;
+            _currentUnit = null;
             ActiveTeam.Owner.Deactivate();
         }
     }
 
-    void HandleUnit_Pass()
+    void HandleUnitLocalController_Pass()
     {
-        _currentTeamMember = null;
+        _currentUnit = null;
         ActiveTeam.Owner.Deactivate();
         ActiveTeam.RotateReadyMembers();
     }
 
-    void HandleUnit_EndTurn()
+    void HandleUnitLocalController_EndTurn()
     {
-        _currentTeamMember = null;
+        _currentUnit = null;
         ActiveTeam.Owner.Deactivate();
         ActiveTeam.EndTurn();
     }
 
-    void HandleUnit_OnPause()
+    void HandleUnitLocalController_Pause()
     {
         OnPause();
     }
 
-    public List<T> GetEnemiesAs<T>(TeamMember teamMember)
+    #endregion
+
+    public List<T> GetEnemiesAs<T>(Unit teamMember)
     {
         List<T> enemies = new List<T>();
         foreach (Team team in _teams)
         {
             if (team != teamMember.Team)
             {
-                foreach (TeamMember enemy in team.Members)
+                foreach (Unit enemy in team.Members)
                 {
                     if (!enemy.GetComponent<Health>().IsDead)
                     {
@@ -335,14 +366,14 @@ public class NetworkMatchManager : NetworkBehaviour
         return enemies;
     }
 
-    public List<T> GetFriendsAs<T>(TeamMember teamMember)
+    public List<T> GetFriendsAs<T>(Unit unit)
     {
         List<T> friends = new List<T>();
         foreach (Team team in _teams)
         {
-            if (team == teamMember.Team)
+            if (team == unit.Team)
             {
-                foreach (TeamMember friend in team.Members)
+                foreach (Unit friend in team.Members)
                 {
                     if (!friend.GetComponent<Health>().IsDead)
                     {
@@ -363,16 +394,16 @@ public class NetworkMatchManager : NetworkBehaviour
 
     private void OnDrawGizmos()
     {
-        if (_currentTeamMember != null)
+        if (_currentUnit != null)
         {
             foreach (Team team in _teams)
             {
-                if (!team.Members.Contains(_currentTeamMember))
+                if (!team.Members.Contains(_currentUnit))
                 {
-                    foreach (TeamMember member in team.Members)
+                    foreach (Unit unit in team.Members)
                     {
                         List<GridNode[]> losPoints = new List<GridNode[]>();
-                        if (GridCoverManager.Instance.LineOfSight(_currentTeamMember.GetComponent<GridEntity>(), member.GetComponent<GridEntity>(), out Ray ray, out float rayLength, losPoints))
+                        if (GridCoverManager.Instance.LineOfSight(_currentUnit.GetComponent<GridEntity>(), unit.GetComponent<GridEntity>(), out Ray ray, out float rayLength, losPoints))
                         {
                             Gizmos.color = Color.green;
                             Ray ray2 = new Ray(losPoints[0][0].FloorPosition, losPoints[0][1].FloorPosition - losPoints[0][0].FloorPosition);

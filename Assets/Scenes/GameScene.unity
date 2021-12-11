@@ -5301,6 +5301,7 @@ GameObject:
   - component: {fileID: 175621291}
   - component: {fileID: 175621290}
   - component: {fileID: 175621289}
+  - component: {fileID: 175621294}
   m_Layer: 5
   m_Name: Damage Canvas
   m_TagString: Untagged
@@ -5380,7 +5381,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &175621293
 RectTransform:
@@ -5401,6 +5402,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &175621294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175621288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 315794adcd45cf84297b80ca2129bb58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damageBarPrefab: {fileID: 4405416213286921508, guid: c5b62ccd832849f46bd38ed18045b344, type: 3}
 --- !u!1 &178280016
 GameObject:
   m_ObjectHideFlags: 0
@@ -37399,7 +37413,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!224 &1150883297
 RectTransform:
@@ -50622,7 +50636,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _grenadePrefab: {fileID: 5352562915465457597, guid: 9d54263f3987e1d4e9b7a34c13c6106e, type: 3}
   _lineRendererPrefab: {fileID: 2612772562006236913, guid: 78eb1d983848ed7439fbc8c620cab7d9, type: 3}
-  _networkMatchManager: {fileID: 68849953}
 --- !u!1001 &1498892350
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54514,7 +54527,6 @@ MonoBehaviour:
   _aimingCamera: {fileID: 2141886501}
   _actionCamera: {fileID: 512654505}
   _actionCameraTargetGroup: {fileID: 1235963077}
-  _matchManager: {fileID: 68849953}
   _throwTarget: {fileID: 178280017}
 --- !u!4 &1693341342
 Transform:
@@ -63259,7 +63271,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!224 &2012176252
 RectTransform:

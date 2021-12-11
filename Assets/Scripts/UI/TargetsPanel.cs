@@ -18,8 +18,8 @@ public class TargetsPanel : MonoBehaviour
 
     private void OnEnable()
     {
-        UnitLocalController.OnUnitAdded += HandleUnit_OnUnitAdded;
-        UnitLocalController.OnUnitRemoved += HandleUnit_OnUnitRemoved;
+        UnitLocalController.OnUnitLocalControllerAdded += Handle_UnitLocalControllerAdded;
+        UnitLocalController.OnUnitLocalControllerRemoved += Handle_UnitLocalControllerRemoved;
         Shooter.OnShooterAdded += HandleShooterAdded;
         Shooter.OnShooterRemoved += HandleShooterRemoved;
         ItemUser.OnItemUserAdded += HandleItemUser_OnItemUserAdded;
@@ -28,8 +28,8 @@ public class TargetsPanel : MonoBehaviour
 
     private void OnDisable()
     {
-        UnitLocalController.OnUnitAdded -= HandleUnit_OnUnitAdded;
-        UnitLocalController.OnUnitRemoved -= HandleUnit_OnUnitRemoved;
+        UnitLocalController.OnUnitLocalControllerAdded -= Handle_UnitLocalControllerAdded;
+        UnitLocalController.OnUnitLocalControllerRemoved -= Handle_UnitLocalControllerRemoved;
         Shooter.OnShooterAdded -= HandleShooterAdded;
         Shooter.OnShooterRemoved -= HandleShooterRemoved;
         ItemUser.OnItemUserAdded -= HandleItemUser_OnItemUserAdded;
@@ -86,18 +86,18 @@ public class TargetsPanel : MonoBehaviour
         OnTargetClick(obj);
     }
 
-    private void HandleUnit_OnUnitAdded(UnitLocalController unit)
+    private void Handle_UnitLocalControllerAdded(UnitLocalController obj)
     {
-        OnTargetClick += unit.HandleTargetClick; // NOTE: reversed event dependency
-        OnMouseOverTarget += unit.HandleMouseOverTarget; // NOTE: reversed event dependency
-        OnMouseExitTarget += unit.HandleMouseExitTarget; // NOTE: reversed event dependency
+        OnTargetClick += obj.HandleTargetClick; // NOTE: reversed event dependency
+        OnMouseOverTarget += obj.HandleMouseOverTarget; // NOTE: reversed event dependency
+        OnMouseExitTarget += obj.HandleMouseExitTarget; // NOTE: reversed event dependency
     }
 
-    private void HandleUnit_OnUnitRemoved(UnitLocalController unit)
+    private void Handle_UnitLocalControllerRemoved(UnitLocalController obj)
     {
-        OnTargetClick -= unit.HandleTargetClick;
-        OnMouseOverTarget -= unit.HandleMouseOverTarget;
-        OnMouseExitTarget -= unit.HandleMouseExitTarget;
+        OnTargetClick -= obj.HandleTargetClick;
+        OnMouseOverTarget -= obj.HandleMouseOverTarget;
+        OnMouseExitTarget -= obj.HandleMouseExitTarget;
     }
 
     private void HandleShooterAdded(Shooter shooter)

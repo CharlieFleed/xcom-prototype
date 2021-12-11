@@ -6,14 +6,13 @@ using System.Linq;
 
 public class RunFromEnemiesDecision : FinalDecision
 {
-    UnitLocalController _unit;
+    Unit _unit;
     List<GridNode> _reachablePositions;
     Walker _walker;
     GridAgent _gridAgent;
     GridEntity _gridEntity;
-    TeamMember _teamMember;
 
-    public RunFromEnemiesDecision(UnitLocalController unit, List<GridNode> reachablePositions)
+    public RunFromEnemiesDecision(Unit unit, List<GridNode> reachablePositions)
     {
         _unit = unit;
         _reachablePositions = reachablePositions;
@@ -21,13 +20,12 @@ public class RunFromEnemiesDecision : FinalDecision
         _walker = _unit.GetComponent<Walker>();
         _gridEntity = _unit.GetComponent<GridEntity>();
         _gridAgent = _unit.GetComponent<GridAgent>();
-        _teamMember = _unit.GetComponent<TeamMember>();
     }
 
     public override void Execute()
     {
         Debug.Log("RunFromEnemies");
-        GridNode destinationNode = _reachablePositions.OrderBy(n => ScorePosition(n)).First();
+        GridNode destinationNode = _reachablePositions.OrderByDescending(n => ScorePosition(n)).First();
         Stack<GridNode> path = new Stack<GridNode>();
         path = Pathfinder.Instance.GetPathTo(destinationNode);
         _gridAgent.BookedNode = destinationNode;
@@ -39,7 +37,7 @@ public class RunFromEnemiesDecision : FinalDecision
     float ScorePosition(GridNode gridNode)
     {
         float score = 0;
-        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(_teamMember);
+        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(_unit);
         foreach (var enemy in enemies)
         {
             score += (enemy.CurrentNode.FloorPosition - gridNode.FloorPosition).magnitude;

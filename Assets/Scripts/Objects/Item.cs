@@ -7,8 +7,6 @@ public abstract class Item : MonoBehaviour
 
     public abstract string Name { get; }
     public abstract float Range { get; }
-    public abstract int BaseDamage { get; }
-    public abstract int MaxDamage { get; }
 
     public int Uses { get { return _uses; } }
 

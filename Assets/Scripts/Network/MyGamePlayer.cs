@@ -62,16 +62,22 @@ public class MyGamePlayer : NetworkBehaviour
         IsActive = true;
         if (isLocalPlayer)
         {
-            if (_matchManager.CurrentTeamMember.Team.IsAI)
+            if (_matchManager.CurrentUnit.Team.IsAI)
             {
-                _unitDecisionTree = _matchManager.CurrentTeamMember.GetComponent<UnitDecisionTree>();
-                _unitDecisionTree.Run();                
+                StartCoroutine(ActivateAI());
             }
             else
             {
-                _matchManager.CurrentTeamMember.GetComponent<UnitLocalController>().Activate();
+                _matchManager.CurrentUnit.GetComponent<UnitLocalController>().Activate();
             }
         }
+    }
+
+    IEnumerator ActivateAI()
+    {
+        yield return new WaitForSeconds(0.5f);
+        _unitDecisionTree = _matchManager.CurrentUnit.GetComponent<UnitDecisionTree>();
+        _unitDecisionTree.Run();
     }
 
     public void Deactivate()

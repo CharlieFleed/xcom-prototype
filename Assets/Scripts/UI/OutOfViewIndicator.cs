@@ -43,17 +43,17 @@ public class OutOfViewIndicator : MonoBehaviour
 
     private void Initialize()
     {
-        TeamMember teamMember = _gridEntity.GetComponent<TeamMember>();
-        if (teamMember != null)
+        Unit unit = _gridEntity.GetComponent<Unit>();
+        if (unit != null)
         {
-            if (teamMember.Team != null)
+            if (unit.Team != null)
             {
-                _indicator.color = NetworkMatchManager.Instance.TeamColors[int.Parse(teamMember.Team.Name)];
+                _indicator.color = NetworkMatchManager.Instance.TeamColors[int.Parse(unit.Team.Name)];
                 _initialized = true;
             }
             else
             {
-                Debug.Log($"No team for health bar of {teamMember.name}");
+                Debug.Log($"No team for health bar of {unit.name}");
             }
         }
         else

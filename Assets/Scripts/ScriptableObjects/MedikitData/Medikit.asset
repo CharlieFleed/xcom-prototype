@@ -16,4 +16,9 @@ MonoBehaviour:
   Range: 2
   BaseDamage: -4
   MaxDamage: -4
+  Damage:
+    BaseDamage: -4
+    MaxDamage: -4
+    BaseExplosiveDamage: 0
+    MaxExplosiveDamage: 0
   EffectFXPrefab: {fileID: 100000, guid: ada5d62ffe762ce4fbccc70dcdbc9022, type: 3}

@@ -7,11 +7,16 @@ public class UnitDecisionTree : MonoBehaviour
 {
     DecisionTreeNode _decisionTree;
 
+    public DecisionTreeNode FightingDecisionTree;
+    public DecisionTreeNode FleeingDecisionTree;
+    public DecisionTreeNode GuardingDecisionTree;
+    public DecisionTreeNode PatrollingDecisionTree;
+
     List<GridNode> _coverPositions;
     List<GridNode> _reachablePositions;
     List<ShotStats> _shots;
 
-    UnitLocalController _unit;
+    Unit _unit;
     GridEntity _gridEntity;
     GridAgent _gridAgent;
     Walker _walker;
@@ -20,6 +25,7 @@ public class UnitDecisionTree : MonoBehaviour
     Shooter _shooter;
     Health _health;
     Hunkerer _hunkerer;
+    Skipper _skipper;
     ActionsController _actionsController;
 
     AmIFlankedDecision _amIFlankedDecision;
@@ -35,9 +41,15 @@ public class UnitDecisionTree : MonoBehaviour
     HunkerDecision _hunkerDecision;
     RunFromEnemiesDecision _runFromEnemiesDecision;
 
+    MoveToBestCoverDecision _moveToBestCoverDecision2;
+    RunFromEnemiesDecision _runFromEnemiesDecision2;
+    CanIReachCoverDecision _canIReachCoverDecision2;
+
+    SkipDecision _skipDecision;
+
     private void Awake()
     {
-        _unit = GetComponent<UnitLocalController>();
+        _unit = GetComponent<Unit>();
         _gridEntity = GetComponent<GridEntity>();
         _gridAgent = GetComponent<GridAgent>();
         _walker = GetComponent<Walker>();
@@ -46,6 +58,7 @@ public class UnitDecisionTree : MonoBehaviour
         _shooter = GetComponent<Shooter>();
         _health = GetComponent<Health>();
         _hunkerer = GetComponent<Hunkerer>();
+        _skipper = GetComponent<Skipper>();
         _actionsController = GetComponent<ActionsController>();
         
         _coverPositions = new List<GridNode>();
@@ -56,6 +69,7 @@ public class UnitDecisionTree : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Fighting Decision Tree
         _moveToBestCoverDecision = new MoveToBestCoverDecision(_unit, _coverPositions);
         _overwatchDecision = new OverwatchDecision(_overwatcher);
         _reloadDecision = new ReloadDecision(_reloader);
@@ -69,11 +83,23 @@ public class UnitDecisionTree : MonoBehaviour
         _amIFlankedDecision = new AmIFlankedDecision(_gridAgent, _canIReachCoverDecision, _doIHaveAmmoDecision);
         _amILowHPDecision = new AmILowHPDecision(_health, _hunkerDecision, _overwatchDecision);
 
-        _decisionTree = _amIFlankedDecision;
+        FightingDecisionTree = _amIFlankedDecision;
+
+        // Guarding Decision Tree 
+        _skipDecision = new SkipDecision(_skipper);
+
+        GuardingDecisionTree = _skipDecision;
+
+        _decisionTree = FightingDecisionTree;
     }
 
     public void Run()
     {
         ((FinalDecision)_decisionTree.MakeDecision()).Execute();
+    }
+
+    public void SetDecisionTree(DecisionTreeNode decisionTreeNode)
+    {
+        _decisionTree = decisionTreeNode;
     }
 }

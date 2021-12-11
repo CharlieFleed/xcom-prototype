@@ -7,8 +7,8 @@ public class UnitLocalController : NetworkBehaviour
 {
     #region Fields
 
-    public static event Action<UnitLocalController> OnUnitAdded = delegate { };
-    public static event Action<UnitLocalController> OnUnitRemoved = delegate { };
+    public static event Action<UnitLocalController> OnUnitLocalControllerAdded = delegate { };
+    public static event Action<UnitLocalController> OnUnitLocalControllerRemoved = delegate { };
 
     Walker _walker;
     BattleAction[] _battleActions;
@@ -42,7 +42,7 @@ public class UnitLocalController : NetworkBehaviour
         }
     }
 
-    public Shooter Shooter
+    Shooter Shooter
     {
         get
         {
@@ -78,12 +78,12 @@ public class UnitLocalController : NetworkBehaviour
     private void Start()
     {
         //Debug.Log($"Unit Start for {name}.");
-        OnUnitAdded(this);
+        OnUnitLocalControllerAdded(this);
     }
 
     private void OnDestroy()
     {
-        OnUnitRemoved(this);
+        OnUnitLocalControllerRemoved(this);
         //
         foreach (var battleAction in _battleActions)
         {
@@ -319,7 +319,7 @@ public class UnitLocalController : NetworkBehaviour
             //Debug.Log("Unit HandleTargetClick - " + gameObject.name + " target: " + target.Unit.gameObject.name);
             foreach (var battleAction in _battleActions)
             {
-                if (battleAction is Shooter && battleAction.Available) // TODO: check if the target is available for this shooter?
+                if (battleAction is Shooter && battleAction.Available)
                 {
                     ActivateBattleAction(battleAction);
                     ((Shooter)battleAction).SelectTarget(target);

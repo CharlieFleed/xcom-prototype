@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TeamMember : MonoBehaviour
+public class Unit : MonoBehaviour
 {
     public Team Team { set; get; }
     public bool Started { private set; get; }

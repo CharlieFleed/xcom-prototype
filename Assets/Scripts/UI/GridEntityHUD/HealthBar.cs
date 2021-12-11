@@ -21,17 +21,17 @@ public class HealthBar : MonoBehaviour
     {
         if (!_initialized)
         {
-            TeamMember teamMember = _health.GetComponent<TeamMember>();
-            if (teamMember != null)
+            Unit unit = _health.GetComponent<Unit>();
+            if (unit != null)
             {
-                if (teamMember.Team != null)
+                if (unit.Team != null)
                 {
-                    _fill.color = NetworkMatchManager.Instance.TeamColors[int.Parse(teamMember.Team.Name)];
+                    _fill.color = NetworkMatchManager.Instance.TeamColors[int.Parse(unit.Team.Name)];
                     _initialized = true;
                 }
                 else
                 {
-                    Debug.Log($"No team for health bar of {teamMember.name}");
+                    Debug.Log($"No team for health bar of {unit.name}");
                 }
             }
             else

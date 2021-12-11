@@ -34,14 +34,6 @@ public class Thrower : BattleAction
         _gridNodeSelector = GetComponent<GridNodeSelector>();
     }
 
-    private void Update()
-    {
-        if (IsActive)
-        {
-            _input.Update();
-        }
-    }
-
     // Update is called once per frame
     void LateUpdate()
     {
@@ -66,7 +58,7 @@ public class Thrower : BattleAction
     {
         InvokeActionConfirmed(this);
         BattleEventThrow throwEvent = new BattleEventThrow(this, _target);
-        NetworkMatchManager.Instance.AddBattleEvent(throwEvent, true);
+        NetworkMatchManager.Instance.AddBattleEvent(throwEvent, true, 2);
         Deactivate();
         InvokeActionComplete(this);
     }
@@ -83,7 +75,7 @@ public class Thrower : BattleAction
         Debug.Log($"{name} Thrower RpcThrow");
         InvokeActionConfirmed(this);
         BattleEventThrow _throw = new BattleEventThrow(this, _target);
-        NetworkMatchManager.Instance.AddBattleEvent(_throw, true);
+        NetworkMatchManager.Instance.AddBattleEvent(_throw, true, 2);
         Deactivate();
         InvokeActionComplete(this);
     }

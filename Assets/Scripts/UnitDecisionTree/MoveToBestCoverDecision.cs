@@ -6,14 +6,14 @@ using System.Linq;
 
 public class MoveToBestCoverDecision : FinalDecision
 {
-    UnitLocalController _unit;
+    Unit _unit;
     Walker _walker;
     GridAgent _gridAgent;
     GridEntity _gridEntity;
-    TeamMember _teamMember;
+    Shooter _shooter;
     List<GridNode> _nodes;
 
-    public MoveToBestCoverDecision(UnitLocalController unit, List<GridNode> nodes)
+    public MoveToBestCoverDecision(Unit unit, List<GridNode> nodes)
     {
         _unit = unit;
         _nodes = nodes;
@@ -21,7 +21,7 @@ public class MoveToBestCoverDecision : FinalDecision
         _walker = _unit.GetComponent<Walker>();
         _gridEntity = _unit.GetComponent<GridEntity>();
         _gridAgent = _unit.GetComponent<GridAgent>();
-        _teamMember = _unit.GetComponent<TeamMember>();
+        _shooter = _unit.GetComponent<Shooter>();
     }
 
     public override void Execute()
@@ -30,7 +30,7 @@ public class MoveToBestCoverDecision : FinalDecision
         GridNode destinationNode = _nodes.OrderByDescending(n => ScorePosition(n)).First();
         foreach (var node in _nodes.OrderByDescending(n => ScorePosition(n)))
         {
-            Debug.Log($"node: {node.X},{node.Y},{node.Z} score: {ScorePosition(node)}.");
+            //Debug.Log($"node: {node.X},{node.Y},{node.Z} score: {ScorePosition(node)}.");
         }
         Stack<GridNode> path = new Stack<GridNode>();
         path = Pathfinder.Instance.GetPathTo(destinationNode);
@@ -44,7 +44,7 @@ public class MoveToBestCoverDecision : FinalDecision
     float ScorePosition(GridNode gridNode)
     {
         float score = 1;
-        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(_teamMember);
+        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(_unit);
         int cover = GridCoverManager.Instance.GetCover(_gridEntity, gridNode, enemies);
         switch (cover)
         {
@@ -66,6 +66,15 @@ public class MoveToBestCoverDecision : FinalDecision
         {
             if (cost == 1)
                 score *= 1.5f;
+        }
+        Queue<ShotStats> shots = _shooter.GetShotsFromPosition(gridNode);
+        foreach (var shot in shots)
+        {
+            if (shot.Available && shot.Flanked)
+            {
+                score *= 2;
+                break;
+            }
         }
         return score;
     }

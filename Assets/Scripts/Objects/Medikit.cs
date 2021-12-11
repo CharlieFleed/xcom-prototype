@@ -8,8 +8,7 @@ public class Medikit : Item
 
     public override string Name { get { return _data.Name; } }
     public override float Range { get { return _data.Range; } }
-    public override int BaseDamage { get { return _data.BaseDamage; } }
-    public override int MaxDamage { get { return _data.MaxDamage; } }
+    public Damage Damage { get { return _data.Damage; } }
 
     public GameObject EffectFXPrefab { get { return _data.EffectFXPrefab; } }
 
@@ -32,8 +31,9 @@ public class Medikit : Item
     {
         base.UseOn(target);
         Health health = target.GetComponent<Health>();
-        health.TakeDamage(BaseDamage, true, false); // TODO: convert to use DamageDealer
-        NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false);
+        Armor armor = target.GetComponent<Armor>();
+        DamageDealer.DealDamage(health, armor, Damage, 100, 0, out bool hit, out bool crit);
+        NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false, 0);
         // show FX
         Instantiate(EffectFXPrefab, target.transform.position, EffectFXPrefab.transform.rotation);
     }

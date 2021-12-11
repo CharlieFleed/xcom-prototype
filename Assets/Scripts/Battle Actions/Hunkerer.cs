@@ -44,13 +44,6 @@ public class Hunkerer : BattleAction
         IsHunkering = false;
     }
 
-    private void Update()
-    {
-        if (IsActive)
-        {
-            _input.Update();
-        }
-    }
     private void LateUpdate()
     {
         if (IsActive)

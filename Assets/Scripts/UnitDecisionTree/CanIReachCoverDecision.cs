@@ -5,15 +5,16 @@ using System.Collections.Generic;
 
 public class CanIReachCoverDecision : Decision
 {
-    UnitLocalController _unit;
+    Unit _unit;
     Walker _walker;
     GridEntity _gridEntity;
     GridAgent _gridAgent;
     ActionsController _actionsController;
+
     List<GridNode> _coverPositions;
     List<GridNode> _reachablePositions;
 
-    public CanIReachCoverDecision(UnitLocalController unit, List<GridNode> coverPositions, List<GridNode> reachablePositions, DecisionTreeNode trueNode, DecisionTreeNode falseNode) :
+    public CanIReachCoverDecision(Unit unit, List<GridNode> coverPositions, List<GridNode> reachablePositions, DecisionTreeNode trueNode, DecisionTreeNode falseNode) :
         base(trueNode, falseNode)
     {
         _unit = unit;
@@ -33,9 +34,9 @@ public class CanIReachCoverDecision : Decision
     public override DecisionTreeNode GetBranch()
     {
         // get a list of all reachable nodes
-        _walker._NumMoves = _actionsController.NumActions;
+        _walker.NumMoves = _actionsController.NumActions;
         GridNode _origin = _gridEntity.CurrentNode;
-        int maxDistance = _gridAgent.WalkRange * _walker._NumMoves;
+        int maxDistance = _gridAgent.WalkRange * _walker.NumMoves;
         float maxJumpUp = _gridAgent.MaxJumpUp;
         float maxJumpDown = _gridAgent.MaxJumpDown;
         Pathfinder.Instance.Initialize(GridManager.Instance.GetGrid(), _origin, _origin, maxDistance, maxJumpUp, maxJumpDown, IsNodeAvailable, true);
@@ -43,9 +44,12 @@ public class CanIReachCoverDecision : Decision
         _reachablePositions.Clear();
         foreach (var node in GridManager.Instance.GetGrid().Nodes())
         {
-            if (node.Distance < _gridAgent.WalkRange) // TODO: check it is a cover
+            if (node.Distance < _gridAgent.WalkRange)
             {
-                _coverPositions.Add(node);
+                List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(_unit);
+                int cover = GridCoverManager.Instance.GetCover(_gridEntity, node, enemies);
+                if (cover > 0)
+                    _coverPositions.Add(node);
                 _reachablePositions.Add(node);
             }
         }

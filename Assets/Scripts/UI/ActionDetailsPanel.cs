@@ -12,8 +12,8 @@ public class ActionDetailsPanel : MonoBehaviour
 
     private void Awake()
     {
-        UnitLocalController.OnUnitAdded += HandleUnitAdded;
-        UnitLocalController.OnUnitRemoved += HandleUnitRemoved;
+        UnitLocalController.OnUnitLocalControllerAdded += Handle_UnitLocalControllerAdded;
+        UnitLocalController.OnUnitLocalControllerRemoved += Handle_UnitLocalControllerRemoved;
         Shooter.OnShotSelected += HandleShooter_OnShotSelected;
         Thrower.OnThrowing += HandleThrower_OnThrowing;
         //
@@ -27,21 +27,21 @@ public class ActionDetailsPanel : MonoBehaviour
     private void OnDestroy()
     {
         // de-registration of events cannot be on OnDisable
-        UnitLocalController.OnUnitAdded -= HandleUnitAdded;
-        UnitLocalController.OnUnitRemoved -= HandleUnitRemoved;
+        UnitLocalController.OnUnitLocalControllerAdded -= Handle_UnitLocalControllerAdded;
+        UnitLocalController.OnUnitLocalControllerRemoved -= Handle_UnitLocalControllerRemoved;
         Shooter.OnShotSelected -= HandleShooter_OnShotSelected;
         Thrower.OnThrowing -= HandleThrower_OnThrowing;
     }
 
-    private void HandleUnitAdded(UnitLocalController unit)
+    private void Handle_UnitLocalControllerAdded(UnitLocalController unitLocalController)
     {
         //Debug.Log("ActionDetailsPanel HandleUnitAdded");
-        unit.OnActionActivated += HandleActionActivated;
+        unitLocalController.OnActionActivated += HandleActionActivated;
     }
 
-    private void HandleUnitRemoved(UnitLocalController unit)
+    private void Handle_UnitLocalControllerRemoved(UnitLocalController unitLocalController)
     {
-        unit.OnActionActivated -= HandleActionActivated;
+        unitLocalController.OnActionActivated -= HandleActionActivated;
     }
 
     private void HandleShooter_OnShotSelected(ShotStats shot)

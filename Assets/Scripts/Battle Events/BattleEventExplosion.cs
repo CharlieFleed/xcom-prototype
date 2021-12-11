@@ -72,7 +72,7 @@ public class BattleEventExplosion : BattleEvent
                                     50,
                                     out hit,
                                     out crit);
-                                NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false);
+                                NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false, 0);
                             }
                             _explosive.Detonate();
                             _waitTimeout = 1.0f;

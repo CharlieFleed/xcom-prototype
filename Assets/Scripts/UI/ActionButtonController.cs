@@ -11,8 +11,8 @@ public class ActionButtonController : MonoBehaviour
 
     private void Awake()
     {
-        UnitLocalController.OnUnitAdded += HandleUnitAdded;
-        UnitLocalController.OnUnitRemoved += HandleUnitRemoved;
+        UnitLocalController.OnUnitLocalControllerAdded += Handle_UnitLocalControllerAdded;
+        UnitLocalController.OnUnitLocalControllerRemoved += Handle_UnitLocalControllerRemoved;
     }
 
     void HandleActionAdded(BattleAction obj)
@@ -43,21 +43,21 @@ public class ActionButtonController : MonoBehaviour
         battleAction.GetComponent<UnitLocalController>().SelectAction(battleAction);
     }
 
-    private void HandleUnitAdded(UnitLocalController unit)
+    private void Handle_UnitLocalControllerAdded(UnitLocalController unitLocalController)
     {
-        unit.OnActionAdded += HandleActionAdded;
-        unit.OnActionsCleared += HandleActionsCleared;
+        unitLocalController.OnActionAdded += HandleActionAdded;
+        unitLocalController.OnActionsCleared += HandleActionsCleared;
     }
 
-    private void HandleUnitRemoved(UnitLocalController unit)
+    private void Handle_UnitLocalControllerRemoved(UnitLocalController unitLocalController)
     {
-        unit.OnActionAdded -= HandleActionAdded;
-        unit.OnActionsCleared -= HandleActionsCleared;
+        unitLocalController.OnActionAdded -= HandleActionAdded;
+        unitLocalController.OnActionsCleared -= HandleActionsCleared;
     }
 
     private void OnDestroy()
     {
-        UnitLocalController.OnUnitAdded -= HandleUnitAdded;
-        UnitLocalController.OnUnitRemoved -= HandleUnitRemoved;
+        UnitLocalController.OnUnitLocalControllerAdded -= Handle_UnitLocalControllerAdded;
+        UnitLocalController.OnUnitLocalControllerRemoved -= Handle_UnitLocalControllerRemoved;
     }
 }

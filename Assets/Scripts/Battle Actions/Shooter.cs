@@ -31,17 +31,15 @@ public class Shooter : BattleAction
     public event Action OnShot = delegate { };
     public event Action<Shooter> OnShoot = delegate { };
 
-    protected Queue<ShotStats> _shots = new Queue<ShotStats>();
-
-    [SerializeField] protected Weapon _weapon;
-    public Weapon Weapon { get { return _weapon; } set { _weapon = value; } }
-
-    public override string ActionName { get { return _weapon.Name; } }
-    public override string ConfirmText { get { return "Fire " + _weapon.Name; } }
-
     public static event Action<ShotStats> OnShotSelected = delegate { };
 
+    [SerializeField] protected Weapon _weapon;
     GridEntity _gridEntity;
+    protected Queue<ShotStats> _shots = new Queue<ShotStats>();
+
+    public Weapon Weapon { get { return _weapon; } set { _weapon = value; } }
+    public override string ActionName { get { return _weapon.Name; } }
+    public override string ConfirmText { get { return "Fire " + _weapon.Name; } }
 
     #endregion
 
@@ -58,14 +56,6 @@ public class Shooter : BattleAction
     private void OnDisable()
     {
         OnShooterRemoved(this);
-    }
-
-    private void Update()
-    {
-        if (IsActive)
-        {
-            _input.Update();
-        }
     }
 
     // Update is called once per frame
@@ -123,7 +113,7 @@ public class Shooter : BattleAction
         OnTargetingEnd();
         Debug.Log($"Shoot {shotStats.Target.name}");
         BattleEventShot shotEvent = new BattleEventShot(this, shotStats);
-        NetworkMatchManager.Instance.AddBattleEvent(shotEvent, true);
+        NetworkMatchManager.Instance.AddBattleEvent(shotEvent, true, 2);
         InvokeActionConfirmed(this);
         Deactivate();
         InvokeActionComplete(this);
@@ -189,26 +179,10 @@ public class Shooter : BattleAction
     public void UpdateShots()
     {
         _shots.Clear();
-        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(GetComponent<TeamMember>());
-        foreach (var shot in GridCoverManager.Instance.GetShotStats(_gridEntity, enemies))
-        {
-            shot.Available = Vector3.Distance(transform.position, shot.Target.transform.position) <= _weapon.Range;
-            shot.HitChance = 100 + Weapon.HitChanceBonus(shot.Target);
-            if (shot.Cover)
-                shot.HitChance -= 40;
-            if (shot.HalfCover)
-                shot.HitChance -= 20;
-            if (shot.Flanked)
-                shot.CritChance += 50;
-            Hunkerer hunkerer = shot.Target.GetComponent<Hunkerer>();
-            if (hunkerer != null && hunkerer.IsHunkering)
-                shot.HitChance -= 30;
-            shot.HitChance = Mathf.Clamp(shot.HitChance, 0, 100);
-            shot.CritChance = Mathf.Clamp(shot.CritChance, 0, 100);
-            shot.BaseDamage = Weapon.BaseDamage;
-            shot.MaxDamage = Weapon.MaxDamage; 
-            _shots.Enqueue(shot);
-        }
+        // enemies
+        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(GetComponent<Unit>());
+        GetShotStats(_shots, enemies, _gridEntity.CurrentNode);
+        // other entities
         List<GridEntity> gridEntities = NetworkMatchManager.Instance.GetGridEntities();
         // Add map entities
         foreach (var gridEntity in gridEntities)
@@ -229,6 +203,42 @@ public class Shooter : BattleAction
                 }
             }
         }
+    }
+
+    private void GetShotStats(Queue<ShotStats> shots, List<GridEntity> enemies, GridNode currentNode)
+    {
+        foreach (var shot in GridCoverManager.Instance.GetShotStats(_gridEntity, currentNode, enemies))
+        {
+            shot.Available = Vector3.Distance(currentNode.FloorPosition, shot.Target.CurrentNode.FloorPosition) <= _weapon.Range;
+            shot.HitChance = 100 + Weapon.HitChanceBonus(shot.Target);
+            if (shot.Cover)
+                shot.HitChance -= 40;
+            if (shot.HalfCover)
+                shot.HitChance -= 20;
+            if (shot.Flanked)
+                shot.CritChance += 50;
+            Hunkerer hunkerer = shot.Target.GetComponent<Hunkerer>();
+            if (hunkerer != null && hunkerer.IsHunkering)
+                shot.HitChance -= 30;
+            Walker walker = shot.Target.GetComponent<Walker>();
+            if (walker != null && walker.IsRunning)
+                shot.HitChance -= 15;
+            if (currentNode.Y > shot.Target.CurrentNode.Y)
+                shot.HitChance += 20;
+            shot.HitChance = Mathf.Clamp(shot.HitChance, 0, 100);
+            shot.CritChance = Mathf.Clamp(shot.CritChance, 0, 100);
+            shot.BaseDamage = Weapon.BaseDamage;
+            shot.MaxDamage = Weapon.MaxDamage;
+            shots.Enqueue(shot);
+        }
+    }
+
+    public Queue<ShotStats> GetShotsFromPosition(GridNode position)
+    {
+        Queue<ShotStats> shots = new Queue<ShotStats>();
+        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(GetComponent<Unit>());
+        GetShotStats(shots, enemies, position);
+        return shots;
     }
 
     public void ShowTargets()

@@ -4,6 +4,14 @@ using System.Collections.Generic;
 
 public class BattleEventGroup
 {
+    int _priority;
+    public int Priority { get { return _priority; } }
+
+    public BattleEventGroup(int priority)
+    {
+        _priority = priority;
+    }
+
     List<BattleEvent> _battleEvents = new List<BattleEvent>();
     List<BattleEvent> _newBattleEvents = new List<BattleEvent>();
     List<BattleEvent> _endedBattleEvents = new List<BattleEvent>();
@@ -13,7 +21,7 @@ public class BattleEventGroup
         foreach (var battleEvent in _battleEvents)
         {
             battleEvent.Run();
-            if (battleEvent.ended)
+            if (battleEvent._ended)
             {
                 _endedBattleEvents.Add(battleEvent);
             }

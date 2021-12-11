@@ -3,14 +3,6 @@ using Mirror;
 
 public class Skipper : BattleAction
 {
-    private void Update()
-    {
-        if (IsActive)
-        {
-            _input.Update();
-        }
-    }
-
     private void LateUpdate()
     {
         if (IsActive)

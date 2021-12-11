@@ -68,4 +68,12 @@ public class BattleAction : NetworkBehaviour
     }
 
     protected InputCache _input = new InputCache();
+
+    protected virtual void Update()
+    {
+        if (IsActive)
+        {
+            _input.Update();
+        }
+    }
 }

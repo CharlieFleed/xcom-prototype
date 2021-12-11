@@ -55,7 +55,7 @@ public class GridAgent : MonoBehaviour
 
     void UpdateCover()
     {
-        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(GetComponent<TeamMember>());
+        List<GridEntity> enemies = NetworkMatchManager.Instance.GetEnemiesAs<GridEntity>(GetComponent<Unit>());
         Cover = GridCoverManager.Instance.GetCover(GetComponent<GridEntity>(), enemies);
     }
 }

@@ -7,11 +7,11 @@ public class GridEntityHUD : MonoBehaviour
     [SerializeField] float _transparency = 0.5f;
     [SerializeField] int _positionOffset = 3;
 
-    UnitLocalController _unit;
+    UnitLocalController _unitLocalController;
     Health _health;
     GridEntity _gridEntity;
     Viewer _viewer;
-    TeamMember _teamMember;
+    Unit _unit;
 
     Camera _camera;
 
@@ -32,11 +32,11 @@ public class GridEntityHUD : MonoBehaviour
     public void SetGridEntity(GridEntity gridEntity)
     {
         _gridEntity = gridEntity;
-        _unit = _gridEntity.GetComponent<UnitLocalController>();
+        _unitLocalController = _gridEntity.GetComponent<UnitLocalController>();
         _health = _gridEntity.GetComponent<Health>();
         _health.OnTakeDamage += HandleHealth_TakeDamage;
         _viewer = _gridEntity.GetComponent<Viewer>();
-        _teamMember = _gridEntity.GetComponent<TeamMember>();
+        _unit = _gridEntity.GetComponent<Unit>();
     }
 
     private void OnDestroy()
@@ -66,10 +66,12 @@ public class GridEntityHUD : MonoBehaviour
         {
             _display = 0;
         }
-        else if ((_unit != null && _unit.IsActive) ||
+        else if (
+            (_unitLocalController != null && _unitLocalController.IsActive) ||
             _gridEntity.IsTargeted ||
             _gridEntity.IsSoftTargeted ||
-            (_unit != null && (NetworkMatchManager.Instance.CurrentTeamMember != null && NetworkMatchManager.Instance.CurrentTeamMember.GetComponent<Walker>().IsActive && !NetworkMatchManager.Instance.CurrentTeamMember.GetComponent<Walker>().IsWalking && !_teamMember.Team.IsActive)))
+            (_unitLocalController != null && (NetworkMatchManager.Instance.CurrentUnit != null && NetworkMatchManager.Instance.CurrentUnit.GetComponent<Walker>().IsActive && !NetworkMatchManager.Instance.CurrentUnit.GetComponent<Walker>().IsWalking && !_unit.Team.IsActive))
+            )
         {
             _display = 2;
         }

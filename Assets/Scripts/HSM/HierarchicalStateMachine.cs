@@ -16,7 +16,7 @@ namespace HSM
         public State _initialState;
         public State _currentState;
 
-        public HierarchicalStateMachine(string name, List<State> states, State initialState, List<Action> actions, List<Action> entryActions, List<Action> exitActions) : base(name, actions, entryActions, exitActions)
+        public HierarchicalStateMachine(string name, List<State> states, State initialState, List<ActionBase> actions, List<ActionBase> entryActions, List<ActionBase> exitActions) : base(name, actions, entryActions, exitActions)
         {
             _states = states;
             _initialState = initialState;
@@ -26,7 +26,10 @@ namespace HSM
         {
             if (_currentState != null)
             {
-                return _currentState.GetStates();
+                List<State> states = new List<State>();
+                states.Add(_currentState);
+                states.AddRange(_currentState.GetStates());
+                return states;
             }
             else
             {
@@ -47,6 +50,7 @@ namespace HSM
             {
                 _currentState = _initialState;
                 result.actions = _currentState.GetEntryActions();
+                result.stable = false;
                 return result;
                 // we don't check transitions from this state until the next update
             }
@@ -66,6 +70,7 @@ namespace HSM
             if (triggeredTransition != null)
             {
                 result.transition = triggeredTransition;
+                result.stable = false;
                 result.transitionLevel = triggeredTransition.GetLevel();
             }
             // Otherwise recurse down for a result
@@ -134,9 +139,9 @@ namespace HSM
         /// <param name="state"></param>
         /// <param name="levelsToGo"></param>
         /// <returns></returns>
-        public List<Action> UpdateDown(State state, int levelsToGo)
+        public List<ActionBase> UpdateDown(State state, int levelsToGo)
         {
-            List<Action> actions = new List<Action>();
+            List<ActionBase> actions = new List<ActionBase>();
 
             // If we are not at top level, we have a parent
             if (levelsToGo > 0)

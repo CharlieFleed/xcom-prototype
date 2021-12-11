@@ -10,7 +10,6 @@ public class CameraDirector : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera _aimingCamera;
     [SerializeField] CinemachineVirtualCamera _actionCamera;
     [SerializeField] CinemachineTargetGroup _actionCameraTargetGroup;
-    [SerializeField] NetworkMatchManager _matchManager;
     [SerializeField] Transform _throwTarget;
 
     Dictionary<GridEntity, CinemachineVirtualCamera> _entityCameras = new Dictionary<GridEntity, CinemachineVirtualCamera>();
@@ -30,8 +29,8 @@ public class CameraDirector : MonoBehaviour
 
     private void OnEnable()
     {
-        UnitLocalController.OnUnitAdded += HandleUnit_OnUnitAdded;
-        UnitLocalController.OnUnitRemoved += HandleUnit_OnUnitRemoved;
+        UnitLocalController.OnUnitLocalControllerAdded += Handle_UnitLocalControllerAdded;
+        UnitLocalController.OnUnitLocalControllerRemoved += Handle_UnitLocalControllerRemoved;
         UnitLocalController.OnActiveChanged += HandleUnit_OnActiveChanged;
         GridEntity.OnGridEntityAdded += HandleGridEntity_OnGridEntityAdded;
         GridEntity.OnGridEntityRemoved += HandleGridEntity_OnGridEntityRemoved;
@@ -42,15 +41,16 @@ public class CameraDirector : MonoBehaviour
         BattleEventThrow.OnThrowing += HandleBattleEventThrow_OnThrowing;
         BattleEventThrow.OnThrowingEnd += HandleBattleEventThrow_OnThrowingEnd;
         BattleEventExplosion.OnExploding += HandleBattleEventExplosion_OnExploding;
-        BattleEventExplosion.OnExplodingEnd += HandleBattleEventExplosion_OnExplodingEnd;
-        _matchManager.OnTurnBegin += HandleMatchManager_OnNewTurn;
+        BattleEventExplosion.OnExplodingEnd += HandleBattleEventExplosion_OnExplodingEnd;        
         Viewer.OnVisibleChanged += HandleViewer_OnVisibleChanged;
+        BattleEventReaction.OnEngaging += HandleBattleEventReaction_OnEngaging;
+        BattleEventReaction.OnEngagingEnd += HandleBattleEventReaction_OnEngagingEnd;
     }
-    
+
     private void OnDisable()
     {
-        UnitLocalController.OnUnitAdded -= HandleUnit_OnUnitAdded;
-        UnitLocalController.OnUnitRemoved -= HandleUnit_OnUnitRemoved;
+        UnitLocalController.OnUnitLocalControllerAdded -= Handle_UnitLocalControllerAdded;
+        UnitLocalController.OnUnitLocalControllerRemoved -= Handle_UnitLocalControllerRemoved;
         UnitLocalController.OnActiveChanged -= HandleUnit_OnActiveChanged;
         GridEntity.OnGridEntityAdded -= HandleGridEntity_OnGridEntityAdded;
         GridEntity.OnGridEntityRemoved -= HandleGridEntity_OnGridEntityRemoved;
@@ -61,9 +61,20 @@ public class CameraDirector : MonoBehaviour
         BattleEventThrow.OnThrowing -= HandleBattleEventThrow_OnThrowing;
         BattleEventThrow.OnThrowingEnd -= HandleBattleEventThrow_OnThrowingEnd;
         BattleEventExplosion.OnExploding -= HandleBattleEventExplosion_OnExploding;
-        BattleEventExplosion.OnExplodingEnd -= HandleBattleEventExplosion_OnExplodingEnd;
-        _matchManager.OnTurnBegin -= HandleMatchManager_OnNewTurn;
+        BattleEventExplosion.OnExplodingEnd -= HandleBattleEventExplosion_OnExplodingEnd;        
         Viewer.OnVisibleChanged -= HandleViewer_OnVisibleChanged;
+        BattleEventReaction.OnEngaging -= HandleBattleEventReaction_OnEngaging;
+        BattleEventReaction.OnEngagingEnd -= HandleBattleEventReaction_OnEngagingEnd;
+    }
+
+    private void Start()
+    {
+        NetworkMatchManager.Instance.OnTurnBegin += HandleMatchManager_OnNewTurn;
+    }
+
+    private void OnDestroy()
+    {
+        NetworkMatchManager.Instance.OnTurnBegin -= HandleMatchManager_OnNewTurn;
     }
 
     private void Update()
@@ -90,13 +101,13 @@ public class CameraDirector : MonoBehaviour
         }
     }
 
-    void HandleUnit_OnUnitAdded(UnitLocalController unit)
+    void Handle_UnitLocalControllerAdded(UnitLocalController unit)
     {
         unit.OnMouseOverTarget += HandleUnit_OnMouseOverTarget;
         unit.OnMouseExitTarget += HandleUnit_OnMouseExitTarget;
     }
 
-    void HandleUnit_OnUnitRemoved(UnitLocalController unit)
+    void Handle_UnitLocalControllerRemoved(UnitLocalController unit)
     {
         unit.OnMouseOverTarget -= HandleUnit_OnMouseOverTarget;
         unit.OnMouseExitTarget -= HandleUnit_OnMouseExitTarget;
@@ -152,24 +163,24 @@ public class CameraDirector : MonoBehaviour
         // disable any active camera
         _actionCamera.gameObject.SetActive(false);
         _activeEntityCamera.gameObject.SetActive(false);
-        if (_matchManager.CurrentTeamMember.GetComponent<Viewer>().IsVisible)
+        if (NetworkMatchManager.Instance.CurrentUnit.GetComponent<Viewer>().IsVisible)
         {
-            _activeEntityCamera = _entityCameras[_matchManager.CurrentTeamMember.GetComponent<GridEntity>()];
+            _activeEntityCamera = _entityCameras[NetworkMatchManager.Instance.CurrentUnit.GetComponent<GridEntity>()];
             _activeEntityCamera.gameObject.SetActive(true);
             _lastActivatedUnitCamera = _activeEntityCamera;
         }
         else
         {
-            //Debug.Log($"Unit {_matchManager.CurrentUnit.name} is not visible");
+            //Debug.Log($"Unit {NetworkMatchManager.Instance.CurrentUnit.name} is not visible");
             // align world camera with last entity
             _worldCamera.m_Follow.position = _activeEntityCamera.m_Follow.position;
             _activeEntityCamera = _worldCamera;
             _activeEntityCamera.gameObject.SetActive(true);
             _lastActivatedUnitCamera = _activeEntityCamera;
         }
-        _aimingCamera.m_Follow = _matchManager.CurrentTeamMember.transform;
+        _aimingCamera.m_Follow = NetworkMatchManager.Instance.CurrentUnit.transform;
         _actionCameraTargetGroup.m_Targets = new CinemachineTargetGroup.Target[0];
-        _actionCameraTargetGroup.AddMember(_matchManager.CurrentTeamMember.transform, 1, 5); // pre-align action camera with current unit
+        _actionCameraTargetGroup.AddMember(NetworkMatchManager.Instance.CurrentUnit.transform, 1, 5); // pre-align action camera with current unit
     }
 
     void HandleBattleEventShot_OnShooting(Shooter shooter, GridEntity target)
@@ -259,14 +270,14 @@ public class CameraDirector : MonoBehaviour
     {
         if (visible)
         {
-            if (_matchManager.CurrentTeamMember != null && _matchManager.CurrentTeamMember.GetComponent<GridEntity>() == viewer.GetComponent<GridEntity>())
+            if (NetworkMatchManager.Instance.CurrentUnit != null && NetworkMatchManager.Instance.CurrentUnit.GetComponent<GridEntity>() == viewer.GetComponent<GridEntity>())
             {
                 //Debug.Log("this is the active unit who became visible");
                 // this is the active unit who became visible
                 // disable any active camera
                 _activeEntityCamera.gameObject.SetActive(false);
                 //
-                _activeEntityCamera = _entityCameras[_matchManager.CurrentTeamMember.GetComponent<GridEntity>()];
+                _activeEntityCamera = _entityCameras[NetworkMatchManager.Instance.CurrentUnit.GetComponent<GridEntity>()];
                 _activeEntityCamera.gameObject.SetActive(true);
                 _lastActivatedUnitCamera = _activeEntityCamera;
             }
@@ -287,6 +298,17 @@ public class CameraDirector : MonoBehaviour
             }
         }
     }
+
+    void HandleBattleEventReaction_OnEngaging(GridEntity gridEntity)
+    {
+        _activeEntityCamera.gameObject.SetActive(false);
+        _actionCamera.gameObject.SetActive(true);
+        _actionCameraTargetGroup.m_Targets = new CinemachineTargetGroup.Target[0];
+        _actionCameraTargetGroup.AddMember(gridEntity.transform, 1, 1);
+    }
+
+    void HandleBattleEventReaction_OnEngagingEnd()
+    { }
 
     void AlignCamera(CinemachineVirtualCamera camera, CinemachineVirtualCamera reference)
     {

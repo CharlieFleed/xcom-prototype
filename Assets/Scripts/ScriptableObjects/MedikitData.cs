@@ -7,7 +7,6 @@ public class MedikitData : ScriptableObject
 {
     public string Name = "Medikit";
     public float Range = 1;
-    public int BaseDamage = -4;
-    public int MaxDamage = -4;
+    public Damage Damage;
     public GameObject EffectFXPrefab;
 }

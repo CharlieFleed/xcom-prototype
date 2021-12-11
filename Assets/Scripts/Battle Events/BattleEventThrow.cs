@@ -100,7 +100,7 @@ public class BattleEventThrow : BattleEvent
                                     50,
                                     out hit,
                                     out crit);
-                                NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false);
+                                NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false, 0);
                             }
                             OnThrowingEnd();
                             End();

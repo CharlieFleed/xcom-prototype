@@ -549,11 +549,11 @@ public class GridManager : MonoBehaviour
         {
             foreach (Team team in teams)
             {
-                foreach (TeamMember member in team.Members)
+                foreach (Unit unit in team.Members)
                 {
-                    member.gameObject.transform.position = walkableNodes[count].FloorPosition;
+                    unit.gameObject.transform.position = walkableNodes[count].FloorPosition;
                     Debug.Log("Set Current Node");
-                    member.gameObject.GetComponent<GridEntity>().CurrentNode = walkableNodes[count];
+                    unit.gameObject.GetComponent<GridEntity>().CurrentNode = walkableNodes[count];
                     count++;
                 }
             }
