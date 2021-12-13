@@ -54,7 +54,7 @@ public class EngageAction : ActionBase
         }
         // add reaction event
         BattleEventReaction battleEventReaction = new BattleEventReaction(_actionsController, this, _gridEntity);
-        NetworkMatchManager.Instance.AddBattleEvent(battleEventReaction, true, 0);
+        NetworkMatchManager.Instance.AddBattleEvent(battleEventReaction, false, 0);
     }
 
     public void RunTree()

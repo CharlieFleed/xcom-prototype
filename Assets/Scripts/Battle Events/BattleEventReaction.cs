@@ -14,7 +14,7 @@ public class BattleEventReaction : BattleEvent
     Phase _phase;
 
     public static event Action<GridEntity> OnEngaging = delegate { };
-    public static event Action OnEngagingEnd = delegate { };
+    public static event Action<GridEntity> OnEngagingEnd = delegate { };
 
     public BattleEventReaction(ActionsController actionsController, EngageAction engageAction, GridEntity gridEntity)
     {
@@ -26,7 +26,7 @@ public class BattleEventReaction : BattleEvent
     private void _actionsController_OnActionComplete(Unit obj)
     {
         _actionsController.OnActionComplete -= _actionsController_OnActionComplete;
-        OnEngagingEnd();
+        OnEngagingEnd(_gridEntity);
         End();
     }
 

@@ -187,8 +187,8 @@ public class NetworkMatchManager : NetworkBehaviour
                     OnBeforeTurnBegin();
                     OnTurnBegin();
                     ActiveTeam.Owner.Activate();
-                    BattleEventTurn battleEventTurn = new BattleEventTurn(this);
-                    AddBattleEvent(battleEventTurn, true, 1);
+                    BattleEventEndTurn battleEventEndTurn = new BattleEventEndTurn(this);
+                    AddBattleEvent(battleEventEndTurn, true, 1);
                 }
                 else
                 {
@@ -265,24 +265,30 @@ public class NetworkMatchManager : NetworkBehaviour
 
     public void AddBattleEvent(BattleEvent battleEvent, bool newGroup, int priority)
     {
-        if (newGroup)
+        if (!newGroup)
         {
-            BattleEventGroup battleEventGroup = new BattleEventGroup(priority);
-            int index = 0;
-            for (; index < _battleEventGroups.Count; index++)
+            // find an existing group at the same priority
+            for (int i = 0; i < _battleEventGroups.Count; i++)
             {
-                if (priority >= _battleEventGroups[index].Priority)
+                if (_battleEventGroups[i].Priority == priority)
                 {
-                    break;
+                    _battleEventGroups[i].AddBattleEvent(battleEvent);
+                    return;
                 }
             }
-            _battleEventGroups.Insert(index, battleEventGroup);
-            battleEventGroup.AddBattleEvent(battleEvent);
         }
-        else
+        // if we got here we need to create a new group
+        BattleEventGroup battleEventGroup = new BattleEventGroup(priority);
+        int index = 0;
+        for (; index < _battleEventGroups.Count; index++)
         {
-            _battleEventGroups[0].AddBattleEvent(battleEvent);
+            if (priority >= _battleEventGroups[index].Priority)
+            {
+                break;
+            }
         }
+        _battleEventGroups.Insert(index, battleEventGroup);
+        battleEventGroup.AddBattleEvent(battleEvent);
     }
 
     void SelectNextUnit()

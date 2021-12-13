@@ -217,7 +217,7 @@ public class Pathfinder : MonoBehaviour
             GridNode d1 = pathArray[i];
             GridNode d2 = pathArray[i + 2];
             // if they are diagonal neighbors at the same height
-            if (Mathf.Abs(d1.X - d2.X) == 1 && Mathf.Abs(d1.Z - d2.Z) == 1 && (d1.Y == d2.Y))
+            if (GridNode.AreDiagonals(d1, d2))
             {
                 GridNode n1 = _grid.Node(d1.X, d1.Y, d2.Z);
                 GridNode n2 = _grid.Node(d2.X, d2.Y, d1.Z);
@@ -228,9 +228,9 @@ public class Pathfinder : MonoBehaviour
                     {
                         // skip intermediate node
                         diagPath.Push(d1);
-                        diagPath.Push(d2);
                         if (i == pathArray.Length - 3)
                         {
+                            diagPath.Push(d2);
                             return diagPath;
                         }
                         i++;

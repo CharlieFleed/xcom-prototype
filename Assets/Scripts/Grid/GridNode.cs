@@ -110,4 +110,8 @@ public class GridNode
         return Orientations.East;
     }
 
+    public static bool AreDiagonals(GridNode a, GridNode b)
+    {
+        return (Mathf.Abs(a.X - b.X) == 1 && Mathf.Abs(a.Z - b.Z) == 1 && (a.Y == b.Y));
+    }
 }

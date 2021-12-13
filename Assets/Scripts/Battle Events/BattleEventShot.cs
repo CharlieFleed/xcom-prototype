@@ -9,13 +9,13 @@ public class BattleEventShot : BattleEvent
 
     protected Shooter _shooter;
     protected ShotStats _shotStats;
-    float _waitTimeout = 1;
+    float _waitTimeout = 1.5f;
 
     enum Phase { Camera, Wait, Shoot, Shooting, Shot }
     Phase _phase;
 
     public static event Action<Shooter, GridEntity> OnShooting = delegate { };
-    public static event Action OnShootingEnd = delegate { };
+    public static event Action<Shooter, GridEntity> OnShootingEnd = delegate { };
 
     #endregion
 
@@ -25,12 +25,6 @@ public class BattleEventShot : BattleEvent
         _shotStats = shotStats;
         _shooter.OnShot += HandleShooter_OnShot;
         _phase = Phase.Camera;
-        // NOTE: change this so that the walker knows what to do?
-        Walker walker = _shotStats.Target.GetComponent<Walker>();
-        if (walker)
-        {
-            walker.Pause();
-        }
     }
 
     void HandleShooter_OnShot()
@@ -82,14 +76,8 @@ public class BattleEventShot : BattleEvent
                         if (_shooter.Weapon.HitFXPrefab)
                             GameObject.Instantiate(_shooter.Weapon.HitFXPrefab, _shotStats.Target.transform.position, Quaternion.identity);                        
                     }
-                    // NOTE: change this so that the walker knows what to do?
-                    Walker walker = _shotStats.Target.GetComponent<Walker>();
-                    if (walker)
-                    {
-                        walker.Resume();
-                    }
                     NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false, 0);
-                    OnShootingEnd();
+                    OnShootingEnd(_shooter, _shotStats.Target);
                     End();
                 }
                 break;

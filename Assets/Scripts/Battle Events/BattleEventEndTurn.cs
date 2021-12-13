@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BattleEventTurn : BattleEvent
+public class BattleEventEndTurn : BattleEvent
 {
     NetworkMatchManager _networkMatchManager;
 
-    public BattleEventTurn(NetworkMatchManager networkMatchManager)
+    public BattleEventEndTurn(NetworkMatchManager networkMatchManager)
     {
         _networkMatchManager = networkMatchManager;
     }

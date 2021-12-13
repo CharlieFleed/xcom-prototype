@@ -24,7 +24,6 @@ public class Walker : BattleAction
 
     // overwatch management 
     Health _health;
-    int _pauseLocks;
 
     private void Awake()
     {
@@ -37,7 +36,7 @@ public class Walker : BattleAction
     override protected void Update()
     {
         base.Update();
-        if (_path.Count > 0 && _pauseLocks == 0)
+        if (_path.Count > 0)
         {
             if (_health.IsDead)
             {
@@ -94,8 +93,13 @@ public class Walker : BattleAction
     {
         GridNode nextStep = _path.Peek();
         Vector3 destination = nextStep.FloorPosition;
-        GridNode.Orientations orientation = GridNode.GetAdjacentDirection(_gridEntity.CurrentNode, nextStep);
-        bool leap = _gridEntity.CurrentNode.HalfWalls[(int)orientation];
+        bool leap = false;
+        if (!GridNode.AreDiagonals(_gridEntity.CurrentNode, nextStep))
+        {
+            GridNode.Orientations orientation = GridNode.GetAdjacentDirection(_gridEntity.CurrentNode, nextStep);
+            leap = _gridEntity.CurrentNode.HalfWalls[(int)orientation];
+            if (leap) Debug.Log($"Leap between {_gridEntity.CurrentNode.X},{_gridEntity.CurrentNode.Y},{_gridEntity.CurrentNode.Z} and {nextStep.X},{nextStep.Y},{nextStep.Z}.");
+        }
         _movement.MoveToDestination(destination, leap);
         OnMove(this, _gridEntity.CurrentNode, nextStep);
     }
@@ -111,18 +115,6 @@ public class Walker : BattleAction
     {
         base.Cancel();
         _gridPathSelector.Cancel();
-    }
-
-    public void Pause()
-    {
-        //Debug.Log("Pause");
-        _pauseLocks++;
-    }
-
-    public void Resume()
-    {
-        //Debug.Log("Resume");
-        _pauseLocks--;
     }
 
     public override void Init(int numActions)

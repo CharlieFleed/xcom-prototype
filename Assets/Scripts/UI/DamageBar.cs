@@ -36,7 +36,7 @@ public class DamageBar : MonoBehaviour
 
     public void SetOffset(int offset)
     {
-        _pivot.transform.Translate(Vector3.up * offset * 20);
+        _pivot.transform.Translate(Vector3.up * offset * 40);
     }
 
     public void SetDamage(int damage, bool hit, bool crit)

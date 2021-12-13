@@ -42,18 +42,20 @@ public class GameController : MonoBehaviour
     private void HandleNetworkMatchManager_OnPause()
     {
         OpenMenu();
+        Pause();
     }
 
     public void HandlePauseClick()
     {
         OpenMenu();
+        Pause();
     }
 
     private void Update()
     {
         if (GamePaused && Input.GetKeyDown(KeyCode.Escape))
         {
-            StartCoroutine(Resume());
+            StartCoroutine(CloseMenuAndResume());
         }
     }
 
@@ -61,6 +63,10 @@ public class GameController : MonoBehaviour
     {
         _pauseMenu.SetActive(true);
         _pauseMenu.GetComponent<Image>().CrossFadeAlpha(.5f, .25f, true);
+    }
+
+    private static void Pause()
+    {
         Time.timeScale = 0;
         GamePaused = true;
     }
@@ -69,14 +75,19 @@ public class GameController : MonoBehaviour
     {
         _pauseMenu.SetActive(false);
         _pauseMenu.GetComponent<Image>().CrossFadeAlpha(0, 0.02f, true);
+    }
+
+    private static void Resume()
+    {
         Time.timeScale = 1;
         GamePaused = false;
     }
 
-    public IEnumerator Resume()
+    public IEnumerator CloseMenuAndResume()
     {
         yield return null;
         CloseMenu();
+        Resume();
     }
 
     public void Quit()

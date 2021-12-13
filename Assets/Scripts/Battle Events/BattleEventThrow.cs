@@ -17,7 +17,7 @@ public class BattleEventThrow : BattleEvent
     float _waitTimeout = .5f;
 
     public static event Action<Thrower, GridNode> OnThrowing = delegate { };
-    public static event Action OnThrowingEnd = delegate { };
+    public static event Action<Thrower, GridNode> OnThrowingEnd = delegate { };
 
     #endregion
 
@@ -102,7 +102,7 @@ public class BattleEventThrow : BattleEvent
                                     out crit);
                                 NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false, 0);
                             }
-                            OnThrowingEnd();
+                            OnThrowingEnd(_thrower, _target);
                             End();
                         }
                         else
@@ -112,13 +112,13 @@ public class BattleEventThrow : BattleEvent
                     }
                     else
                     {
-                        OnThrowingEnd();
+                        OnThrowingEnd(_thrower, _target);
                         End();
                     }
                 }
                 else
                 {
-                    OnThrowingEnd();
+                    OnThrowingEnd(_thrower, _target);
                     End();
                 }
                 break;

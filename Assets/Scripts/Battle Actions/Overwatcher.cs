@@ -10,6 +10,7 @@ public class Overwatcher : BattleAction
 
     public static event Action<Overwatcher> OnOverwatcherAdded = delegate { };
     public static event Action<Overwatcher> OnOverwatcherRemoved = delegate { };
+    public static event Action<Overwatcher> OnOverwatchShot = delegate { };
 
     [SerializeField] Shooter _shooter;
     GridEntity _gridEntity;
@@ -55,9 +56,10 @@ public class Overwatcher : BattleAction
         if (!GetComponent<Health>().IsDead && _isOverwatching && walker.GetComponent<Unit>().Team != GetComponent<Unit>().Team)
         {
             // if (GridCoverManager.Instance.LineOfSight(GetComponent<GridEntity>(), walker.GetComponent<GridEntity>(), out Ray ray, out float rayLength, new List<GridNode[]>()))
-            if (GridCoverManager.Instance.LineOfSight(_gridEntity, origin) || GridCoverManager.Instance.LineOfSight(_gridEntity, destination))
+            if (GridCoverManager.Instance.LineOfSight(_gridEntity, origin) && GridCoverManager.Instance.LineOfSight(_gridEntity, destination))
             {
-                if (Vector3.Distance(transform.position, walker.transform.position) <= _shooter.Weapon.Range)
+                float distance = Vector3.Distance(_gridEntity.CurrentNode.FloorPosition, origin.FloorPosition);
+                if (distance <= _shooter.Weapon.Range)
                 {
                     OverwatchShoot(walker.GetComponent<GridEntity>());
                 }
@@ -110,7 +112,7 @@ public class Overwatcher : BattleAction
 
     void OverwatchShoot(GridEntity target)
     {
-        //Debug.Log($"OverwatchShoot {name} in position {gridAgent.CurrentNode.X},{gridAgent.CurrentNode.Y},{gridAgent.CurrentNode.Z}");
+        Debug.Log($"OverwatchShoot {name} in position {_gridEntity.CurrentNode.X},{_gridEntity.CurrentNode.Y},{_gridEntity.CurrentNode.Z}");
         ShotStats shotStats = GridCoverManager.Instance.GetShotStats(_gridEntity, _gridEntity.CurrentNode, new List<GridEntity>() { target })[0];
         shotStats.HitChance = 100 + _shooter.Weapon.HitChanceBonus(shotStats.Target);
         Walker walker = target.GetComponent<Walker>();
@@ -122,6 +124,7 @@ public class Overwatcher : BattleAction
         NetworkMatchManager.Instance.AddBattleEvent(shot, true, 2);
         OnShoot(_shooter, target);
         ClearOverwatch();
+        OnOverwatchShot(this);
     }
 
     public override void Init(int numActions)
