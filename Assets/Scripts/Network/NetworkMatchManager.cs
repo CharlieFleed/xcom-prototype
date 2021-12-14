@@ -51,6 +51,9 @@ public class NetworkMatchManager : NetworkBehaviour
 
     public void SinglePlayerMatchSetup(MyGamePlayer player)
     {
+        int[][] unitClasses = new int[2][];
+        unitClasses[0] = new int[] { 0, 2, 2, 2 };
+        unitClasses[1] = new int[] { 0, 0, 0, 0 };
         for (int i = 0; i < 2; i++)
         {
             RegisterPlayer(player);
@@ -59,7 +62,7 @@ public class NetworkMatchManager : NetworkBehaviour
             List<GridNode> spawnPositions = GridManager.Instance.GetSpawnPositions(team.Id, _NumOfUnits);
             for (int c = 0; c < _NumOfUnits; c++)
             {
-                GameObject unit = Instantiate(_unitPrefabs[player.MatchSettings.unitClasses[c]], Vector3.zero, Quaternion.identity);
+                GameObject unit = Instantiate(_unitPrefabs[player.MatchSettings.unitClasses[unitClasses[i][c]]], Vector3.zero, Quaternion.identity);
                 unit.name = team.Name + "-" + team.Members.Count;
                 unit.transform.position = spawnPositions[c].FloorPosition;
                 NetworkServer.Spawn(unit, player.gameObject);
@@ -253,11 +256,17 @@ public class NetworkMatchManager : NetworkBehaviour
 
     void UpdateBattleEvents()
     {
+        Debug.Log($"BattleEventGroups: {_battleEventGroups.Count}.");
+        for (int i = 0; i < _battleEventGroups.Count; i++)
+        {
+            Debug.Log($"{i} {_battleEventGroups[i].ToString()}.");
+        }
         if (_battleEventGroups.Count > 0)
         {
             _battleEventGroups[0].Run();
             if (_battleEventGroups[0].IsComplete())
             {
+                Debug.Log("RemoveAt(0).");
                 _battleEventGroups.RemoveAt(0);
             }
         }
@@ -265,6 +274,7 @@ public class NetworkMatchManager : NetworkBehaviour
 
     public void AddBattleEvent(BattleEvent battleEvent, bool newGroup, int priority)
     {
+        Debug.Log($"Adding {battleEvent.GetType().ToString()} with priority {priority}.");
         if (!newGroup)
         {
             // find an existing group at the same priority
@@ -273,6 +283,7 @@ public class NetworkMatchManager : NetworkBehaviour
                 if (_battleEventGroups[i].Priority == priority)
                 {
                     _battleEventGroups[i].AddBattleEvent(battleEvent);
+                    Debug.Log("added to existing group");
                     return;
                 }
             }

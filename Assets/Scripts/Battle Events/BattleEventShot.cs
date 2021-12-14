@@ -11,8 +11,8 @@ public class BattleEventShot : BattleEvent
     protected ShotStats _shotStats;
     float _waitTimeout = 1.5f;
 
-    enum Phase { Camera, Wait, Shoot, Shooting, Shot }
-    Phase _phase;
+    protected enum Phase { Camera, Wait, Shoot, Shooting, Shot, Wait2 }
+    protected Phase _phase;
 
     public static event Action<Shooter, GridEntity> OnShooting = delegate { };
     public static event Action<Shooter, GridEntity> OnShootingEnd = delegate { };
@@ -77,6 +77,14 @@ public class BattleEventShot : BattleEvent
                             GameObject.Instantiate(_shooter.Weapon.HitFXPrefab, _shotStats.Target.transform.position, Quaternion.identity);                        
                     }
                     NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false, 0);
+                    _waitTimeout = 2;
+                    _phase = Phase.Wait2;
+                }
+                break;
+            case Phase.Wait2:
+                _waitTimeout -= Time.deltaTime;
+                if (_waitTimeout <= 0)
+                {
                     OnShootingEnd(_shooter, _shotStats.Target);
                     End();
                 }

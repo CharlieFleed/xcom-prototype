@@ -49,33 +49,33 @@ public class UnitStateMachine : MonoBehaviour
 
         State stateGuarding = new State(
             "Guarding",
-            new List<ActionBase>() { new Action(() => Debug.Log($"{name} Guarding-Active")) },
-            new List<ActionBase>() { new Action(() => Debug.Log($"{name} Guarding-Entry")), new SetDecisionTreeAction(_unitDecisionTree, _unitDecisionTree.GuardingDecisionTree) },
-            new List<ActionBase>() { new Action(() => Debug.Log($"{name} Guarding-Exit")) }
+            new List<ActionBase>() { /*new Action(() => Debug.Log($"{name} Guarding-Active"))*/ },
+            new List<ActionBase>() { /*new Action(() => Debug.Log($"{name} Guarding-Entry")), */new SetDecisionTreeAction(_unitDecisionTree, _unitDecisionTree.GuardingDecisionTree) },
+            new List<ActionBase>() { /*new Action(() => Debug.Log($"{name} Guarding-Exit"))*/ }
             );
         State statePatrolling = new State(
             "Patrolling",
-            new List<ActionBase>() { new Action(() => Debug.Log($"{name} Patrolling-Active")) },
-            new List<ActionBase>() { new Action(() => Debug.Log($"{name} Patrolling-Entry")), new SetDecisionTreeAction(_unitDecisionTree, _unitDecisionTree.PatrollingDecisionTree) },
-            new List<ActionBase>() { new Action(() => Debug.Log($"{name} Patrolling-Exit")) }
+            new List<ActionBase>() { /*new Action(() => Debug.Log($"{name} Patrolling-Active"))*/ },
+            new List<ActionBase>() { /*new Action(() => Debug.Log($"{name} Patrolling-Entry")), */new SetDecisionTreeAction(_unitDecisionTree, _unitDecisionTree.PatrollingDecisionTree) },
+            new List<ActionBase>() { /*new Action(() => Debug.Log($"{name} Patrolling-Exit"))*/ }
             );
         State stateFleeing = new State(
             "Fleeing",
-            new List<ActionBase>() { new Action(() => Debug.Log($"{name} Fleeing-Active")) },
-            new List<ActionBase>() { new Action(() => Debug.Log($"{name} Fleeing-Entry")), new SetDecisionTreeAction(_unitDecisionTree, _unitDecisionTree.FleeingDecisionTree) },
-            new List<ActionBase>() { new Action(() => Debug.Log($"{name} Fleeing-Exit")) }
+            new List<ActionBase>() { /*new Action(() => Debug.Log($"{name} Fleeing-Active"))*/ },
+            new List<ActionBase>() { /*new Action(() => Debug.Log($"{name} Fleeing-Entry")), */new SetDecisionTreeAction(_unitDecisionTree, _unitDecisionTree.FleeingDecisionTree) },
+            new List<ActionBase>() { /*new Action(() => Debug.Log($"{name} Fleeing-Exit"))*/ }
             );
         State stateFighting = new State(
             "Fighting",
-            new List<ActionBase>() { new Action(() => Debug.Log($"{name} Fighting-Active")) },
-            new List<ActionBase>() { new Action(() => Debug.Log($"{name} Fighting-Entry")), new SetDecisionTreeAction(_unitDecisionTree, _unitDecisionTree.FightingDecisionTree) },
-            new List<ActionBase>() { new Action(() => Debug.Log($"{name} Fighting-Exit")) }
+            new List<ActionBase>() { /*new Action(() => Debug.Log($"{name} Fighting-Active"))*/ },
+            new List<ActionBase>() { /*new Action(() => Debug.Log($"{name} Fighting-Entry")), */new SetDecisionTreeAction(_unitDecisionTree, _unitDecisionTree.FightingDecisionTree) },
+            new List<ActionBase>() { /*new Action(() => Debug.Log($"{name} Fighting-Exit"))*/ }
             );
         State stateNotEngaged = new HierarchicalStateMachine(
             "Not Engaged",
             new List<State>() { stateGuarding, statePatrolling },
             stateGuarding,
-            new List<ActionBase>() { new Action(() => Debug.Log($"{name} Not Engaged-Active")) },
+            new List<ActionBase>() { /*new Action(() => Debug.Log($"{name} Not Engaged-Active"))*/ },
             new List<ActionBase>() { new Action(() => Debug.Log($"{name} Not Engaged-Entry")) },
             new List<ActionBase>() { new Action(() => Debug.Log($"{name} Not Engaged-Exit")) }
             );
@@ -83,7 +83,7 @@ public class UnitStateMachine : MonoBehaviour
             "Engaged",
             new List<State>() { stateFighting, stateFleeing },
             stateFighting,
-            new List<ActionBase>() { new Action(() => Debug.Log($"{name} Engaged-Active")) },
+            new List<ActionBase>() { /*new Action(() => Debug.Log($"{name} Engaged-Active"))*/ },
             new List<ActionBase>() { new Action(() => Debug.Log($"{name} Engaged-Entry")) },
             new List<ActionBase>() { new Action(() => Debug.Log($"{name} Engaged-Exit")) }
             );

@@ -7,11 +7,13 @@ public class OverwatchFreezer : MonoBehaviour
     Movement _movement;
     Animator _animator;
     int _overwatchLocks;
+    Unit _unit;
 
     private void Awake()
     {
         _movement = gameObject.GetComponent<Movement>();
         _animator = gameObject.GetComponentInChildren<Animator>();
+        _unit = gameObject.GetComponent<Unit>();
     }
 
     private void OnEnable()
@@ -28,7 +30,7 @@ public class OverwatchFreezer : MonoBehaviour
 
     private void Overwatcher_OnOverwatchShot(Overwatcher overwatcher)
     {
-        if (overwatcher.gameObject != gameObject)
+        if (overwatcher.GetComponent<Unit>().Team != _unit.Team)
         {
             _overwatchLocks++;
             _movement.enabled = false;

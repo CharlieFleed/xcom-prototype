@@ -7,6 +7,7 @@ using Cinemachine;
 public class Walker : BattleAction
 {
     public static event Action<Walker, GridNode, GridNode> OnMove = delegate { };
+    public static event Action<Walker, GridNode, GridNode> OnInMotion = delegate { };
     public static event Action<Walker, GridNode> OnDestinationReached = delegate { };
 
     [SerializeField] Movement _movement;
@@ -25,6 +26,8 @@ public class Walker : BattleAction
     // overwatch management 
     Health _health;
 
+    bool _inMotion;
+
     private void Awake()
     {
         _gridPathSelector = GetComponent<GridPathSelector>();
@@ -38,6 +41,11 @@ public class Walker : BattleAction
         base.Update();
         if (_path.Count > 0)
         {
+            if (!_inMotion && _movement.IsInMotion())
+            {
+                OnInMotion(this, _gridEntity.CurrentNode, _path.Peek());
+                _inMotion = true;
+            }
             if (_health.IsDead)
             {
                 Stop();
@@ -98,8 +106,9 @@ public class Walker : BattleAction
         {
             GridNode.Orientations orientation = GridNode.GetAdjacentDirection(_gridEntity.CurrentNode, nextStep);
             leap = _gridEntity.CurrentNode.HalfWalls[(int)orientation];
-            if (leap) Debug.Log($"Leap between {_gridEntity.CurrentNode.X},{_gridEntity.CurrentNode.Y},{_gridEntity.CurrentNode.Z} and {nextStep.X},{nextStep.Y},{nextStep.Z}.");
+            //if (leap) Debug.Log($"Leap between {_gridEntity.CurrentNode.X},{_gridEntity.CurrentNode.Y},{_gridEntity.CurrentNode.Z} and {nextStep.X},{nextStep.Y},{nextStep.Z}.");
         }
+        _inMotion = false;
         _movement.MoveToDestination(destination, leap);
         OnMove(this, _gridEntity.CurrentNode, nextStep);
     }

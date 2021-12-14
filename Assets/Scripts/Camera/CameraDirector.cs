@@ -8,6 +8,7 @@ public class CameraDirector : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera _worldCamera;
     [SerializeField] CinemachineVirtualCamera _aimingCamera;
+    [SerializeField] CinemachineVirtualCamera _overwatchCamera;
     [SerializeField] CinemachineVirtualCamera _actionCamera;
     [SerializeField] CinemachineTargetGroup _actionCameraTargetGroup;
     [SerializeField] CinemachineVirtualCamera _lowPriorityActionCamera;
@@ -49,6 +50,7 @@ public class CameraDirector : MonoBehaviour
         Viewer.OnVisibleChanged += HandleViewer_OnVisibleChanged;
         BattleEventReaction.OnEngaging += HandleBattleEventReaction_OnEngaging;
         BattleEventReaction.OnEngagingEnd += HandleBattleEventReaction_OnEngagingEnd;
+        BattleEventOverwatchShot.OnOverwatchShooting += HandleBattleEventOverwatchShot_OnOverwatchShooting;
     }
 
     private void OnDisable()
@@ -69,6 +71,7 @@ public class CameraDirector : MonoBehaviour
         Viewer.OnVisibleChanged -= HandleViewer_OnVisibleChanged;
         BattleEventReaction.OnEngaging -= HandleBattleEventReaction_OnEngaging;
         BattleEventReaction.OnEngagingEnd -= HandleBattleEventReaction_OnEngagingEnd;
+        BattleEventOverwatchShot.OnOverwatchShooting -= HandleBattleEventOverwatchShot_OnOverwatchShooting;
     }
 
     private void Start()
@@ -198,6 +201,7 @@ public class CameraDirector : MonoBehaviour
 
     void HandleBattleEventShot_OnShootingEnd(Shooter shooter, GridEntity target)
     {
+        _overwatchCamera.gameObject.SetActive(false);
     }
 
     void HandleBattleEventThrow_OnThrowing(Thrower thrower, GridNode target)
@@ -314,6 +318,13 @@ public class CameraDirector : MonoBehaviour
         {
             _lowPriorityActionCamera.gameObject.SetActive(false);
         }
+    }
+
+    void HandleBattleEventOverwatchShot_OnOverwatchShooting(Shooter shooter, GridEntity target)
+    {
+        _overwatchCamera.m_Follow = shooter.transform;
+        _overwatchCamera.LookAt = target.transform;
+        _overwatchCamera.gameObject.SetActive(true);
     }
 
     void AlignCamera(CinemachineVirtualCamera camera, CinemachineVirtualCamera reference)

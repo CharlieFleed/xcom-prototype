@@ -42,6 +42,16 @@ public class BattleEventGroup
 
     public bool IsComplete()
     {
-        return _battleEvents.Count == 0;
+        return _battleEvents.Count == 0 && _newBattleEvents.Count == 0;
+    }
+
+    override public string ToString()
+    {
+        string s = "";
+        for (int i = 0; i < _battleEvents.Count; i++)
+        {
+            s += _battleEvents[i].GetType() +"\n";
+        }
+        return s;
     }
 }

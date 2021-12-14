@@ -21,6 +21,7 @@ public class ActionButtonController : MonoBehaviour
         {
             var actionButton = Instantiate(_actionButtonPrefab, transform);
             actionButton.SetAction(obj);
+            actionButton.SetShortcut(_actionButtons.Count + 1);
             _actionButtons.Add(obj, actionButton);
             int buttonWidth = (int)actionButton.GetComponent<RectTransform>().sizeDelta.x;
             GetComponent<RectTransform>().sizeDelta = new Vector2(_actionButtons.Count * buttonWidth, buttonWidth);

@@ -43,15 +43,15 @@ public class Overwatcher : BattleAction
 
     private void OnEnable()
     {
-        Walker.OnMove += HandleWalker_OnMove;
+        Walker.OnInMotion += HandleWalker_OnInMotion;
     }
 
     private void OnDisable()
     {
-        Walker.OnMove -= HandleWalker_OnMove;
+        Walker.OnInMotion -= HandleWalker_OnInMotion;
     }
 
-    void HandleWalker_OnMove(Walker walker, GridNode origin, GridNode destination)
+    void HandleWalker_OnInMotion(Walker walker, GridNode origin, GridNode destination)
     {
         if (!GetComponent<Health>().IsDead && _isOverwatching && walker.GetComponent<Unit>().Team != GetComponent<Unit>().Team)
         {
@@ -120,7 +120,7 @@ public class Overwatcher : BattleAction
         if (_gridEntity.CurrentNode.Y > target.CurrentNode.Y)
             shotStats.HitChance += 20;
         shotStats.HitChance = Mathf.Clamp(shotStats.HitChance, 0, 100);
-        BattleEventShot shot = new BattleEventShot(_shooter, shotStats);
+        BattleEventOverwatchShot shot = new BattleEventOverwatchShot(_shooter, shotStats);
         NetworkMatchManager.Instance.AddBattleEvent(shot, true, 2);
         OnShoot(_shooter, target);
         ClearOverwatch();

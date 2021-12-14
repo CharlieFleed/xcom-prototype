@@ -67,16 +67,16 @@ public class Viewer : MonoBehaviour
         UpdateVisibility();
     }
 
-    void HandleWalker_OnMove(Walker walker, GridNode origin, GridNode gridNode)
+    void HandleWalker_OnMove(Walker walker, GridNode origin, GridNode destination)
     {
         UpdateViewers();
-        UpdateVisibility();
+        UpdateVisibility(); // TODO: is this necessary? Is the whole method necessary?
     }
 
     private void HandleWalker_OnDestinationReached(Walker arg1, GridNode arg2)
     {
         UpdateViewers();
-        UpdateVisibility();
+        UpdateVisibility(); // TODO: is this necessary?
     }
 
     // Update is called once per frame

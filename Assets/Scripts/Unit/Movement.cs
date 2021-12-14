@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -6,6 +7,7 @@ public class Movement : MonoBehaviour
     [SerializeField] float _climbSpeed = 2;
 
     Animator _animator;
+    Transform _transform;
 
     // movement
     bool _isMoving;
@@ -32,6 +34,7 @@ public class Movement : MonoBehaviour
     Vector3 _prevPosition;
 
     float _t;
+    Vector3 _originPosition;
     Vector3 _startPosition;
     Vector3 _targetPosition;
     float _timeToReachTarget;
@@ -48,12 +51,13 @@ public class Movement : MonoBehaviour
     private void Awake()
     {
         _animator = gameObject.GetComponentInChildren<Animator>();
-        _prevPosition = transform.position;
+        _transform = transform;
+        _prevPosition = _transform.position;
     }
 
     private void Update()
     {
-        _prevPosition = transform.position;
+        _prevPosition = _transform.position;
         if (_isMoving)
         {
             if (_isClimbing)
@@ -99,12 +103,12 @@ public class Movement : MonoBehaviour
         //Debug.Log("Update Walking");
         _t += Time.deltaTime / _timeToReachTarget;
         _newPosition = Vector3.Lerp(_startPosition, _targetPosition, _t);
-        transform.position = _newPosition;
+        _transform.position = _newPosition;
         // check arrival to destination
-        if (Mathf.Abs(transform.position.x - _targetPosition.x) < 0.01f && Mathf.Abs(transform.position.z - _targetPosition.z) < 0.01f)
+        if (Mathf.Abs(_transform.position.x - _targetPosition.x) < 0.01f && Mathf.Abs(_transform.position.z - _targetPosition.z) < 0.01f)
         {
             //Debug.Log("Arrived to destination.");
-            transform.position = _targetPosition;
+            _transform.position = _targetPosition;
             ResetStates();
         }
     }
@@ -114,12 +118,12 @@ public class Movement : MonoBehaviour
         //Debug.Log("Update Leaping");
         _t += Time.deltaTime / _timeToReachTarget;
         _newPosition = Vector3.Lerp(_startPosition, _targetPosition, _t);
-        transform.position = _newPosition;
+        _transform.position = _newPosition;
         // check arrival to destination
-        if (Mathf.Abs(transform.position.x - _targetPosition.x) < 0.01f && Mathf.Abs(transform.position.z - _targetPosition.z) < 0.01f)
+        if (Mathf.Abs(_transform.position.x - _targetPosition.x) < 0.01f && Mathf.Abs(_transform.position.z - _targetPosition.z) < 0.01f)
         {
             //Debug.Log("Arrived to destination.");
-            transform.position = _targetPosition;
+            _transform.position = _targetPosition;
             ResetStates();
         }
     }
@@ -263,13 +267,13 @@ public class Movement : MonoBehaviour
                 _newPosition = _targetPosition;
                 ResetStates();
             }
-        }        
-        transform.position = _newPosition;
+        }
+        _transform.position = _newPosition;
     }
 
     void UpdateXZVelocity()
     {
-        Vector3 movement = transform.position - _prevPosition;
+        Vector3 movement = _transform.position - _prevPosition;
         Vector3 velocity = movement / Time.deltaTime;
         float velocityX = Vector3.Dot(velocity.normalized, transform.right);
         float velocityZ = Vector3.Dot(velocity.normalized, transform.forward);
@@ -279,7 +283,7 @@ public class Movement : MonoBehaviour
 
     void UpdateRotation()
     {
-        Vector3 direction = transform.position - _prevPosition;
+        Vector3 direction = _transform.position - _prevPosition;
         direction.y = 0;
         if (_lookAtDirection != Vector3.zero)
         {
@@ -287,19 +291,19 @@ public class Movement : MonoBehaviour
         }
         else
         {
-            direction = Vector3.ProjectOnPlane(transform.position - _prevPosition, Vector3.up);
+            direction = Vector3.ProjectOnPlane(_transform.position - _prevPosition, Vector3.up);
         }
         if (direction.magnitude > 0)
         {
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity, _turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0, angle, 0);
-            if (Mathf.Abs(targetAngle - Mathf.Atan2(transform.forward.x, transform.forward.z) * Mathf.Rad2Deg) < 0.5f)
+            float angle = Mathf.SmoothDampAngle(_transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity, _turnSmoothTime);
+            _transform.rotation = Quaternion.Euler(0, angle, 0);
+            if (Mathf.Abs(targetAngle - Mathf.Atan2(_transform.forward.x, _transform.forward.z) * Mathf.Rad2Deg) < 0.5f)
             {
-                transform.forward = direction.normalized;
+                _transform.forward = direction.normalized;
             }
         }
-        if (transform.forward == _lookAtDirection)
+        if (_transform.forward == _lookAtDirection)
         {
             _lookAtDirection = Vector3.zero;
         }
@@ -308,16 +312,17 @@ public class Movement : MonoBehaviour
     public void MoveToDestination(Vector3 destination, bool leap)
     {
         _targetPosition = destination;
-        if (_targetPosition != transform.position) // avoid situations where walk is triggered but update never called to reset it
+        _startPosition = _transform.position;
+        _originPosition = _transform.position;
+        if (_targetPosition != _transform.position) // avoid situations where walk is triggered but update never called to reset it
         {
             //Debug.Log($"Move from {transform.position.x},{transform.position.y},{transform.position.z} to {destination.x},{destination.y},{destination.z}.");
             _isMoving = true;
-            _t = 0;
-            _startPosition = transform.position;
+            _t = 0;            
 
             // evaluate height difference
             // Climb
-            if (destination.y > transform.position.y + GetComponent<GridAgent>().MaxJumpUp)
+            if (destination.y > _transform.position.y + GetComponent<GridAgent>().MaxJumpUp)
             {
                 _isClimbing = true;
                 _timeToReachTarget = (destination.y - _startPosition.y - 2.7f) / _climbSpeed;
@@ -326,15 +331,15 @@ public class Movement : MonoBehaviour
                 //Debug.Log("Climb");
             }
             // Jump Up
-            else if (destination.y > transform.position.y + 1)
+            else if (destination.y > _transform.position.y + 1)
             {
                 _isJumping = true;
                 _isJumpingCharge = true;
-                _ySpeed = 1.5f * Mathf.Sqrt(0.5f * _g * (destination.y - transform.position.y));
+                _ySpeed = 1.5f * Mathf.Sqrt(0.5f * _g * (destination.y - _transform.position.y));
                 //Debug.Log($"_ySpeed {_ySpeed}");
-                _timeToReachTarget = (_ySpeed + Mathf.Sqrt(_ySpeed * _ySpeed + 2 * _g * (destination.y - transform.position.y))) / _g;
+                _timeToReachTarget = (_ySpeed + Mathf.Sqrt(_ySpeed * _ySpeed + 2 * _g * (destination.y - _transform.position.y))) / _g;
                 //Debug.Log($"_timeToReachTarget {_timeToReachTarget}");
-                _ySpeed = 2.5f * Mathf.Sqrt(0.5f * _g * (destination.y - transform.position.y));
+                _ySpeed = 2.5f * Mathf.Sqrt(0.5f * _g * (destination.y - _transform.position.y));
                 _animator.SetTrigger("Jump");
                 //Debug.Log("Jump Up");
             }
@@ -368,11 +373,20 @@ public class Movement : MonoBehaviour
     {
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
         {
-            return transform.position == _targetPosition;
+            return _transform.position == _targetPosition;
         }
         else
         {
             return false;
         }
+    }
+
+    public bool IsInMotion()
+    {
+        //Debug.Log($"{name} t: {_targetPosition.x},{_targetPosition.y},{_targetPosition.z}");
+        //Debug.Log($"{name} a: {_transform.position.x},{_transform.position.y},{_transform.position.z}");
+        //Debug.Log($"{name} b: {_originPosition.x},{_originPosition.y},{_originPosition.z}");
+        //Debug.Log($"{name} d: {Vector3.Distance(_transform.position, _originPosition)}");
+        return (_targetPosition != _originPosition) && (Vector3.Distance(_transform.position, _originPosition) > 0.5f * GridManager.Instance.XZScale);
     }
 }

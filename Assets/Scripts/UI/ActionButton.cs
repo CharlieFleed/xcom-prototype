@@ -9,6 +9,8 @@ internal class ActionButton : MonoBehaviour
     [SerializeField] Text _caption;
     [SerializeField] CanvasGroup _usesCG;
     [SerializeField] Text _uses;
+    [SerializeField] CanvasGroup _shortcutCG;
+    [SerializeField] Text _shortcut;
     BattleAction _battleAction;
 
     public void SetAction(BattleAction battleAction)
@@ -51,5 +53,11 @@ internal class ActionButton : MonoBehaviour
     public void OnMouseExit()
     {
         _captionCG.alpha = 0;
+    }
+
+    public void SetShortcut(int i)
+    {
+        _shortcutCG.alpha = 1;
+        _shortcut.text = i.ToString();
     }
 }
