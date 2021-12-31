@@ -4,7 +4,7 @@ using HSM;
 using DecisionTree;
 using System.Collections.Generic;
 
-public class EngageAction : ActionBase
+public class EngageAction : Action
 {
     Unit _unit;
     DecisionTreeNode _decisionTree;
@@ -53,8 +53,8 @@ public class EngageAction : ActionBase
             _actionsController.NumActions = 1;
         }
         // add reaction event
-        BattleEventReaction battleEventReaction = new BattleEventReaction(_actionsController, this, _gridEntity);
-        NetworkMatchManager.Instance.AddBattleEvent(battleEventReaction, false, 0);
+        BattleEventEngageAction battleEventEngageAction = new BattleEventEngageAction(_actionsController, this, _gridEntity);
+        NetworkMatchManager.Instance.AddBattleEvent(battleEventEngageAction, false, 0);
     }
 
     public void RunTree()

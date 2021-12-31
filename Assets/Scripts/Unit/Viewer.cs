@@ -24,8 +24,6 @@ public class Viewer : MonoBehaviour
     /// </summary>
     public static event Action<Viewer, bool> OnVisibleChanged = delegate { };
 
-    public static event Action<Viewer> OnEnemySpotted = delegate { };
-
     Health _health;
     Unit _unit;
     GridEntity _gridEntity;
@@ -63,6 +61,7 @@ public class Viewer : MonoBehaviour
 
     private void HandleNetworkMatchManager_OnBeforeTurnBegin()
     {
+        // Update before the camera director
         UpdateViewers();
         UpdateVisibility();
     }
@@ -105,7 +104,6 @@ public class Viewer : MonoBehaviour
                 if (GridCoverManager.Instance.LineOfSight(_gridEntity, enemy, out ray, out rayLength, new List<GridNode[]>()))
                 {
                     SeeList.Add(enemyViewer);
-                    OnEnemySpotted(this);
                 }
             }
         }
@@ -113,14 +111,15 @@ public class Viewer : MonoBehaviour
 
     void UpdateVisibility()
     {
+        Unit currentUnit = NetworkMatchManager.Instance.CurrentUnit;
         switch (ViewMode)
         {
             case ViewMode.Single:
-                if (NetworkMatchManager.Instance.CurrentUnit != null)
+                if (currentUnit != null)
                 {
-                    if (NetworkMatchManager.Instance.CurrentUnit.Team.Owner.isLocalPlayer)
+                    if (currentUnit.Team.Owner.isLocalPlayer)
                     {
-                        IsVisible = _unit.Team.Owner.isLocalPlayer || SeenByList.Contains(NetworkMatchManager.Instance.CurrentUnit.GetComponent<Viewer>());
+                        IsVisible = _unit.Team.Owner.isLocalPlayer || SeenByList.Contains(currentUnit.GetComponent<Viewer>());
                     }
                     else
                     {

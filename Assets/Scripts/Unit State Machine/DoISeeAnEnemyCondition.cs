@@ -2,7 +2,7 @@
 using System.Collections;
 using HSM;
 
-public class DoISeeAnEnemyCondition : ConditionBase
+public class DoISeeAnEnemyCondition : Condition
 {
     Viewer _viewer;
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class AnimationController : MonoBehaviour
 {
-    Animator _animator;
+    [SerializeField] Animator _animator;
     Shooter[] _shooters;
     Thrower[] _throwers;
     Health _health;
@@ -19,7 +19,6 @@ public class AnimationController : MonoBehaviour
 
     private void Awake()
     {
-        _animator = GetComponentInChildren<Animator>();
         _health = GetComponent<Health>();
         _shooters = GetComponents<Shooter>();
         foreach (Shooter shooter in _shooters)
@@ -31,11 +30,29 @@ public class AnimationController : MonoBehaviour
         {
             thrower.OnThrow += HandleThrower_OnThrow;
         }
+        //Debug.Log($"AnimationController found {_throwers.Length} throwers.");
         _health.OnDied += HandleHealth_OnDied;
         _hunkerer = GetComponent<Hunkerer>();
         if (_hunkerer != null)
         {
             _hunkerer.OnIsHunkeringChanged += HandleHunkerer_OnIsHunkeringChanged;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        foreach (Shooter shooter in _shooters)
+        {
+            shooter.OnShoot -= HandleShooter_OnShoot;
+        }
+        foreach (Thrower thrower in _throwers)
+        {
+            thrower.OnThrow -= HandleThrower_OnThrow;
+        }
+        _health.OnDied -= HandleHealth_OnDied;
+        if (_hunkerer != null)
+        {
+            _hunkerer.OnIsHunkeringChanged -= HandleHunkerer_OnIsHunkeringChanged;
         }
     }
 
@@ -58,6 +75,7 @@ public class AnimationController : MonoBehaviour
 
     void HandleThrower_OnThrow(Thrower thrower)
     {
+        //Debug.Log("AnimationController.HandleThrower_OnThrow");
         _currentThrower = thrower;
         _animator.SetTrigger("Toss Grenade");
         _isThrowing = true;
@@ -65,6 +83,7 @@ public class AnimationController : MonoBehaviour
 
     public void Thrown()
     {
+        //Debug.Log("AnimationController.Thrown");
         _isThrowing = false;
         _currentThrower.Thrown();
     }

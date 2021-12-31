@@ -14,4 +14,5 @@ public class WeaponData : ScriptableObject
     public AudioClip ShootAudioClip;
     public bool InfiniteAmmo = false;
     public Sprite Image;
+    public WeaponType WeaponType;
 }

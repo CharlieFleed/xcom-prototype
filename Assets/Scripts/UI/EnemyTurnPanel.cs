@@ -23,9 +23,10 @@ public class EnemyTurnPanel : MonoBehaviour
 
     private void Check()
     {
-        if (_networkMatchManager.CurrentUnit != null)
+        Unit currentUnit = _networkMatchManager.CurrentUnit;
+        if (currentUnit != null)
         {
-            if (_networkMatchManager.CurrentUnit.Team.Owner.isLocalPlayer && !_networkMatchManager.CurrentUnit.Team.IsAI)
+            if (currentUnit.Team.Owner.isLocalPlayer && !currentUnit.Team.IsAI)
             {
                 _display = false;
             }

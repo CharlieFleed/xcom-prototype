@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    [SerializeField] Animator _animator;
     [SerializeField] float _walkSpeed = 15;
     [SerializeField] float _climbSpeed = 2;
+    [SerializeField] float _distanceToTop = 1.5f;
+    [SerializeField] float _distanceToWall = 0.5f;
 
-    Animator _animator;
     Transform _transform;
 
     // movement
@@ -26,6 +28,7 @@ public class Movement : MonoBehaviour
     bool _isClimbing;
 
     bool _isClimbingTurn;
+    bool _isClimbingApproach;
     bool _isClimbingClimb;
     bool _isClimbingToTop;
     bool _isClimbingRun;
@@ -50,7 +53,7 @@ public class Movement : MonoBehaviour
 
     private void Awake()
     {
-        _animator = gameObject.GetComponentInChildren<Animator>();
+        //_animator = gameObject.GetComponentInChildren<Animator>();
         _transform = transform;
         _prevPosition = _transform.position;
     }
@@ -93,6 +96,7 @@ public class Movement : MonoBehaviour
         _isJumpingLand = false;
         _isClimbing = false;
         _isClimbingTurn = false;
+        _isClimbingApproach = false;
         _isClimbingClimb = false;
         _isClimbingToTop = false;
         _isClimbingRun = false;
@@ -205,13 +209,33 @@ public class Movement : MonoBehaviour
 
     void UpdateClimbing()
     {
+        Vector3 wallPosition = _startPosition + Vector3.ProjectOnPlane(_targetPosition - _startPosition, Vector3.up) * 0.5f - Vector3.ProjectOnPlane(_targetPosition - _startPosition, Vector3.up).normalized * _distanceToWall;
         if (_isClimbingTurn)
         {
             //Debug.Log($"_isClimbingTurn");
             if (_lookAtDirection == Vector3.zero)
             {
-                //Debug.Log($"_isClimbingClimb true");
+                //Debug.Log($"_isClimbingApproach true");
+                _timeToReachTarget = Vector3.ProjectOnPlane(wallPosition - _startPosition, Vector3.up).magnitude / _walkSpeed;
                 _isClimbingTurn = false;
+                _isClimbingApproach = true;
+            }
+        }
+        else if (_isClimbingApproach)
+        {
+            //Debug.Log($"_isClimbingApproach");
+            _t += Time.deltaTime / _timeToReachTarget;
+            _newPosition = Vector3.Lerp(_startPosition, wallPosition, _t);
+            // check arrival to wall
+            if (Mathf.Abs(_newPosition.x - wallPosition.x) < 0.01f && Mathf.Abs(_newPosition.z - wallPosition.z) < 0.01f)
+            {
+                //Debug.Log("Arrived to wall.");
+                _newPosition = wallPosition;
+                _startPosition = _newPosition;
+                //Debug.Log($"_isClimbingClimb true");
+                _timeToReachTarget = (_targetPosition.y - _startPosition.y - _distanceToTop) / _climbSpeed;
+                _t = 0;
+                _isClimbingApproach = false;
                 _isClimbingClimb = true;
                 _animator.SetTrigger("Climbing");
             }
@@ -220,50 +244,51 @@ public class Movement : MonoBehaviour
         {
             //Debug.Log($"_isClimbingClimb");
             _t += Time.deltaTime / _timeToReachTarget;
-            _newPosition.y = Mathf.Lerp(_startPosition.y, _targetPosition.y - 2.7f, _t);
+            _newPosition.y = Mathf.Lerp(_startPosition.y, _targetPosition.y - _distanceToTop, _t);
             // check if reached the edge
-            if (_newPosition.y >= _targetPosition.y - 2.75f)
+            if (_newPosition.y >= _targetPosition.y - (_distanceToTop + 0.05f))
             {
                 _isClimbingClimb = false;
                 //Debug.Log($"_isClimbingToTop true");
-                _newPosition.y = _targetPosition.y - 2.7f;
+                _newPosition.y = _targetPosition.y - _distanceToTop;
                 _isClimbingToTop = true;
                 _animator.SetTrigger("ClimbingToTop");
                 //Debug.Log($"_animator.transform.position {_animator.transform.position.x},{_animator.transform.position.y},{_animator.transform.position.z}");
                 _animator.applyRootMotion = true;
                 //Debug.Log($"_animator.transform.position {_animator.transform.position.x},{_animator.transform.position.y},{_animator.transform.position.z}");
-                _animator.transform.localPosition += 0.3f * Vector3.forward;
+                _animator.transform.localPosition += 0.25f * Vector3.forward;
                 //Debug.Log($"_animator.transform.position {_animator.transform.position.x},{_animator.transform.position.y},{_animator.transform.position.z}");
             }
         }
         else if (_isClimbingToTop)
         {
             //Debug.Log($"_isClimbingToTop");
-            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Run") && !_animator.GetAnimatorTransitionInfo(0).IsName("Run -> Climbing"))
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Move") && !_animator.GetAnimatorTransitionInfo(0).IsName("Move -> Climb"))
             {
                 _animator.applyRootMotion = false;
-                // align parent game object with child game object
+                // align parent game object (player) with child game object (model)
                 //Debug.Log($"transform.localPosition {transform.localPosition.x},{transform.localPosition.y},{transform.localPosition.z}");
                 //Debug.Log($"_animator.transform.position {_animator.transform.position.x},{_animator.transform.position.y},{_animator.transform.position.z}");
                 //Debug.Log($"_animator.transform.localPosition {_animator.transform.localPosition.x},{_animator.transform.localPosition.y},{_animator.transform.localPosition.z}");
                 _newPosition = new Vector3(_animator.transform.position.x, _targetPosition.y, _animator.transform.position.z);
                 _startPosition = _newPosition;
-                _animator.transform.localPosition = Vector3.zero;
+                //_animator.transform.localPosition = Vector3.zero;
                 _timeToReachTarget = Vector3.ProjectOnPlane(_targetPosition - _startPosition, Vector3.up).magnitude / _walkSpeed;
                 _t = 0;
                 _isClimbingToTop = false;
                 _isClimbingRun = true;
-                //Debug.Log($"_isClimbingRun true");
+                Debug.Log($"_isClimbingRun true");
             }
         }
         else if (_isClimbingRun)
         {
+            Debug.Log($"_isClimbingRun");
             _t += Time.deltaTime / _timeToReachTarget;
             _newPosition = Vector3.Lerp(_startPosition, _targetPosition, _t);
             // check arrival to destination
             if (Mathf.Abs(_newPosition.x - _targetPosition.x) < 0.01f && Mathf.Abs(_newPosition.z - _targetPosition.z) < 0.01f)
             {
-                //Debug.Log("Arrived to destination.");
+                Debug.Log("Arrived to destination.");
                 _newPosition = _targetPosition;
                 ResetStates();
             }
@@ -311,6 +336,8 @@ public class Movement : MonoBehaviour
 
     public void MoveToDestination(Vector3 destination, bool leap)
     {
+        //Debug.Log($"MoveToDestination");
+        //Debug.Log($"Move from {transform.position.x},{transform.position.y},{transform.position.z} to {destination.x},{destination.y},{destination.z}.");
         _targetPosition = destination;
         _startPosition = _transform.position;
         _originPosition = _transform.position;
@@ -325,7 +352,6 @@ public class Movement : MonoBehaviour
             if (destination.y > _transform.position.y + GetComponent<GridAgent>().MaxJumpUp)
             {
                 _isClimbing = true;
-                _timeToReachTarget = (destination.y - _startPosition.y - 2.7f) / _climbSpeed;
                 _lookAtDirection = Vector3.ProjectOnPlane(destination - _startPosition, Vector3.up).normalized;
                 _isClimbingTurn = true;
                 //Debug.Log("Climb");
@@ -371,7 +397,7 @@ public class Movement : MonoBehaviour
 
     public bool IsAtDestination()
     {
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Move"))
         {
             return _transform.position == _targetPosition;
         }

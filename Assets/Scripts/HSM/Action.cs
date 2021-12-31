@@ -1,17 +1,17 @@
 ﻿namespace HSM
 {
-    public abstract class ActionBase
+    public abstract class Action
     {
         public abstract void Execute();
     }
 
     public delegate void ExecuteDelegate();
 
-    public class Action : ActionBase
+    public class DelegateAction : Action
     {
         ExecuteDelegate _executeDel;
 
-        public Action(ExecuteDelegate executeDel) : base()
+        public DelegateAction(ExecuteDelegate executeDel) : base()
         {
             _executeDel = executeDel;
         }

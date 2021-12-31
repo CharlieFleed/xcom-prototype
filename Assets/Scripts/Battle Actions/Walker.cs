@@ -89,6 +89,7 @@ public class Walker : BattleAction
 
     public void SetPath(Stack<GridNode> path, int cost)
     {
+        Debug.Log("SetPath");
         _path = new Stack<GridNode>(new Stack<GridNode>(path));
         Cost = cost;
         InvokeActionConfirmed(this);
@@ -99,6 +100,7 @@ public class Walker : BattleAction
 
     void MoveToNextNode()
     {
+        //Debug.Log("MoveToNextNode");
         GridNode nextStep = _path.Peek();
         Vector3 destination = nextStep.FloorPosition;
         bool leap = false;

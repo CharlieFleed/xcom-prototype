@@ -7,6 +7,7 @@ using UnityEngine;
 public class CameraDirector : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera _worldCamera;
+    [SerializeField] CinemachineVirtualCamera _entityCamera;
     [SerializeField] CinemachineVirtualCamera _aimingCamera;
     [SerializeField] CinemachineVirtualCamera _overwatchCamera;
     [SerializeField] CinemachineVirtualCamera _actionCamera;
@@ -14,8 +15,9 @@ public class CameraDirector : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera _lowPriorityActionCamera;
     [SerializeField] CinemachineTargetGroup _lowPriorityActionCameraTargetGroup;
     [SerializeField] Transform _throwTarget;
+    [SerializeField] Transform _worldCamTarget;
 
-    List<CinemachineTargetGroup> _actionGroups = new List<CinemachineTargetGroup>();
+    List<Transform> _lowPriorityInvisibleTransfoms = new List<Transform>();
 
     Dictionary<GridEntity, CinemachineVirtualCamera> _entityCameras = new Dictionary<GridEntity, CinemachineVirtualCamera>();
 
@@ -28,7 +30,7 @@ public class CameraDirector : MonoBehaviour
 
     private void Awake()
     {
-        SetActiveEntityCamera(_worldCamera);
+        SetAndActivateActiveEntityCamera(_worldCamera);
         _lowPriorityActionCameraTargetGroup.m_Targets = new CinemachineTargetGroup.Target[0];
     }
 
@@ -48,8 +50,8 @@ public class CameraDirector : MonoBehaviour
         BattleEventExplosion.OnExploding += HandleBattleEventExplosion_OnExploding;
         BattleEventExplosion.OnExplodingEnd += HandleBattleEventExplosion_OnExplodingEnd;        
         Viewer.OnVisibleChanged += HandleViewer_OnVisibleChanged;
-        BattleEventReaction.OnEngaging += HandleBattleEventReaction_OnEngaging;
-        BattleEventReaction.OnEngagingEnd += HandleBattleEventReaction_OnEngagingEnd;
+        BattleEventEngageAction.OnEngaging += HandleBattleEventEngageAction_OnEngaging;
+        BattleEventEngageAction.OnEngagingEnd += HandleBattleEventEngageAction_OnEngagingEnd;
         BattleEventOverwatchShot.OnOverwatchShooting += HandleBattleEventOverwatchShot_OnOverwatchShooting;
     }
 
@@ -69,8 +71,8 @@ public class CameraDirector : MonoBehaviour
         BattleEventExplosion.OnExploding -= HandleBattleEventExplosion_OnExploding;
         BattleEventExplosion.OnExplodingEnd -= HandleBattleEventExplosion_OnExplodingEnd;        
         Viewer.OnVisibleChanged -= HandleViewer_OnVisibleChanged;
-        BattleEventReaction.OnEngaging -= HandleBattleEventReaction_OnEngaging;
-        BattleEventReaction.OnEngagingEnd -= HandleBattleEventReaction_OnEngagingEnd;
+        BattleEventEngageAction.OnEngaging -= HandleBattleEventEngageAction_OnEngaging;
+        BattleEventEngageAction.OnEngagingEnd -= HandleBattleEventEngageAction_OnEngagingEnd;
         BattleEventOverwatchShot.OnOverwatchShooting -= HandleBattleEventOverwatchShot_OnOverwatchShooting;
     }
 
@@ -133,18 +135,13 @@ public class CameraDirector : MonoBehaviour
         shooter.OnTargetingEnd -= HandleShooter_OnTargetingEnd;
     }
 
-    /// <summary>
-    /// Add the entity camera.
-    /// </summary>
-    /// <param name="target"></param>
     void HandleGridEntity_OnGridEntityAdded(GridEntity target)
     {
         if (!_entityCameras.ContainsKey(target))
         {
-            CinemachineVirtualCamera cam = GameObject.Instantiate(_worldCamera);
+            CinemachineVirtualCamera cam = GameObject.Instantiate(_entityCamera);
             cam.transform.SetParent(transform);
             cam.m_Follow = target.transform;
-            cam.gameObject.SetActive(false);
             _entityCameras.Add(target, cam);
         }
     }
@@ -157,7 +154,7 @@ public class CameraDirector : MonoBehaviour
             {
                 if (_activeEntityCamera == _entityCameras[target])
                 {
-                    SetActiveEntityCamera(_worldCamera);
+                    SetAndActivateActiveEntityCamera(_worldCamera);
                 }
                 Destroy(_entityCameras[target].gameObject);
             }
@@ -167,32 +164,29 @@ public class CameraDirector : MonoBehaviour
 
     void HandleMatchManager_OnNewTurn()
     {
-        // disable any active camera
+        Unit currentUnit = NetworkMatchManager.Instance.CurrentUnit;
         _actionCamera.gameObject.SetActive(false);
-        _activeEntityCamera.gameObject.SetActive(false);
-        if (NetworkMatchManager.Instance.CurrentUnit.GetComponent<Viewer>().IsVisible)
+        if (currentUnit.GetComponent<Viewer>().IsVisible)
         {
-            SetActiveEntityCamera(_entityCameras[NetworkMatchManager.Instance.CurrentUnit.GetComponent<GridEntity>()]);
-            _activeEntityCamera.gameObject.SetActive(true);
+            SetAndActivateActiveEntityCamera(_entityCameras[currentUnit.GetComponent<GridEntity>()]);
+            // make the world cam follow this entity
+            AttachWorldCamera(currentUnit.transform);
         }
         else
         {
-            //Debug.Log($"Unit {NetworkMatchManager.Instance.CurrentUnit.name} is not visible");
-            // align world camera with last entity
-            _worldCamera.m_Follow.position = _activeEntityCamera.m_Follow.position;
-            SetActiveEntityCamera(_worldCamera);
-            _activeEntityCamera.gameObject.SetActive(true);
+            Debug.Log($"On new turn unit {currentUnit.name} is not visible");
+            FixWorldCamera(_worldCamera.m_Follow.position);
         }
         // pre-align aiming camera with current unit
-        _aimingCamera.m_Follow = NetworkMatchManager.Instance.CurrentUnit.transform;
+        _aimingCamera.m_Follow = currentUnit.transform;
         // pre-align action camera with current unit
         _actionCameraTargetGroup.m_Targets = new CinemachineTargetGroup.Target[0];
-        _actionCameraTargetGroup.AddMember(NetworkMatchManager.Instance.CurrentUnit.transform, 1, 5); 
+        _actionCameraTargetGroup.AddMember(currentUnit.transform, 1, 5); 
     }
 
     void HandleBattleEventShot_OnShooting(Shooter shooter, GridEntity target)
     {
-        _activeEntityCamera.gameObject.SetActive(false);
+        DisableActiveEntityCamera();
         _actionCamera.gameObject.SetActive(true);
         _actionCameraTargetGroup.m_Targets = new CinemachineTargetGroup.Target[0];
         _actionCameraTargetGroup.AddMember(shooter.transform, 1, 5);
@@ -206,7 +200,7 @@ public class CameraDirector : MonoBehaviour
 
     void HandleBattleEventThrow_OnThrowing(Thrower thrower, GridNode target)
     {
-        _activeEntityCamera.gameObject.SetActive(false);
+        DisableActiveEntityCamera();
         _throwTarget.transform.position = target.FloorPosition;
         _actionCamera.gameObject.SetActive(true);
         _actionCameraTargetGroup.m_Targets = new CinemachineTargetGroup.Target[0];
@@ -220,7 +214,7 @@ public class CameraDirector : MonoBehaviour
 
     void HandleBattleEventExplosion_OnExploding(GridEntity gridEntity)
     {
-        _activeEntityCamera.gameObject.SetActive(false);
+        DisableActiveEntityCamera();
         _actionCamera.gameObject.SetActive(true);
         _actionCameraTargetGroup.m_Targets = new CinemachineTargetGroup.Target[0];
         _actionCameraTargetGroup.AddMember(gridEntity.transform, 1, 1);
@@ -234,25 +228,23 @@ public class CameraDirector : MonoBehaviour
     {
         if (active) // NOTE: Only local units are activated
         {
-            // disable any active camera
-            _activeEntityCamera.gameObject.SetActive(false);
-            //
-            SetActiveEntityCamera(_entityCameras[unit.GetComponent<GridEntity>()]);
-            _activeEntityCamera.gameObject.SetActive(true);
+            SetAndActivateActiveEntityCamera(_entityCameras[unit.GetComponent<GridEntity>()]);
+            // make the world cam follow this entity
+            AttachWorldCamera(unit.transform);
             _aimingCamera.m_Follow = unit.transform;
         }
     }
 
     void HandleUnit_OnMouseOverTarget(ShotStats target)
     {
-        _activeEntityCamera.gameObject.SetActive(false);
+        DisableActiveEntityCamera();
         _activeEntityCamera = _entityCameras[target.Target];
         _activeEntityCamera.gameObject.SetActive(true);
     }
 
     void HandleUnit_OnMouseExitTarget(ShotStats target)
     {
-        _activeEntityCamera.gameObject.SetActive(false);
+        DisableActiveEntityCamera();
         _activeEntityCamera = _savedEntityCamera;
         _activeEntityCamera.gameObject.SetActive(true);
     }
@@ -268,52 +260,77 @@ public class CameraDirector : MonoBehaviour
     {
         _aimingCamera.gameObject.SetActive(false);
         OnAimingCameraActiveChanged(false);
-        _activeEntityCamera.gameObject.SetActive(false);
+        DisableActiveEntityCamera();
         _activeEntityCamera = _savedEntityCamera;
         _activeEntityCamera.gameObject.SetActive(true);
     }
 
     void HandleViewer_OnVisibleChanged(Viewer viewer, bool visible)
     {
+        Unit currentUnit = NetworkMatchManager.Instance.CurrentUnit;
         if (visible)
         {
-            if (NetworkMatchManager.Instance.CurrentUnit != null && NetworkMatchManager.Instance.CurrentUnit.GetComponent<GridEntity>() == viewer.GetComponent<GridEntity>())
+            // if this is the active unit who became visible
+            if (currentUnit != null && currentUnit.GetComponent<GridEntity>() == viewer.GetComponent<GridEntity>())
             {
-                //Debug.Log("this is the active unit who became visible");
-                // this is the active unit who became visible
-                // disable any active camera
-                _activeEntityCamera.gameObject.SetActive(false);
-                //
-                SetActiveEntityCamera(_entityCameras[NetworkMatchManager.Instance.CurrentUnit.GetComponent<GridEntity>()]);
-                _activeEntityCamera.gameObject.SetActive(true);
+                //Debug.Log("this is the active unit who became visible");                
+                // disable the active camera
+                DisableActiveEntityCamera();
+                SetAndActivateActiveEntityCamera(_entityCameras[currentUnit.GetComponent<GridEntity>()]);
+                // make the world cam follow this entity
+                AttachWorldCamera(currentUnit.transform);
+            }
+            // this is a unit that was followed by the low priority cam
+            else if (_lowPriorityInvisibleTransfoms.Contains(viewer.transform))
+            {
+                _lowPriorityInvisibleTransfoms.Remove(viewer.transform);
+                DisableActiveEntityCamera();
+                _lowPriorityActionCameraTargetGroup.AddMember(viewer.transform, 1, 5);
+                _lowPriorityActionCamera.gameObject.SetActive(true);
             }
         }
         else
         {
             if (_activeEntityCamera == _entityCameras[viewer.GetComponent<GridEntity>()])
             {
-                //Debug.Log("this is the active unit who became invisible, switch to world camera");
+                Debug.Log("this is the active unit who became invisible, switch to world camera");
                 // this is the active unit who became invisible, switch to world camera
-                _activeEntityCamera.gameObject.SetActive(false);
-                // align world camera with last entity
-                _worldCamera.m_Follow.position = _activeEntityCamera.m_Follow.position;
-                AlignCamera(_worldCamera, _activeEntityCamera);
-                SetActiveEntityCamera(_worldCamera);
-                _activeEntityCamera.gameObject.SetActive(true);
+                DisableActiveEntityCamera();
+                FixWorldCamera(viewer.transform.position);
+            }
+            // if this is a unit followed by the low priority cam
+            else if (_lowPriorityActionCameraTargetGroup.FindMember(viewer.transform) > 0)
+            {
+                _lowPriorityActionCameraTargetGroup.RemoveMember(viewer.transform);
+                _lowPriorityInvisibleTransfoms.Add(viewer.transform);
+                if (_lowPriorityActionCameraTargetGroup.m_Targets.Length == 0)
+                {
+                    _lowPriorityActionCamera.gameObject.SetActive(false);
+                }
             }
         }
     }
 
-    void HandleBattleEventReaction_OnEngaging(GridEntity gridEntity)
+    void HandleBattleEventEngageAction_OnEngaging(GridEntity gridEntity)
     {
-        _activeEntityCamera.gameObject.SetActive(false);
-        _lowPriorityActionCameraTargetGroup.AddMember(gridEntity.transform, 1, 5);
-        _lowPriorityActionCamera.gameObject.SetActive(true);
+        DisableActiveEntityCamera();
+        if (gridEntity.GetComponent<Viewer>().IsVisible)
+        {
+            _lowPriorityActionCameraTargetGroup.AddMember(gridEntity.transform, 1, 5);
+            _lowPriorityActionCamera.gameObject.SetActive(true);
+        }
+        else
+        {
+            _lowPriorityInvisibleTransfoms.Add(gridEntity.transform);
+        }
     }
 
-    void HandleBattleEventReaction_OnEngagingEnd(GridEntity gridEntity)
+    void HandleBattleEventEngageAction_OnEngagingEnd(GridEntity gridEntity)
     {
-        _lowPriorityActionCameraTargetGroup.RemoveMember(gridEntity.transform);
+        if (_lowPriorityActionCameraTargetGroup.FindMember(gridEntity.transform) > 0)
+            _lowPriorityActionCameraTargetGroup.RemoveMember(gridEntity.transform);
+        if (_lowPriorityInvisibleTransfoms.Contains(gridEntity.transform))
+            _lowPriorityInvisibleTransfoms.Remove(gridEntity.transform);
         if (_lowPriorityActionCameraTargetGroup.m_Targets.Length == 0)
         {
             _lowPriorityActionCamera.gameObject.SetActive(false);
@@ -334,9 +351,34 @@ public class CameraDirector : MonoBehaviour
         camera.transform.localScale = reference.transform.localScale;
     }
 
-    void SetActiveEntityCamera(CinemachineVirtualCamera camera)
+    void SetAndActivateActiveEntityCamera(CinemachineVirtualCamera camera)
     {
+        DisableActiveEntityCamera();
         _activeEntityCamera = camera;
-        _savedEntityCamera = camera;
+        _activeEntityCamera.gameObject.SetActive(true);
+        if (_activeEntityCamera != _worldCamera)
+            _savedEntityCamera = camera;
+    }
+
+    void DisableActiveEntityCamera()
+    {
+        // never disable the world camera
+        if (_activeEntityCamera != null && _activeEntityCamera != _worldCamera)
+        {
+            _activeEntityCamera.gameObject.SetActive(false);
+            _activeEntityCamera = _worldCamera;
+        }
+    }
+
+    void FixWorldCamera(Vector3 position)
+    {
+        _worldCamera.m_Follow = _worldCamTarget;
+        _worldCamera.m_Follow.position = position;
+        AlignCamera(_worldCamera, _activeEntityCamera);
+    }
+
+    void AttachWorldCamera(Transform transform)
+    {
+        _worldCamera.m_Follow = transform;
     }
 }

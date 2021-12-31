@@ -51,6 +51,11 @@ public class GameController : MonoBehaviour
         Pause();
     }
 
+    public void HandleResumeClick()
+    {
+        StartCoroutine(CloseMenuAndResume());
+    }
+
     private void Update()
     {
         if (GamePaused && Input.GetKeyDown(KeyCode.Escape))
@@ -94,6 +99,7 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("Quit");
         CloseMenu();
+        Resume();
         if (IsSinglePlayer)
         {
             NetworkManager.StopHost();

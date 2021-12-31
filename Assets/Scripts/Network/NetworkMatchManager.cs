@@ -6,6 +6,7 @@ using System;
 using UnityEngine.SceneManagement;
 
 public enum MatchState {Setup, Started, End};
+public enum TurnState { Idle, Action, ActionComplete, End};
 
 public class NetworkMatchManager : NetworkBehaviour
 {
@@ -19,7 +20,7 @@ public class NetworkMatchManager : NetworkBehaviour
 
     public event Action OnBeforeTurnBegin = delegate { };
     public event Action OnTurnBegin = delegate { };
-    public event Action OnTurnEnd = delegate { };
+    public event Action OnActionComplete = delegate { };
     public event Action OnPause = delegate { };
 
     List<Team> _teams = new List<Team>();
@@ -34,6 +35,9 @@ public class NetworkMatchManager : NetworkBehaviour
 
     MatchState _state = MatchState.Setup;
     public MatchState State { get { return _state; } }
+
+    TurnState _turnState = TurnState.Idle;
+
     Team _winner = null;
     public Team Winner { get { return _winner; } }
 
@@ -52,34 +56,37 @@ public class NetworkMatchManager : NetworkBehaviour
     public void SinglePlayerMatchSetup(MyGamePlayer player)
     {
         int[][] unitClasses = new int[2][];
-        unitClasses[0] = new int[] { 0, 2, 2, 2 };
+        unitClasses[0] = new int[] { 0, 0, 0, 0 };
         unitClasses[1] = new int[] { 0, 0, 0, 0 };
         for (int i = 0; i < 2; i++)
         {
             RegisterPlayer(player);
             Team team = _teams.ToArray()[i];
             team.IsAI = (i == 1);
+            Squad squad = new Squad();
             List<GridNode> spawnPositions = GridManager.Instance.GetSpawnPositions(team.Id, _NumOfUnits);
             for (int c = 0; c < _NumOfUnits; c++)
             {
-                GameObject unit = Instantiate(_unitPrefabs[player.MatchSettings.unitClasses[unitClasses[i][c]]], Vector3.zero, Quaternion.identity);
-                unit.name = team.Name + "-" + team.Members.Count;
-                unit.transform.position = spawnPositions[c].FloorPosition;
-                NetworkServer.Spawn(unit, player.gameObject);
+                GameObject unitObj = Instantiate(_unitPrefabs[player.MatchSettings.unitClasses[unitClasses[i][c]]], Vector3.zero, Quaternion.identity);
+                unitObj.name = team.Name + "-" + team.Members.Count;
+                unitObj.transform.position = spawnPositions[c].FloorPosition;
+                NetworkServer.Spawn(unitObj, player.gameObject);
                 // Registering Unit
-                team.Members.Add(unit.GetComponent<Unit>());
-                unit.GetComponent<Unit>().Team = team;
+                team.Members.Add(unitObj.GetComponent<Unit>());
+                unitObj.GetComponent<Unit>().Team = team;
+                squad.Units.Add(unitObj.GetComponent<SquadUnit>());
+                unitObj.GetComponent<SquadUnit>().Squad = squad;
                 // register events
-                unit.GetComponent<ActionsController>().OnActionComplete += HandleActionsController_ActionComplete;
-                unit.GetComponent<UnitLocalController>().OnPass += HandleUnitLocalController_Pass;
-                unit.GetComponent<UnitLocalController>().OnEndTurn += HandleUnitLocalController_EndTurn;
-                unit.GetComponent<UnitLocalController>().OnPause += HandleUnitLocalController_Pause;
+                unitObj.GetComponent<ActionsController>().OnActionComplete += HandleActionsController_ActionComplete;
+                unitObj.GetComponent<UnitLocalController>().OnPass += HandleUnitLocalController_Pass;
+                unitObj.GetComponent<UnitLocalController>().OnEndTurn += HandleUnitLocalController_EndTurn;
+                unitObj.GetComponent<UnitLocalController>().OnPause += HandleUnitLocalController_Pause;
                 // internal setup
-                unit.GetComponent<GridEntity>().CurrentNode = GridManager.Instance.GetGridNodeFromWorldPosition(unit.transform.position);
+                unitObj.GetComponent<GridEntity>().CurrentNode = GridManager.Instance.GetGridNodeFromWorldPosition(unitObj.transform.position);
                 // AI
                 if (team.IsAI)
                 {
-                    unit.GetComponent<UnitStateMachine>().enabled = true;
+                    unitObj.GetComponent<UnitStateMachine>().enabled = true;
                 }
             }
         }
@@ -175,30 +182,7 @@ public class NetworkMatchManager : NetworkBehaviour
             SetRandomArmors();
             return;
         }
-        UpdateBattleEvents();
-        if (_battleEventGroups.Count == 0)
-        {
-            if (_currentUnit == null)
-            {
-                RemoveDefeatedTeams();
-                if (CheckEndBattle())
-                    return;                
-                SelectNextUnit();
-                if (_currentUnit != null)
-                {
-                    //Debug.Log("New Turn");
-                    OnBeforeTurnBegin();
-                    OnTurnBegin();
-                    ActiveTeam.Owner.Activate();
-                    BattleEventEndTurn battleEventEndTurn = new BattleEventEndTurn(this);
-                    AddBattleEvent(battleEventEndTurn, true, 1);
-                }
-                else
-                {
-                    Debug.Log("This should not happen!!!");
-                }
-            }
-        }
+        UpdateTurn();
         if (_currentUnit == null)
         {
             if (_input.GetKeyDown(KeyCode.Escape))
@@ -209,20 +193,40 @@ public class NetworkMatchManager : NetworkBehaviour
         _input.Clear();
     }
 
-    private bool CheckEndBattle()
+    void UpdateTurn()
     {
-        if (_teams.Count == 1)
+        switch (_turnState)
         {
-            _winner = _teams[0];
-            _state = MatchState.End;
-            return true;
+            case TurnState.Idle:
+                SelectNextUnit();
+                OnBeforeTurnBegin();
+                OnTurnBegin();
+                ActiveTeam.Owner.Activate();
+                BattleEventUnitAction battleEventEndTurn = new BattleEventUnitAction(this);
+                AddBattleEvent(battleEventEndTurn, true, 1);
+                _turnState = TurnState.Action;
+                break;
+            case TurnState.Action:
+                // transition to ActionComplete triggered by handlers
+                UpdateBattleEvents();
+                break;
+            case TurnState.ActionComplete:
+                UpdateBattleEvents();
+                if (_battleEventGroups.Count == 0)
+                {
+                    _turnState = TurnState.End;
+                }
+                break;
+            case TurnState.End:
+                UpdateBattleEvents();
+                if (_battleEventGroups.Count == 0)
+                {
+                    RemoveDefeatedTeams();
+                    CheckEndBattle();
+                    _turnState = TurnState.Idle;
+                }
+                break;
         }
-        if (_teams.Count == 0)
-        {
-            _state = MatchState.End;
-            return true;
-        }
-        return false;
     }
 
     bool AllUnitsStarted()
@@ -254,19 +258,41 @@ public class NetworkMatchManager : NetworkBehaviour
         }
     }
 
+    void ActionComplete()
+    {
+        _turnState = TurnState.ActionComplete;
+        OnActionComplete();
+    }
+
+    bool CheckEndBattle()
+    {
+        if (_teams.Count == 1)
+        {
+            _winner = _teams[0];
+            _state = MatchState.End;
+            return true;
+        }
+        if (_teams.Count == 0)
+        {
+            _state = MatchState.End;
+            return true;
+        }
+        return false;
+    }   
+
     void UpdateBattleEvents()
     {
-        Debug.Log($"BattleEventGroups: {_battleEventGroups.Count}.");
-        for (int i = 0; i < _battleEventGroups.Count; i++)
-        {
-            Debug.Log($"{i} {_battleEventGroups[i].ToString()}.");
-        }
+        //Debug.Log($"BattleEventGroups: {_battleEventGroups.Count}.");
+        //for (int i = 0; i < _battleEventGroups.Count; i++)
+        //{
+        //    Debug.Log($"{i} {_battleEventGroups[i].ToString()}.");
+        //}
         if (_battleEventGroups.Count > 0)
         {
             _battleEventGroups[0].Run();
             if (_battleEventGroups[0].IsComplete())
             {
-                Debug.Log("RemoveAt(0).");
+                //Debug.Log("RemoveAt(0).");
                 _battleEventGroups.RemoveAt(0);
             }
         }
@@ -274,7 +300,7 @@ public class NetworkMatchManager : NetworkBehaviour
 
     public void AddBattleEvent(BattleEvent battleEvent, bool newGroup, int priority)
     {
-        Debug.Log($"Adding {battleEvent.GetType().ToString()} with priority {priority}.");
+        //Debug.Log($"Adding {battleEvent.GetType().ToString()} with priority {priority}.");
         if (!newGroup)
         {
             // find an existing group at the same priority
@@ -283,7 +309,7 @@ public class NetworkMatchManager : NetworkBehaviour
                 if (_battleEventGroups[i].Priority == priority)
                 {
                     _battleEventGroups[i].AddBattleEvent(battleEvent);
-                    Debug.Log("added to existing group");
+                    //Debug.Log("added to existing group");
                     return;
                 }
             }
@@ -338,21 +364,21 @@ public class NetworkMatchManager : NetworkBehaviour
     {
         if (unit == _currentUnit)
         {
-            _currentUnit = null;
+            ActionComplete();
             ActiveTeam.Owner.Deactivate();
         }
     }
 
     void HandleUnitLocalController_Pass()
     {
-        _currentUnit = null;
+        ActionComplete();
         ActiveTeam.Owner.Deactivate();
         ActiveTeam.RotateReadyMembers();
     }
 
     void HandleUnitLocalController_EndTurn()
     {
-        _currentUnit = null;
+        ActionComplete();
         ActiveTeam.Owner.Deactivate();
         ActiveTeam.EndTurn();
     }

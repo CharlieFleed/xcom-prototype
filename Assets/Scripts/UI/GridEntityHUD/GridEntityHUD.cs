@@ -52,6 +52,7 @@ public class GridEntityHUD : MonoBehaviour
 
     private void Check()
     {
+        Unit currentUnit = NetworkMatchManager.Instance.CurrentUnit;
         if (_displayTimer > 0)
         {
             _displayTimer -= Time.deltaTime;
@@ -70,7 +71,7 @@ public class GridEntityHUD : MonoBehaviour
             (_unitLocalController != null && _unitLocalController.IsActive) ||
             _gridEntity.IsTargeted ||
             _gridEntity.IsSoftTargeted ||
-            (_unitLocalController != null && (NetworkMatchManager.Instance.CurrentUnit != null && NetworkMatchManager.Instance.CurrentUnit.GetComponent<Walker>().IsActive && !NetworkMatchManager.Instance.CurrentUnit.GetComponent<Walker>().IsWalking && !_unit.Team.IsActive))
+            (_unitLocalController != null && (currentUnit != null && currentUnit.GetComponent<Walker>().IsActive && !currentUnit.GetComponent<Walker>().IsWalking && !_unit.Team.IsActive))
             )
         {
             _display = 2;

@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Gun
   m_EditorClassIdentifier: 
   Name: Gun
-  BaseDamage: 3
-  MaxDamage: 5
   Damage:
     BaseDamage: 1
     MaxDamage: 3
@@ -27,3 +25,4 @@ MonoBehaviour:
   ShootAudioClip: {fileID: 8300000, guid: 6739c01659ad96d47987f4ddee226b36, type: 3}
   InfiniteAmmo: 1
   Image: {fileID: 21300000, guid: a1200d9151e23a641b589027a84cdbfb, type: 3}
+  WeaponType: 1

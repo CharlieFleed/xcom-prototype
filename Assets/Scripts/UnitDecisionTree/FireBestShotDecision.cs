@@ -18,6 +18,6 @@ public class FireBestShotDecision : FinalDecision
 
     public override void Execute()
     {
-        _shooter.ShootTarget(_shots.OrderBy(s => s.HitChance).First());
+        _shooter.ShootTarget(_shots.OrderByDescending(s => s.HitChance).First());
     }
 }

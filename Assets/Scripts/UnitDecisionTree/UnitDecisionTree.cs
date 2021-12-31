@@ -41,9 +41,8 @@ public class UnitDecisionTree : MonoBehaviour
     HunkerDecision _hunkerDecision;
     RunFromEnemiesDecision _runFromEnemiesDecision;
 
-    MoveToBestCoverDecision _moveToBestCoverDecision2;
-    RunFromEnemiesDecision _runFromEnemiesDecision2;
     CanIReachCoverDecision _canIReachCoverDecision2;
+    CanIReachBetterCoverDecision _canIReachBetterCoverDecision;
 
     SkipDecision _skipDecision;
 
@@ -77,11 +76,13 @@ public class UnitDecisionTree : MonoBehaviour
         _hunkerDecision = new HunkerDecision(_hunkerer);
         _runFromEnemiesDecision = new RunFromEnemiesDecision(_unit, _reachablePositions);
 
+        _canIReachBetterCoverDecision = new CanIReachBetterCoverDecision(_unit, _coverPositions, _moveToBestCoverDecision, _overwatchDecision);
+        _canIReachCoverDecision2 = new CanIReachCoverDecision(_unit, _coverPositions, _reachablePositions, _canIReachBetterCoverDecision, _overwatchDecision);
         _canIReachCoverDecision = new CanIReachCoverDecision(_unit, _coverPositions, _reachablePositions, _moveToBestCoverDecision, _runFromEnemiesDecision);
-        _doIHaveAGoodShotDecision = new DoIHaveAGoodShotDecision(_shooter, _shots, _fireBestShotDecision, _overwatchDecision);
+        _amILowHPDecision = new AmILowHPDecision(_health, _hunkerDecision, _canIReachCoverDecision2);
+        _doIHaveAGoodShotDecision = new DoIHaveAGoodShotDecision(_shooter, _shots, _fireBestShotDecision, _amILowHPDecision);
         _doIHaveAmmoDecision = new DoIHaveAmmoDecision(_shooter.Weapon, _doIHaveAGoodShotDecision, _reloadDecision);
         _amIFlankedDecision = new AmIFlankedDecision(_gridAgent, _canIReachCoverDecision, _doIHaveAmmoDecision);
-        _amILowHPDecision = new AmILowHPDecision(_health, _hunkerDecision, _overwatchDecision);
 
         FightingDecisionTree = _amIFlankedDecision;
 

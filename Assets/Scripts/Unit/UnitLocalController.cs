@@ -242,7 +242,7 @@ public class UnitLocalController : NetworkBehaviour
 
     void ActivateBattleAction(BattleAction battleAction)
     {
-        Debug.Log("Unit - ActivateBattleAction");
+        //Debug.Log("Unit - ActivateBattleAction");
         CancelActiveBattleAction();
         if (_walker.IsActive)
         {

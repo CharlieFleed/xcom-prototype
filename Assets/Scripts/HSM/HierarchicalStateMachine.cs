@@ -16,7 +16,7 @@ namespace HSM
         public State _initialState;
         public State _currentState;
 
-        public HierarchicalStateMachine(string name, List<State> states, State initialState, List<ActionBase> actions, List<ActionBase> entryActions, List<ActionBase> exitActions) : base(name, actions, entryActions, exitActions)
+        public HierarchicalStateMachine(string name, List<State> states, State initialState, List<Action> actions, List<Action> entryActions, List<Action> exitActions) : base(name, actions, entryActions, exitActions)
         {
             _states = states;
             _initialState = initialState;
@@ -139,9 +139,9 @@ namespace HSM
         /// <param name="state"></param>
         /// <param name="levelsToGo"></param>
         /// <returns></returns>
-        public List<ActionBase> UpdateDown(State state, int levelsToGo)
+        public List<Action> UpdateDown(State state, int levelsToGo)
         {
-            List<ActionBase> actions = new List<ActionBase>();
+            List<Action> actions = new List<Action>();
 
             // If we are not at top level, we have a parent
             if (levelsToGo > 0)

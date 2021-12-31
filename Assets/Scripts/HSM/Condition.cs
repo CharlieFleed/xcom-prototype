@@ -3,18 +3,18 @@ using System.Collections;
 
 namespace HSM
 {
-    public delegate bool TestDelegate();
-
-    public abstract class ConditionBase
+    public abstract class Condition
     {
         public abstract bool Test();
     }
 
-    public class Condition : ConditionBase
+    public delegate bool TestDelegate();
+
+    public class DelegateCondition : Condition
     {
         TestDelegate _TestDel;
 
-        public Condition(TestDelegate TestDel)
+        public DelegateCondition(TestDelegate TestDel)
         {
             _TestDel = TestDel;
         }
@@ -25,7 +25,7 @@ namespace HSM
         }
     }
 
-    public class AndCondition : ConditionBase
+    public class AndCondition : Condition
     {
         Condition _conditionA;
         Condition _conditionB;
@@ -42,7 +42,7 @@ namespace HSM
         }
     }
 
-    public class OrCondition : ConditionBase
+    public class OrCondition : Condition
     {
         Condition _conditionA;
         Condition _conditionB;
@@ -59,7 +59,7 @@ namespace HSM
         }
     }
 
-    public class NotCondition : ConditionBase
+    public class NotCondition : Condition
     {
         Condition _condition;
 

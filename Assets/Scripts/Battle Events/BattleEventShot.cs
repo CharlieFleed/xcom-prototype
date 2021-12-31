@@ -77,7 +77,7 @@ public class BattleEventShot : BattleEvent
                             GameObject.Instantiate(_shooter.Weapon.HitFXPrefab, _shotStats.Target.transform.position, Quaternion.identity);                        
                     }
                     NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false, 0);
-                    _waitTimeout = 2;
+                    _waitTimeout = 1.5f;
                     _phase = Phase.Wait2;
                 }
                 break;

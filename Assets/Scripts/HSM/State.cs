@@ -8,15 +8,15 @@ namespace HSM
     {
         public string Name => _name; 
 
-        List<ActionBase> _actions = new List<ActionBase>();
-        List<ActionBase> _entryActions = new List<ActionBase>();
-        List<ActionBase> _exitActions = new List<ActionBase>();
+        List<Action> _actions = new List<Action>();
+        List<Action> _entryActions = new List<Action>();
+        List<Action> _exitActions = new List<Action>();
         List<Transition> _transitions = new List<Transition>();
         protected string _name;
 
         public HierarchicalStateMachine _parent;
 
-        public State(string name, List<ActionBase> actions, List<ActionBase> entryActions, List<ActionBase> exitActions)
+        public State(string name, List<Action> actions, List<Action> entryActions, List<Action> exitActions)
         {
             _name = name;
             _actions = actions;
@@ -36,15 +36,15 @@ namespace HSM
             return result;
         }
 
-        public List<ActionBase> GetActions()
+        public List<Action> GetActions()
         {
             return _actions;
         }
-        public List<ActionBase> GetEntryActions()
+        public List<Action> GetEntryActions()
         {
             return _entryActions;
         }
-        public List<ActionBase> GetExitActions()
+        public List<Action> GetExitActions()
         {
             return _exitActions;
         }

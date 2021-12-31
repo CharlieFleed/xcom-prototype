@@ -20,6 +20,7 @@ public class Health : MonoBehaviour
 
     int _maxHealth;
     int _currentHealth;
+    bool _tookDamage;
 
     public int Id;
 
@@ -60,6 +61,7 @@ public class Health : MonoBehaviour
         {
             OnDied();
         }
+        _tookDamage = true;
     }
 
     public bool IsDead { get { return _currentHealth == 0; }}
@@ -67,4 +69,6 @@ public class Health : MonoBehaviour
     public bool IsLow { get { return _currentHealth < .3f * _maxHealth; } }
 
     public bool IsFull { get { return _currentHealth == _maxHealth; } }
+
+    public bool TookDamage { get { return _tookDamage; } }
 }

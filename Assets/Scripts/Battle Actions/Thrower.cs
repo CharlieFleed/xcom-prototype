@@ -56,6 +56,7 @@ public class Thrower : BattleAction
 
     void Throw()
     {
+        //Debug.Log($"{name} Throw");
         InvokeActionConfirmed(this);
         BattleEventThrow throwEvent = new BattleEventThrow(this, _target);
         NetworkMatchManager.Instance.AddBattleEvent(throwEvent, true, 2);
@@ -82,6 +83,7 @@ public class Thrower : BattleAction
 
     public void Thrown()
     {
+        //Debug.Log($"{name} Thrown");
         Vector3 impulse;
         Vector3 origin;
         List<Vector3> origins = new List<Vector3>() { GetComponent<GridEntity>().CurrentNode.FloorPosition + 2 * Vector3.up };
@@ -103,6 +105,7 @@ public class Thrower : BattleAction
 
     public void DoThrow()
     {
+        //Debug.Log($"{name} DoThrow");
         OnThrow(this);        
     }
 

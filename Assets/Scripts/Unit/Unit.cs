@@ -5,6 +5,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public Team Team { set; get; }
+    
     public bool Started { private set; get; }
 
     private void Start()

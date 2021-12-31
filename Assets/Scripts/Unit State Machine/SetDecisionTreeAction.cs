@@ -3,7 +3,7 @@ using System.Collections;
 using HSM;
 using DecisionTree;
 
-public class SetDecisionTreeAction : ActionBase
+public class SetDecisionTreeAction : Action
 {
     UnitDecisionTree _unitDecisionTree;
     DecisionTreeNode _decisionTreeNode;

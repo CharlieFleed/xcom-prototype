@@ -10,8 +10,10 @@ public class BattleEventConditionalShot : BattleEventShot
     {
         if (_shooter.GetComponent<Health>().IsDead || _shotStats.Target.GetComponent<Health>().IsDead)
         {
+            Debug.Log("Canceling shot.");
             End();
         }
-        base.Run();
+        else
+            base.Run();
     }
 }

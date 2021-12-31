@@ -77,6 +77,5 @@ public class MoveToBestCoverDecision : FinalDecision
             }
         }
         return score;
-    }
-    
+    }    
 }

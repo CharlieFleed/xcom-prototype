@@ -21,7 +21,7 @@ public class Shooter : BattleAction
 
     protected void InvokeOnTargetSelected(Shooter shooter, GridEntity gridEntity)
     {
-        OnTargetSelected.Invoke(shooter, gridEntity);
+        OnTargetSelected(shooter, gridEntity);
     }
     protected void InvokeOnTargetingEnd()
     {
@@ -40,6 +40,8 @@ public class Shooter : BattleAction
     public Weapon Weapon { get { return _weapon; } set { _weapon = value; } }
     public override string ActionName { get { return _weapon.Name; } }
     public override string ConfirmText { get { return "Fire " + _weapon.Name; } }
+
+    public bool IsShooting { private set; get; }
 
     #endregion
 
@@ -83,6 +85,7 @@ public class Shooter : BattleAction
     {
         if (_shots.Count > 0 && _shots.Peek().Available)
         {
+            IsShooting = true;
             HideTargets();
             OnTargetingEnd();
             CmdShoot(_shots.Peek().Target.gameObject);
@@ -108,7 +111,7 @@ public class Shooter : BattleAction
                 shotStats = shot;
             }
         }
-        if (shotStats == null) Debug.Log($"PANIC! target {target.name} not found!");
+        //if (shotStats == null) Debug.Log($"PANIC! target {target.name} not found!");
         OnTargetSelected(this, shotStats.Target);
         OnTargetingEnd();
         Debug.Log($"Shoot {shotStats.Target.name}");
@@ -122,6 +125,8 @@ public class Shooter : BattleAction
     public void Shot()
     {
         OnShot();
+        _weapon.Shot();
+        IsShooting = false;
     }
 
     public void DoShoot()

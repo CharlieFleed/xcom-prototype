@@ -2,6 +2,8 @@
 using System.Collections;
 using System;
 
+public enum WeaponType { Rifle, Gun };
+
 public class Weapon : MonoBehaviour
 {
     [SerializeField] WeaponData _weaponData;
@@ -17,6 +19,7 @@ public class Weapon : MonoBehaviour
     public int ClipSize { get { return _weaponData.ClipSize; } }
     public bool InfiniteAmmo { get { return _weaponData.InfiniteAmmo; } }
     public Sprite Image { get { return _weaponData.Image; } }
+    public WeaponType WeaponType { get { return _weaponData.WeaponType; } }
     public GameObject HitFXPrefab { get { return _weaponData.HitFXPrefab; } }
 
     // Used by WeaponPanel
@@ -35,16 +38,20 @@ public class Weapon : MonoBehaviour
 
     public void Shoot()
     {
-        // show shoot FX
-        if (_weaponData.ShootFXPrefab)
-            Instantiate(_weaponData.ShootFXPrefab, transform.position + Vector3.up + transform.forward, Quaternion.identity);
-        if (_weaponData.ShootAudioClip)
-            AudioSource.PlayClipAtPoint(_weaponData.ShootAudioClip, transform.position);
         if (!InfiniteAmmo)
         {
             _bullets--;
             OnAmmunitionsChanged(_bullets, ClipSize);
         }
+    }
+
+    public void Shot()
+    {
+        // show shot FX
+        if (_weaponData.ShootFXPrefab)
+            Instantiate(_weaponData.ShootFXPrefab, transform.position + Vector3.up + transform.forward, Quaternion.identity);
+        if (_weaponData.ShootAudioClip)
+            AudioSource.PlayClipAtPoint(_weaponData.ShootAudioClip, transform.position);
     }
 
     public int HitChanceBonus(GridEntity target)

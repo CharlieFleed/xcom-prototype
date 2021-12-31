@@ -22,6 +22,7 @@ public class GridAgent : MonoBehaviour
 
     int _cover;
     public int Cover { get { return _cover; } private set { _cover = value; OnCoverChanged(_cover); } }
+
     public event Action<int> OnCoverChanged = delegate { };
 
     private void Start()

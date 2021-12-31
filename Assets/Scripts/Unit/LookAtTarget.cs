@@ -8,26 +8,46 @@ public class LookAtTarget : MonoBehaviour
     float _turnSmoothVelocity;
     float _turnSmoothTime = .1f;
 
+    Shooter[] _shooters;
+    Overwatcher[] _overwatchers;
+    Thrower[] _throwers;
+
     private void Awake()
     {
-        Shooter[] shooters = GetComponents<Shooter>();
-        for (int i = 0; i < shooters.Length; i++)
+        _shooters = GetComponents<Shooter>();
+        for (int i = 0; i < _shooters.Length; i++)
         {
-            shooters[i].OnTargetSelected += HandleShooter_OnTargetSelected;
+            _shooters[i].OnTargetSelected += HandleShooter_OnTargetSelected;
         }
-        Overwatcher[] overwatchers = GetComponents<Overwatcher>();
-        for (int i = 0; i < overwatchers.Length; i++)
+        _overwatchers = GetComponents<Overwatcher>();
+        for (int i = 0; i < _overwatchers.Length; i++)
         {
-            overwatchers[i].OnShoot += HandleOverwatcher_Shoot;
+            _overwatchers[i].OnShoot += HandleOverwatcher_Shoot;
         }
-        Thrower[] throwers = GetComponents<Thrower>();
-        for (int i = 0; i < throwers.Length; i++)
+        _throwers = GetComponents<Thrower>();
+        for (int i = 0; i < _throwers.Length; i++)
         {
-            throwers[i].OnTargetSelected += HandleThrower_TargetSelected;
+            _throwers[i].OnTargetSelected += HandleThrower_TargetSelected;
         }
     }
 
-   void HandleShooter_OnTargetSelected(Shooter arg1, GridEntity arg2)
+    private void OnDestroy()
+    {
+        for (int i = 0; i < _shooters.Length; i++)
+        {
+            _shooters[i].OnTargetSelected -= HandleShooter_OnTargetSelected;
+        }
+        for (int i = 0; i < _overwatchers.Length; i++)
+        {
+            _overwatchers[i].OnShoot -= HandleOverwatcher_Shoot;
+        }
+        for (int i = 0; i < _throwers.Length; i++)
+        {
+            _throwers[i].OnTargetSelected -= HandleThrower_TargetSelected;
+        }
+    }
+
+    void HandleShooter_OnTargetSelected(Shooter arg1, GridEntity arg2)
     {
         _direction = arg2.transform.position - arg1.transform.position;
         _direction.y = 0;
