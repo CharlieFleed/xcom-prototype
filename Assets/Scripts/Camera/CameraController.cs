@@ -9,7 +9,11 @@ public class CameraController : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera _virtualCamera;
     [SerializeField] CameraDirector _cameraDirector;
 
-    public int Level { get { return _level; } private set { if (value != _level) { _level = value; OnLevelChanged(); } } }
+    public int Level
+    {
+        get { return _level; }
+        private set { if (value != _level) { _level = value; OnLevelChanged(); } }
+    }
 
     int _level = 0;
     int _levelOffset = 0;
@@ -19,7 +23,7 @@ public class CameraController : MonoBehaviour
     int _savedTargetLevel = 0;
     int _maxLevel = 5;
 
-    Quaternion _initial;
+    Quaternion _initialRotation;
     int _orientation = 0;
 
     Quaternion _from;
@@ -31,7 +35,7 @@ public class CameraController : MonoBehaviour
 
     private void Awake()
     {
-        _initial = _virtualCamera.transform.rotation;
+        _initialRotation = _virtualCamera.transform.rotation;
         _orientation = 0;
 
         _from = _virtualCamera.transform.rotation;
@@ -65,19 +69,19 @@ public class CameraController : MonoBehaviour
 
     private void HandleActionActivated(BattleAction battleAction)
     {
-        if (_cameraDirector.WorldCamera.m_Follow != null)
-        {
-            Level = GridManager.Instance.GetGridNodeFromWorldPosition(_cameraDirector.WorldCamera.m_Follow.transform.position).Y;
-            _savedTargetLevel = Level;
-            _levelOffset = 0;
-        }
-    }
+        ResetLevel();
+    }    
 
     private void HandleActionConfirmed()
     {
-        if (_cameraDirector.WorldCamera.m_Follow != null)
+        ResetLevel();
+    }
+
+    private void ResetLevel()
+    {
+        if (_cameraDirector.ThirdPersonCamera.m_Follow != null)
         {
-            Level = GridManager.Instance.GetGridNodeFromWorldPosition(_cameraDirector.WorldCamera.m_Follow.transform.position).Y;
+            Level = GridManager.Instance.GetGridNodeFromWorldPosition(_cameraDirector.ThirdPersonCamera.m_Follow.transform.position).Y;
             _savedTargetLevel = Level;
             _levelOffset = 0;
         }
@@ -86,28 +90,13 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_cameraDirector.WorldCamera.m_Follow != null)
-        {
-            // if the follow target changed, align with it
-            if (_cameraDirector.WorldCamera.m_Follow != _savedTarget)
-            {
-                Level = GridManager.Instance.GetGridNodeFromWorldPosition(_cameraDirector.WorldCamera.m_Follow.transform.position).Y;
-                _savedTargetLevel = Level;
-                _levelOffset = 0;
-            }
-            else if (GridManager.Instance.GetGridNodeFromWorldPosition(_savedTarget.position).Y != _savedTargetLevel)
-            {
-                Level = GridManager.Instance.GetGridNodeFromWorldPosition(_savedTarget.position).Y;
-                _savedTargetLevel = Level;
-            }
-        }
-        else
-        {
-            Level = 0;
-            _levelOffset = 0;
-        }
-        _savedTarget = _cameraDirector.WorldCamera.m_Follow;
+        UpdateTarget();
+        UpdateLevel();
+        UpdateRotation();
+    }
 
+    private void UpdateLevel()
+    {
         if (Input.mouseScrollDelta.y < 0)
         {
             Level = Mathf.Clamp(Level - 1, 0, _maxLevel);
@@ -130,8 +119,32 @@ public class CameraController : MonoBehaviour
         {
             (componentBase as CinemachineFramingTransposer).m_TrackedObjectOffset.y = _levelOffset * GridManager.Instance.YScale;
         }
+    }
 
-        UpdateRotation();
+    private void UpdateTarget()
+    {
+        if (_cameraDirector.ThirdPersonCamera.m_Follow != null)
+        {
+            // if the follow target changed, align with it
+            if (_cameraDirector.ThirdPersonCamera.m_Follow != _savedTarget)
+            {
+                Debug.Log($"CameraController.UpdateTarget - follow target changed, camera: {_cameraDirector.ThirdPersonCamera.name}, old target: {_savedTarget?.name}, new target: {_cameraDirector.ThirdPersonCamera.m_Follow?.name}");
+                Level = GridManager.Instance.GetGridNodeFromWorldPosition(_cameraDirector.ThirdPersonCamera.m_Follow.transform.position).Y;
+                _savedTargetLevel = Level;
+                _levelOffset = 0;
+            }
+            else if (GridManager.Instance.GetGridNodeFromWorldPosition(_savedTarget.position).Y != _savedTargetLevel)
+            {
+                Level = GridManager.Instance.GetGridNodeFromWorldPosition(_savedTarget.position).Y;
+                _savedTargetLevel = Level;
+            }
+        }
+        else
+        {
+            Level = 0;
+            _levelOffset = 0;
+        }
+        _savedTarget = _cameraDirector.ThirdPersonCamera.m_Follow;
     }
 
     private void UpdateRotation()
@@ -161,7 +174,7 @@ public class CameraController : MonoBehaviour
         _from = _virtualCamera.transform.rotation;
         _orientation = (_orientation + 1) % 4;
         Quaternion rotation = Quaternion.AngleAxis(_orientation * 90, new Vector3(0, 1, -1).normalized);
-        _to = _initial * rotation;
+        _to = _initialRotation * rotation;
         _t = 0;
     }
 
@@ -170,7 +183,7 @@ public class CameraController : MonoBehaviour
         _from = _virtualCamera.transform.rotation;
         _orientation = (_orientation + 3) % 4;
         Quaternion rotation = Quaternion.AngleAxis(_orientation * 90, new Vector3(0, 1, -1).normalized);
-        _to = _initial * rotation;
+        _to = _initialRotation * rotation;
         _t = 0;
     }
 

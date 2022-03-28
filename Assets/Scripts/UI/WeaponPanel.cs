@@ -40,18 +40,25 @@ public class WeaponPanel : MonoBehaviour
                 _weapon.OnAmmunitionsChanged -= HandleWeapon_AmmunitionsChanged;
             }
             _weapon = unit.Weapon;
-            _weapon.OnAmmunitionsChanged += HandleWeapon_AmmunitionsChanged;
-            _image.sprite = _weapon.Image;
-            if (_weapon.InfiniteAmmo)
+            if (_weapon != null)
             {
-                _clipBar.SetActive(false);                
+                _weapon.OnAmmunitionsChanged += HandleWeapon_AmmunitionsChanged;
+                _image.sprite = _weapon.Image;
+                if (_weapon.InfiniteAmmo)
+                {
+                    _clipBar.SetActive(false);
+                }
+                else
+                {
+                    _clipBar.SetActive(true);
+                    SetAmmunitions(_weapon.Bullets, _weapon.ClipSize);
+                }
+                _cg.alpha = 1;
             }
             else
             {
-                _clipBar.SetActive(true);
-                SetAmmunitions(_weapon.Bullets, _weapon.ClipSize);
+                _cg.alpha = 0;
             }
-            _cg.alpha = 1;
         }
         else
         {

@@ -59,6 +59,7 @@ public class DamageBar : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
         _cg.alpha = 0;
+        Debug.Log("ending damage bar");
         OnEnd(this);
     }
 }

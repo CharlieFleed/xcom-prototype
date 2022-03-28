@@ -58,8 +58,7 @@ public class GridPathSelector : NetworkBehaviour
         _marker = Instantiate(_markerPrefab, Vector3.zero, Quaternion.identity);
         _marker.SetActive(false);
         _marker.transform.SetParent(GameObject.Find("Scene UI").transform);
-        _markerLineRenderer = _marker.GetComponentInChildren<LineRenderer>();
-        CameraController.Instance.OnLevelChanged += HandleCameraController_OnLevelChanged;
+        _markerLineRenderer = _marker.GetComponentInChildren<LineRenderer>();        
         _sceneUI = GameObject.Find("Scene UI");
         for (int i = 0; i < 9; i++)
         {
@@ -68,11 +67,21 @@ public class GridPathSelector : NetworkBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        CameraController.Instance.OnLevelChanged += HandleCameraController_OnLevelChanged;
+    }
+
     private void Start()
     {
         _pathfinder = Pathfinder.Instance;
         _gridManager = GridManager.Instance;
         _gridRegionHighlighter = GridRegionHighlighter.Instance;
+    }
+
+    private void OnDisable()
+    {
+        CameraController.Instance.OnLevelChanged -= HandleCameraController_OnLevelChanged;
     }
 
     private void HandleCameraController_OnLevelChanged()
@@ -332,7 +341,7 @@ public class GridPathSelector : NetworkBehaviour
                 }
                 if (Input.GetMouseButtonDown(1))
                 {
-                    //Debug.Log($"Selected targetNode is {_targetNode.X}, {_targetNode.Y}, {_targetNode.Z}. Distance: {_targetNode.Distance}.");
+                    Debug.Log($"Selected targetNode is {_targetNode.X}, {_targetNode.Y}, {_targetNode.Z}. Distance: {_targetNode.Distance}. GameObject: {name}");
                     SetPath(_targetNode);
                     Deactivate();
                 }
@@ -377,6 +386,7 @@ public class GridPathSelector : NetworkBehaviour
 
     public void Activate()
     {
+        Debug.Log($"GridPathSelector Activate {name}");
         IsActive = true;
         _origin = _gridEntity.CurrentNode;
         int maxDistance = _gridAgent.WalkRange * _walker.NumMoves;
@@ -389,6 +399,7 @@ public class GridPathSelector : NetworkBehaviour
 
     void Deactivate()
     {
+        Debug.Log($"GridPathSelector Deactivate {name}");
         IsActive = false;
         HideHighlights();
         _cachedNode = null;
@@ -397,6 +408,7 @@ public class GridPathSelector : NetworkBehaviour
 
     public void Cancel()
     {
+        Debug.Log($"GridPathSelector Cancel {name}");
         Deactivate();
     }
 }

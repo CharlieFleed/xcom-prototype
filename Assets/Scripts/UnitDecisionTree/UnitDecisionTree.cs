@@ -81,7 +81,7 @@ public class UnitDecisionTree : MonoBehaviour
         _canIReachCoverDecision = new CanIReachCoverDecision(_unit, _coverPositions, _reachablePositions, _moveToBestCoverDecision, _runFromEnemiesDecision);
         _amILowHPDecision = new AmILowHPDecision(_health, _hunkerDecision, _canIReachCoverDecision2);
         _doIHaveAGoodShotDecision = new DoIHaveAGoodShotDecision(_shooter, _shots, _fireBestShotDecision, _amILowHPDecision);
-        _doIHaveAmmoDecision = new DoIHaveAmmoDecision(_shooter.Weapon, _doIHaveAGoodShotDecision, _reloadDecision);
+        _doIHaveAmmoDecision = new DoIHaveAmmoDecision(_shooter != null ?_shooter.Weapon :null, _doIHaveAGoodShotDecision, _reloadDecision); // account for unitas without a shooter
         _amIFlankedDecision = new AmIFlankedDecision(_gridAgent, _canIReachCoverDecision, _doIHaveAmmoDecision);
 
         FightingDecisionTree = _amIFlankedDecision;

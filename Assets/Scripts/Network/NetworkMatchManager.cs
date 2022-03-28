@@ -56,7 +56,7 @@ public class NetworkMatchManager : NetworkBehaviour
     public void SinglePlayerMatchSetup(MyGamePlayer player)
     {
         int[][] unitClasses = new int[2][];
-        unitClasses[0] = new int[] { 0, 0, 0, 0 };
+        unitClasses[0] = new int[] { 1, 0, 0, 0 };
         unitClasses[1] = new int[] { 0, 0, 0, 0 };
         for (int i = 0; i < 2; i++)
         {
@@ -192,43 +192,7 @@ public class NetworkMatchManager : NetworkBehaviour
         }
         _input.Clear();
     }
-
-    void UpdateTurn()
-    {
-        switch (_turnState)
-        {
-            case TurnState.Idle:
-                SelectNextUnit();
-                OnBeforeTurnBegin();
-                OnTurnBegin();
-                ActiveTeam.Owner.Activate();
-                BattleEventUnitAction battleEventEndTurn = new BattleEventUnitAction(this);
-                AddBattleEvent(battleEventEndTurn, true, 1);
-                _turnState = TurnState.Action;
-                break;
-            case TurnState.Action:
-                // transition to ActionComplete triggered by handlers
-                UpdateBattleEvents();
-                break;
-            case TurnState.ActionComplete:
-                UpdateBattleEvents();
-                if (_battleEventGroups.Count == 0)
-                {
-                    _turnState = TurnState.End;
-                }
-                break;
-            case TurnState.End:
-                UpdateBattleEvents();
-                if (_battleEventGroups.Count == 0)
-                {
-                    RemoveDefeatedTeams();
-                    CheckEndBattle();
-                    _turnState = TurnState.Idle;
-                }
-                break;
-        }
-    }
-
+    
     bool AllUnitsStarted()
     {
         bool started = true;
@@ -255,6 +219,43 @@ public class NetworkMatchManager : NetworkBehaviour
                 }
             }
             _armorsSet = true;
+        }
+    }
+
+    void UpdateTurn()
+    {
+        switch (_turnState)
+        {
+            case TurnState.Idle:
+                SelectNextUnit();
+                OnBeforeTurnBegin();
+                OnTurnBegin();
+                ActiveTeam.Owner.Activate();
+                BattleEventUnitAction battleEventUnitAction = new BattleEventUnitAction(this);
+                AddBattleEvent(battleEventUnitAction, true, 1);
+                _turnState = TurnState.Action;
+                break;
+            case TurnState.Action:
+                // transition to ActionComplete triggered by handlers
+                UpdateBattleEvents();
+                break;
+            case TurnState.ActionComplete:
+                UpdateBattleEvents();
+                // transition to End when all battle events are completed
+                if (_battleEventGroups.Count == 0)
+                {
+                    _turnState = TurnState.End;
+                }
+                break;
+            case TurnState.End:
+                UpdateBattleEvents();
+                if (_battleEventGroups.Count == 0)
+                {
+                    RemoveDefeatedTeams();
+                    CheckEndBattle();
+                    _turnState = TurnState.Idle;
+                }
+                break;
         }
     }
 

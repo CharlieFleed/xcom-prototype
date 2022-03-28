@@ -14,7 +14,7 @@ public class DoIHaveAmmoDecision : Decision
 
     public override DecisionTreeNode GetBranch()
     {
-        if (_weapon.InfiniteAmmo || _weapon.Bullets > 0)
+        if (_weapon != null && (_weapon.InfiniteAmmo || _weapon.Bullets > 0))
             return _trueNode;
         else
             return _falseNode;

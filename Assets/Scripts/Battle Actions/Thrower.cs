@@ -75,8 +75,8 @@ public class Thrower : BattleAction
     {
         Debug.Log($"{name} Thrower RpcThrow");
         InvokeActionConfirmed(this);
-        BattleEventThrow _throw = new BattleEventThrow(this, _target);
-        NetworkMatchManager.Instance.AddBattleEvent(_throw, true, 2);
+        BattleEventThrow throwEvent = new BattleEventThrow(this, _target);
+        NetworkMatchManager.Instance.AddBattleEvent(throwEvent, true, 2);
         Deactivate();
         InvokeActionComplete(this);
     }

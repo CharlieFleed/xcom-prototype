@@ -81,6 +81,9 @@ public class AnimationController : MonoBehaviour
         _isThrowing = true;
     }
 
+    /// <summary>
+    /// Called by animation event.
+    /// </summary>
     public void Thrown()
     {
         //Debug.Log("AnimationController.Thrown");
@@ -88,6 +91,9 @@ public class AnimationController : MonoBehaviour
         _currentThrower.Thrown();
     }
 
+    /// <summary>
+    /// Called by animation event.
+    /// </summary>
     public void Shot()
     {
         _isShooting = false;

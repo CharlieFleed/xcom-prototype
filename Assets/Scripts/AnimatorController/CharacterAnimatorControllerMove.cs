@@ -9,8 +9,11 @@ public class CharacterAnimatorControllerMove : StateMachineBehaviour
     {
         WeaponPoseController wpc = animator.gameObject.GetComponentInChildren<WeaponPoseController>();
         Shooter[] shooters = animator.gameObject.transform.root.GetComponents<Shooter>();
-        Shooter activeShooter = shooters[0];
-        wpc.Extract(activeShooter.Weapon.WeaponType);
+        if (shooters.Length > 0)
+        {
+            Shooter activeShooter = shooters[0];
+            wpc.Extract(activeShooter.Weapon.WeaponType);
+        }
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

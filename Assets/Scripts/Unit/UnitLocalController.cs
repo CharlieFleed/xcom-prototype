@@ -19,6 +19,8 @@ public class UnitLocalController : NetworkBehaviour
     public bool IsActive { get { return _isActive; } private set { _isActive = value; OnActiveChanged(this, _isActive); } }
     public static event Action<UnitLocalController, bool> OnActiveChanged = delegate { };
 
+    Coroutine _activateControlsCoroutine;
+
     public event Action<BattleAction> OnActionAdded = delegate { };
     public event Action OnActionsCleared = delegate { };
 
@@ -100,7 +102,7 @@ public class UnitLocalController : NetworkBehaviour
 
     private void LateUpdate()
     {
-        if (IsActive)
+        if (IsActive && _activateControlsCoroutine == null)
         {
             if (!_isActionActive)
             {
@@ -167,7 +169,7 @@ public class UnitLocalController : NetworkBehaviour
         }
         else
         {
-            StartCoroutine(ActivateControls());            
+            _activateControlsCoroutine = StartCoroutine(ActivateControls());            
         }
     }
 
@@ -182,6 +184,7 @@ public class UnitLocalController : NetworkBehaviour
         }
         _walker.Activate();
         ShowMainShooterTargets();
+        _activateControlsCoroutine = null;
     }
 
     void InitActions()
@@ -197,7 +200,11 @@ public class UnitLocalController : NetworkBehaviour
         IsActive = false;
         HideMainShooterTargets();
         OnActionsCleared();
-        StopAllCoroutines();
+        if (_activateControlsCoroutine != null)
+        {
+            StopCoroutine(_activateControlsCoroutine);
+            _activateControlsCoroutine = null;
+        }
     }
 
     /// <summary>

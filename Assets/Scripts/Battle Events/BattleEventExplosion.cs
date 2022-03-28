@@ -15,7 +15,6 @@ public class BattleEventExplosion : BattleEvent
     float _waitTimeout = .5f;
 
     public static event Action<GridEntity> OnExploding = delegate { };
-    public static event Action<GridEntity> OnExplodingEnd = delegate { };
 
     #endregion
 
@@ -101,7 +100,6 @@ public class BattleEventExplosion : BattleEvent
                 _waitTimeout -= Time.deltaTime;
                 if (_waitTimeout <= 0)
                 {
-                    OnExplodingEnd(_explosive.GetComponent<GridEntity>());
                     End();
                 }
                 break;

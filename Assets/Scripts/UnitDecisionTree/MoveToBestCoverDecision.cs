@@ -26,7 +26,7 @@ public class MoveToBestCoverDecision : FinalDecision
 
     public override void Execute()
     {
-        Debug.Log("MoveToBestCover");
+        //Debug.Log("MoveToBestCover");
         GridNode destinationNode = _nodes.OrderByDescending(n => ScorePosition(n)).First();
         foreach (var node in _nodes.OrderByDescending(n => ScorePosition(n)))
         {
@@ -37,7 +37,7 @@ public class MoveToBestCoverDecision : FinalDecision
         _gridAgent.BookedNode = destinationNode;
         destinationNode.IsBooked = true;
         int cost = destinationNode.Distance <= _gridAgent.WalkRange ? 1 : 2;
-        Debug.Log($"Move to: {destinationNode.X},{destinationNode.Y},{destinationNode.Z}.");
+        //Debug.Log($"Move to: {destinationNode.X},{destinationNode.Y},{destinationNode.Z}.");
         _walker.SetPath(path, cost);
     }
 

@@ -89,7 +89,7 @@ public class Walker : BattleAction
 
     public void SetPath(Stack<GridNode> path, int cost)
     {
-        Debug.Log("SetPath");
+        Debug.Log($"SetPath - ({name})");
         _path = new Stack<GridNode>(new Stack<GridNode>(path));
         Cost = cost;
         InvokeActionConfirmed(this);

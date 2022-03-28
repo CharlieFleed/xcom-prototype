@@ -29,11 +29,11 @@ public class PanCameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_cameraDirector.WorldCamera.isActiveAndEnabled)
+        if (_cameraDirector.ThirdPersonCamera.isActiveAndEnabled)
         {
             MatchReferenceCam();
             // check that the follow target exists, it hasn't changed or moved
-            if (_cameraDirector.WorldCamera.m_Follow != null && _cameraDirector.WorldCamera.m_Follow == _savedCameraFollow && _cameraDirector.WorldCamera.m_Follow.position == _savedCameraFollowPosition)
+            if (_cameraDirector.ThirdPersonCamera.m_Follow != null && _cameraDirector.ThirdPersonCamera.m_Follow == _savedCameraFollow && _cameraDirector.ThirdPersonCamera.m_Follow.position == _savedCameraFollowPosition)
             {
                 //Debug.Log("CheckPan");
                 CheckPan();
@@ -56,9 +56,9 @@ public class PanCameraController : MonoBehaviour
     void MatchReferenceCam()
     {
         // always match the rotation and offset of the reference camera
-        _camera.transform.rotation = _cameraDirector.WorldCamera.transform.rotation;
+        _camera.transform.rotation = _cameraDirector.ThirdPersonCamera.transform.rotation;
         CinemachineComponentBase componentBase = _camera.GetCinemachineComponent(CinemachineCore.Stage.Body);
-        CinemachineComponentBase refComponentBase = _cameraDirector.WorldCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
+        CinemachineComponentBase refComponentBase = _cameraDirector.ThirdPersonCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
         if (componentBase is CinemachineFramingTransposer && refComponentBase is CinemachineFramingTransposer)
         {
             (componentBase as CinemachineFramingTransposer).m_TrackedObjectOffset =
@@ -69,10 +69,10 @@ public class PanCameraController : MonoBehaviour
     void Align()
     {
         _offset = Vector3.zero;
-        _savedCameraFollow = _cameraDirector.WorldCamera.m_Follow;
-        if (_cameraDirector.WorldCamera.m_Follow != null)
+        _savedCameraFollow = _cameraDirector.ThirdPersonCamera.m_Follow;
+        if (_cameraDirector.ThirdPersonCamera.m_Follow != null)
         {
-            _savedCameraFollowPosition = _cameraDirector.WorldCamera.m_Follow.position;
+            _savedCameraFollowPosition = _cameraDirector.ThirdPersonCamera.m_Follow.position;
         }
         else
         {

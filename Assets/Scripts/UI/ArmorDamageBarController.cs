@@ -32,7 +32,7 @@ public class ArmorDamageBarController : MonoBehaviour
             _damageBars.Remove(armor);
             for (int i = 0; i < damageBars.Count; i++)
             {
-                Destroy(damageBars[i]);
+                Destroy(damageBars[i].gameObject);
             }
         }
     }
@@ -50,7 +50,7 @@ public class ArmorDamageBarController : MonoBehaviour
     void HandleDamageBar_End(ArmorDamageBar damageBar)
     {
         _damageBars[damageBar.Armor].Remove(damageBar);
-        Destroy(damageBar);
+        Destroy(damageBar.gameObject);
     }
 
     private void OnDestroy()

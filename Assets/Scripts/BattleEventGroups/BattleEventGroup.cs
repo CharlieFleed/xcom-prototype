@@ -47,10 +47,14 @@ public class BattleEventGroup
 
     override public string ToString()
     {
-        string s = "";
+        string s = "priority: " + _priority + "\n";
+        for (int i = 0; i < _newBattleEvents.Count; i++)
+        {
+            s += _newBattleEvents[i].GetType() + "\n";
+        }
         for (int i = 0; i < _battleEvents.Count; i++)
         {
-            s += _battleEvents[i].GetType() +"\n";
+            s += _battleEvents[i].GetType() + "\n";
         }
         return s;
     }

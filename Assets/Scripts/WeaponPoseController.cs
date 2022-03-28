@@ -11,15 +11,18 @@ public class WeaponPoseController : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         BattleEventShot.OnShooting += HandleBattleEventShot_OnShooting;
+        BattleEventOverwatchShot.OnOverwatchShooting += HandleBattleEventShot_OnShooting;
     }
 
     private void OnDestroy()
     {
         BattleEventShot.OnShooting -= HandleBattleEventShot_OnShooting;
+        BattleEventOverwatchShot.OnOverwatchShooting -= HandleBattleEventShot_OnShooting;
     }
 
     void HandleBattleEventShot_OnShooting(Shooter shooter, GridEntity target)
     {
+        Debug.Log($"HandleBattleEventShot_OnShooting({shooter.name},{target.name})");
         // if it's me shooting
         if (shooter.gameObject == gameObject.transform.root.gameObject)
         {
@@ -51,6 +54,7 @@ public class WeaponPoseController : MonoBehaviour
 
     public void Aim(WeaponType weaponType)
     {
+        Debug.Log("Aim");
         PutWeaponDown();
         switch (weaponType)
         {

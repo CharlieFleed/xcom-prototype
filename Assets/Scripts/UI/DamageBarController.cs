@@ -32,7 +32,7 @@ public class DamageBarController : MonoBehaviour
             _damageBars.Remove(health);
             for (int i = 0; i < damageBars.Count; i++)
             {
-                Destroy(damageBars[i]);
+                Destroy(damageBars[i].gameObject);
             }
         }
     }
@@ -43,14 +43,15 @@ public class DamageBarController : MonoBehaviour
         damageBar.SetHealth(health);
         damageBar.SetOffset(_damageBars[health].Count);
         damageBar.SetDamage(damage, hit, crit);
-        damageBar.OnEnd += HandleDamageBar_End;
+        damageBar.OnEnd += HandleDamageBar_OnEnd;
         _damageBars[health].Add(damageBar);
+        Debug.Log("damage bar created");
     }
 
-    void HandleDamageBar_End(DamageBar damageBar)
+    void HandleDamageBar_OnEnd(DamageBar damageBar)
     {
         _damageBars[damageBar.Health].Remove(damageBar);
-        Destroy(damageBar);
+        Destroy(damageBar.gameObject);
     }
 
     private void OnDestroy()

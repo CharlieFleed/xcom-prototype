@@ -27,6 +27,13 @@ public class Explosive : MonoBehaviour, IDescription
         // show detonation FX
         Instantiate(_data.DetonationFXPrefab, transform.position, Quaternion.identity);
         AudioSource.PlayClipAtPoint(_data.DetonationAudioClip, transform.position);
+        StartCoroutine(DelayedDestroy());
+    }
+
+    IEnumerator DelayedDestroy()
+    {
+        gameObject.SetActive(false);
+        yield return new WaitForSeconds(2);
         Destroy(this.gameObject);
     }
 }
