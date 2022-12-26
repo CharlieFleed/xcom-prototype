@@ -41,7 +41,7 @@ public class ArmorBar : MonoBehaviour
 
     IEnumerator AnimateBrokenArmor(int start, int end)
     {
-        Debug.Log($"start{start} end{end}");
+        //Debug.Log($"start{start} end{end}");
         for (int i = start; i < end; i++)
         {
             _brokenArmors[i].enabled = true;

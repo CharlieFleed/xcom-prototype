@@ -6,32 +6,24 @@ using System;
 using UnityEngine.SceneManagement;
 
 public enum MatchState {Setup, Started, End};
-public enum TurnState { Idle, Action, ActionComplete, End};
+public enum TurnState { Idle, UnitAction, UnitActionComplete, End};
 
 public class NetworkMatchManager : NetworkBehaviour
 {
     #region Fields
 
-    [SerializeField] GameObject _unitPrefab;
-    [SerializeField] int _NumOfUnits = 3;
-    [SerializeField] GameObject[] _unitPrefabs;
-
-    MyGamePlayer[] _players;
-
     public event Action OnBeforeTurnBegin = delegate { };
     public event Action OnTurnBegin = delegate { };
-    public event Action OnActionComplete = delegate { };
+    public event Action OnCompleteUnitAction = delegate { };
     public event Action OnPause = delegate { };
 
     List<Team> _teams = new List<Team>();
-    Unit _currentUnit;
     List<BattleEventGroup> _battleEventGroups = new List<BattleEventGroup>();
 
+    Unit _currentUnit;
     public Unit CurrentUnit { get { return _currentUnit; } }
 
     Team ActiveTeam { get { return _teams[0]; } }
-
-    public Color[] TeamColors = new Color[3] { Color.cyan, Color.red, Color.green };
 
     MatchState _state = MatchState.Setup;
     public MatchState State { get { return _state; } }
@@ -43,7 +35,7 @@ public class NetworkMatchManager : NetworkBehaviour
 
     bool _armorsSet;
 
-    InputCache _input = new InputCache();
+    InputCache _inputCache = new InputCache();
 
     #endregion
 
@@ -51,98 +43,22 @@ public class NetworkMatchManager : NetworkBehaviour
     {
         //Debug.Log("NetworkMatchManager Awake");
         _instance = this;
-    }
+    }    
 
-    public void SinglePlayerMatchSetup(MyGamePlayer player)
+    public void RegisterUnit(GameObject unit)
     {
-        int[][] unitClasses = new int[2][];
-        unitClasses[0] = new int[] { 1, 0, 0, 0 };
-        unitClasses[1] = new int[] { 0, 0, 0, 0 };
-        for (int i = 0; i < 2; i++)
-        {
-            RegisterPlayer(player);
-            Team team = _teams.ToArray()[i];
-            team.IsAI = (i == 1);
-            Squad squad = new Squad();
-            List<GridNode> spawnPositions = GridManager.Instance.GetSpawnPositions(team.Id, _NumOfUnits);
-            for (int c = 0; c < _NumOfUnits; c++)
-            {
-                GameObject unitObj = Instantiate(_unitPrefabs[player.MatchSettings.unitClasses[unitClasses[i][c]]], Vector3.zero, Quaternion.identity);
-                unitObj.name = team.Name + "-" + team.Members.Count;
-                unitObj.transform.position = spawnPositions[c].FloorPosition;
-                NetworkServer.Spawn(unitObj, player.gameObject);
-                // Registering Unit
-                team.Members.Add(unitObj.GetComponent<Unit>());
-                unitObj.GetComponent<Unit>().Team = team;
-                squad.Units.Add(unitObj.GetComponent<SquadUnit>());
-                unitObj.GetComponent<SquadUnit>().Squad = squad;
-                // register events
-                unitObj.GetComponent<ActionsController>().OnActionComplete += HandleActionsController_ActionComplete;
-                unitObj.GetComponent<UnitLocalController>().OnPass += HandleUnitLocalController_Pass;
-                unitObj.GetComponent<UnitLocalController>().OnEndTurn += HandleUnitLocalController_EndTurn;
-                unitObj.GetComponent<UnitLocalController>().OnPause += HandleUnitLocalController_Pause;
-                // internal setup
-                unitObj.GetComponent<GridEntity>().CurrentNode = GridManager.Instance.GetGridNodeFromWorldPosition(unitObj.transform.position);
-                // AI
-                if (team.IsAI)
-                {
-                    unitObj.GetComponent<UnitStateMachine>().enabled = true;
-                }
-            }
-        }
-    }
-
-    [ClientRpc]
-    public void RpcRegisterPlayer(MyGamePlayer player)
-    {
-        Debug.Log("RpcRegisterPlayer");
-        RegisterPlayer(player);    
-        if (isServer)
-        {
-            InstantiateUnits(player);
-        }
-    }
-
-    public void RegisterPlayer(MyGamePlayer player)
-    {
-        Debug.Log("RegisterPlayer");
-        Team team = new Team();
-        team.Owner = player;
-        team.Id = _teams.Count;
-        team.Name = _teams.Count.ToString();
-        _teams.Add(team);
-    }
-
-    public void InstantiateUnits(MyGamePlayer player)
-    {
-        Debug.Log("InstantiateUnits");
-        Team team = GetTeam(player);
-        //Debug.Log($"Team {team.Id}");
-        List<GridNode> spawnPositions = GridManager.Instance.GetSpawnPositions(team.Id, _NumOfUnits);        
-        for (int c = 0; c < _NumOfUnits; c++)
-        {
-            GameObject unit = Instantiate(_unitPrefabs[player.MatchSettings.unitClasses[c]], Vector3.zero, Quaternion.identity);
-            unit.transform.position = spawnPositions[c].FloorPosition;
-            NetworkServer.Spawn(unit, player.gameObject);
-            RpcRegisterUnit(unit, player);
-        }
-    }
-
-    [ClientRpc]
-    void RpcRegisterUnit(GameObject unit, MyGamePlayer player)
-    {
-        //Debug.Log("Registering Unit");        
-        Team team = GetTeam(player);
-        unit.name = team.Name + "-" + team.Members.Count;
-        team.Members.Add(unit.GetComponent<Unit>());
-        unit.GetComponent<Unit>().Team = team;
         // register events
-        unit.GetComponent<ActionsController>().OnActionComplete += HandleActionsController_ActionComplete;
-        unit.GetComponent<UnitLocalController>().OnPass += HandleUnitLocalController_Pass;
-        unit.GetComponent<UnitLocalController>().OnEndTurn += HandleUnitLocalController_EndTurn;
-        unit.GetComponent<UnitLocalController>().OnPause += HandleUnitLocalController_Pause;
+        unit.GetComponent<ActionsController>().OnActionComplete += HandleActionsController_ActionComplete; //TODO: unregister
+        unit.GetComponent<UnitLocalController>().OnPass += HandleUnitLocalController_Pass; //TODO: unregister
+        unit.GetComponent<UnitLocalController>().OnEndTurn += HandleUnitLocalController_EndTurn; //TODO: unregister
+        unit.GetComponent<UnitLocalController>().OnPause += HandleUnitLocalController_Pause; //TODO: unregister
         // internal setup
         unit.GetComponent<GridEntity>().CurrentNode = GridManager.Instance.GetGridNodeFromWorldPosition(unit.transform.position);
+    }
+
+    public void AddTeam(Team team)
+    {
+        _teams.Add(team);
     }
 
     [ClientRpc]
@@ -151,24 +67,11 @@ public class NetworkMatchManager : NetworkBehaviour
         //Debug.Log("Start Match");
         //Debug.Log($"_teams:{_teams.Count}");
         _state = MatchState.Started;
-    }
-
-    Team GetTeam(MyGamePlayer player)
-    {
-        Team team = null;
-        foreach (var t in _teams)
-        {
-            if (t.Owner == player)
-            {
-                team = t;
-            }
-        }
-        return team;
-    }
+    }    
 
     private void Update()
     {
-        _input.Update();
+        _inputCache.Update();
     }
 
     private void LateUpdate()
@@ -185,12 +88,12 @@ public class NetworkMatchManager : NetworkBehaviour
         UpdateTurn();
         if (_currentUnit == null)
         {
-            if (_input.GetKeyDown(KeyCode.Escape))
+            if (_inputCache.GetKeyDown(KeyCode.Escape))
             {
                 OnPause();
             }
         }
-        _input.Clear();
+        _inputCache.Clear();
     }
     
     bool AllUnitsStarted()
@@ -232,14 +135,14 @@ public class NetworkMatchManager : NetworkBehaviour
                 OnTurnBegin();
                 ActiveTeam.Owner.Activate();
                 BattleEventUnitAction battleEventUnitAction = new BattleEventUnitAction(this);
-                AddBattleEvent(battleEventUnitAction, true, 1);
-                _turnState = TurnState.Action;
+                AddBattleEvent(battleEventUnitAction, 1, BattleEvent.CreateNewGroup);
+                _turnState = TurnState.UnitAction;
                 break;
-            case TurnState.Action:
+            case TurnState.UnitAction:
                 // transition to ActionComplete triggered by handlers
                 UpdateBattleEvents();
                 break;
-            case TurnState.ActionComplete:
+            case TurnState.UnitActionComplete:
                 UpdateBattleEvents();
                 // transition to End when all battle events are completed
                 if (_battleEventGroups.Count == 0)
@@ -259,10 +162,10 @@ public class NetworkMatchManager : NetworkBehaviour
         }
     }
 
-    void ActionComplete()
+    void CompleteUnitAction()
     {
-        _turnState = TurnState.ActionComplete;
-        OnActionComplete();
+        _turnState = TurnState.UnitActionComplete;
+        OnCompleteUnitAction();
     }
 
     bool CheckEndBattle()
@@ -283,11 +186,13 @@ public class NetworkMatchManager : NetworkBehaviour
 
     void UpdateBattleEvents()
     {
-        //Debug.Log($"BattleEventGroups: {_battleEventGroups.Count}.");
+        //string log = "";
+        //log += $"BattleEventGroups: {_battleEventGroups.Count}\n";
         //for (int i = 0; i < _battleEventGroups.Count; i++)
         //{
-        //    Debug.Log($"{i} {_battleEventGroups[i].ToString()}.");
+        //    log += $"Position: {i} {_battleEventGroups[i].ToString()}\n";
         //}
+        //Debug.Log(log);
         if (_battleEventGroups.Count > 0)
         {
             _battleEventGroups[0].Run();
@@ -299,15 +204,15 @@ public class NetworkMatchManager : NetworkBehaviour
         }
     }
 
-    public void AddBattleEvent(BattleEvent battleEvent, bool newGroup, int priority)
+    public void AddBattleEvent(BattleEvent battleEvent, int priority = -1, bool createNewGroup = false)
     {
         //Debug.Log($"Adding {battleEvent.GetType().ToString()} with priority {priority}.");
-        if (!newGroup)
+        if (!createNewGroup)
         {
             // find an existing group at the same priority
             for (int i = 0; i < _battleEventGroups.Count; i++)
             {
-                if (_battleEventGroups[i].Priority == priority)
+                if (_battleEventGroups[i].Priority == priority || priority == -1)
                 {
                     _battleEventGroups[i].AddBattleEvent(battleEvent);
                     //Debug.Log("added to existing group");
@@ -316,17 +221,18 @@ public class NetworkMatchManager : NetworkBehaviour
             }
         }
         // if we got here we need to create a new group
-        BattleEventGroup battleEventGroup = new BattleEventGroup(priority);
+        BattleEventGroup newBattleEventGroup = new BattleEventGroup(priority);
+        //Debug.Log($"Created new group with priority {priority}.");
         int index = 0;
         for (; index < _battleEventGroups.Count; index++)
         {
-            if (priority >= _battleEventGroups[index].Priority)
+            if (priority > _battleEventGroups[index].Priority)
             {
                 break;
             }
         }
-        _battleEventGroups.Insert(index, battleEventGroup);
-        battleEventGroup.AddBattleEvent(battleEvent);
+        _battleEventGroups.Insert(index, newBattleEventGroup);
+        newBattleEventGroup.AddBattleEvent(battleEvent);
     }
 
     void SelectNextUnit()
@@ -365,21 +271,21 @@ public class NetworkMatchManager : NetworkBehaviour
     {
         if (unit == _currentUnit)
         {
-            ActionComplete();
+            CompleteUnitAction();
             ActiveTeam.Owner.Deactivate();
         }
     }
 
     void HandleUnitLocalController_Pass()
     {
-        ActionComplete();
+        CompleteUnitAction();
         ActiveTeam.Owner.Deactivate();
         ActiveTeam.RotateReadyMembers();
     }
 
     void HandleUnitLocalController_EndTurn()
     {
-        ActionComplete();
+        CompleteUnitAction();
         ActiveTeam.Owner.Deactivate();
         ActiveTeam.EndTurn();
     }

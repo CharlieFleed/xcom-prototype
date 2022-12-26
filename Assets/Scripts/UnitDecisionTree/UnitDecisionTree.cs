@@ -8,9 +8,9 @@ public class UnitDecisionTree : MonoBehaviour
     DecisionTreeNode _decisionTree;
 
     public DecisionTreeNode FightingDecisionTree;
-    public DecisionTreeNode FleeingDecisionTree;
+    public DecisionTreeNode FleeingDecisionTree; // TODO: not implemented
     public DecisionTreeNode GuardingDecisionTree;
-    public DecisionTreeNode PatrollingDecisionTree;
+    public DecisionTreeNode PatrollingDecisionTree; // TODO: not implemented
 
     List<GridNode> _coverPositions;
     List<GridNode> _reachablePositions;
@@ -28,23 +28,23 @@ public class UnitDecisionTree : MonoBehaviour
     Skipper _skipper;
     ActionsController _actionsController;
 
-    AmIFlankedDecision _amIFlankedDecision;
-    DoIHaveAmmoDecision _doIHaveAmmoDecision;
-    DoIHaveAGoodShotDecision _doIHaveAGoodShotDecision;
-    CanIReachCoverDecision _canIReachCoverDecision;
-    AmILowHPDecision _amILowHPDecision;
+    DecisionAmIFlanked _amIFlankedDecision;
+    DecisionDoIHaveAmmo _doIHaveAmmoDecision;
+    DecisionDoIHaveAGoodShot _doIHaveAGoodShotDecision;
+    DecisionCanIReachCover _canIReachCoverDecision;
+    DecisionAmILowHP _amILowHPDecision;
 
-    OverwatchDecision _overwatchDecision;
-    ReloadDecision _reloadDecision;
-    MoveToBestCoverDecision _moveToBestCoverDecision;
-    FireBestShotDecision _fireBestShotDecision;
-    HunkerDecision _hunkerDecision;
-    RunFromEnemiesDecision _runFromEnemiesDecision;
+    FinalDecisionOverwatch _overwatchDecision;
+    FinalDecisionReload _reloadDecision;
+    FinalDecisionMoveToBestCover _moveToBestCoverDecision;
+    FinalDecisionFireBestShot _fireBestShotDecision;
+    FinalDecisionHunker _hunkerDecision;
+    FinalDecisionRunFromEnemies _runFromEnemiesDecision;
 
-    CanIReachCoverDecision _canIReachCoverDecision2;
-    CanIReachBetterCoverDecision _canIReachBetterCoverDecision;
+    DecisionCanIReachCover _canIReachCoverDecision2;
+    DecisionCanIReachBetterCover _canIReachBetterCoverDecision;
 
-    SkipDecision _skipDecision;
+    FinalDecisionSkip _skipDecision;
 
     private void Awake()
     {
@@ -69,29 +69,30 @@ public class UnitDecisionTree : MonoBehaviour
     void Start()
     {
         // Fighting Decision Tree
-        _moveToBestCoverDecision = new MoveToBestCoverDecision(_unit, _coverPositions);
-        _overwatchDecision = new OverwatchDecision(_overwatcher);
-        _reloadDecision = new ReloadDecision(_reloader);
-        _fireBestShotDecision = new FireBestShotDecision(_shooter, _shots);
-        _hunkerDecision = new HunkerDecision(_hunkerer);
-        _runFromEnemiesDecision = new RunFromEnemiesDecision(_unit, _reachablePositions);
+        _moveToBestCoverDecision = new FinalDecisionMoveToBestCover(_unit, _coverPositions);
+        _overwatchDecision = new FinalDecisionOverwatch(_overwatcher);
+        _reloadDecision = new FinalDecisionReload(_reloader);
+        _fireBestShotDecision = new FinalDecisionFireBestShot(_shooter, _shots);
+        _hunkerDecision = new FinalDecisionHunker(_hunkerer);
+        _runFromEnemiesDecision = new FinalDecisionRunFromEnemies(_unit, _reachablePositions);
 
-        _canIReachBetterCoverDecision = new CanIReachBetterCoverDecision(_unit, _coverPositions, _moveToBestCoverDecision, _overwatchDecision);
-        _canIReachCoverDecision2 = new CanIReachCoverDecision(_unit, _coverPositions, _reachablePositions, _canIReachBetterCoverDecision, _overwatchDecision);
-        _canIReachCoverDecision = new CanIReachCoverDecision(_unit, _coverPositions, _reachablePositions, _moveToBestCoverDecision, _runFromEnemiesDecision);
-        _amILowHPDecision = new AmILowHPDecision(_health, _hunkerDecision, _canIReachCoverDecision2);
-        _doIHaveAGoodShotDecision = new DoIHaveAGoodShotDecision(_shooter, _shots, _fireBestShotDecision, _amILowHPDecision);
-        _doIHaveAmmoDecision = new DoIHaveAmmoDecision(_shooter != null ?_shooter.Weapon :null, _doIHaveAGoodShotDecision, _reloadDecision); // account for unitas without a shooter
-        _amIFlankedDecision = new AmIFlankedDecision(_gridAgent, _canIReachCoverDecision, _doIHaveAmmoDecision);
+        _canIReachBetterCoverDecision = new DecisionCanIReachBetterCover(_unit, _coverPositions, _moveToBestCoverDecision, _overwatchDecision);
+        _canIReachCoverDecision2 = new DecisionCanIReachCover(_unit, _coverPositions, _reachablePositions, _canIReachBetterCoverDecision, _overwatchDecision);
+        _canIReachCoverDecision = new DecisionCanIReachCover(_unit, _coverPositions, _reachablePositions, _moveToBestCoverDecision, _runFromEnemiesDecision);
+        _amILowHPDecision = new DecisionAmILowHP(_health, _hunkerDecision, _canIReachCoverDecision2);
+        _doIHaveAGoodShotDecision = new DecisionDoIHaveAGoodShot(_shooter, _shots, _fireBestShotDecision, _amILowHPDecision);
+        _doIHaveAmmoDecision = new DecisionDoIHaveAmmo(_shooter != null ?_shooter.Weapon :null, _doIHaveAGoodShotDecision, _reloadDecision); // account for units without a shooter
+        _amIFlankedDecision = new DecisionAmIFlanked(_gridAgent, _canIReachCoverDecision, _doIHaveAmmoDecision);
 
         FightingDecisionTree = _amIFlankedDecision;
 
         // Guarding Decision Tree 
-        _skipDecision = new SkipDecision(_skipper);
+        _skipDecision = new FinalDecisionSkip(_skipper);
 
         GuardingDecisionTree = _skipDecision;
 
-        _decisionTree = FightingDecisionTree;
+        // Initialisation
+        SetDecisionTree(FightingDecisionTree);
     }
 
     public void Run()

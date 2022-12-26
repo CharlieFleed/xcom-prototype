@@ -227,7 +227,7 @@ public class GridManager : MonoBehaviour
         {
             float floorOffset = 0;
             bool roomForUnit = true;
-            Debug.Log($"({gridNode.X},{gridNode.Y},{gridNode.Z}) gridNode.FloorPosition.y:{gridNode.FloorPosition.y}, gridNode.WorldPosition.y:{gridNode.WorldPosition.y}");
+            //Debug.Log($"({gridNode.X},{gridNode.Y},{gridNode.Z}) gridNode.FloorPosition.y:{gridNode.FloorPosition.y}, gridNode.WorldPosition.y:{gridNode.WorldPosition.y}");
             while (gridNode.FloorPosition.y + floorOffset <= gridNode.WorldPosition.y + 0.5f * _yScale)
             {
                 Collider[] unitColliders = Physics.OverlapBox(gridNode.FloorPosition + Vector3.up * floorOffset + 0.5f * Vector3.up * (_unitColliderExtents.y), 0.5f * (_unitColliderExtents - Vector3.one * 0.001f)); // NOTE: shrunk to avoid collision at the edges
@@ -552,7 +552,7 @@ public class GridManager : MonoBehaviour
                 foreach (Unit unit in team.Members)
                 {
                     unit.gameObject.transform.position = walkableNodes[count].FloorPosition;
-                    Debug.Log("Set Current Node");
+                    //Debug.Log("Set Current Node");
                     unit.gameObject.GetComponent<GridEntity>().CurrentNode = walkableNodes[count];
                     count++;
                 }

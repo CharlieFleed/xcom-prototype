@@ -75,7 +75,7 @@ public class Hunkerer : BattleAction
     [ClientRpc]
     void RpcHunker()
     {
-        Debug.Log($"{name} Hunkerer RpcHunker");
+        //Debug.Log($"{name} Hunkerer RpcHunker");
         IsHunkering = true;
         InvokeActionConfirmed(this);
         Deactivate();

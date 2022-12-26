@@ -32,8 +32,8 @@ public class Medikit : Item
         base.UseOn(target);
         Health health = target.GetComponent<Health>();
         Armor armor = target.GetComponent<Armor>();
-        DamageDealer.DealDamage(health, armor, Damage, 100, 0, out bool hit, out bool crit);
-        NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false, 0);
+        DamageHelper.DealDamage(health, armor, Damage, 100, 0, out bool hit, out bool crit);
+        NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage());
         // show FX
         Instantiate(EffectFXPrefab, target.transform.position, EffectFXPrefab.transform.rotation);
     }

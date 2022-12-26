@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Team
 {
+    public static Color[] TeamColors = new Color[3] { Color.cyan, Color.red, Color.green };
+
     public List<Unit> Members = new List<Unit>();
     public bool IsActive { set; get; }
     public MyGamePlayer Owner { set; get; }

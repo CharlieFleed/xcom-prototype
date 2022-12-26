@@ -103,7 +103,7 @@ public class Overwatcher : BattleAction
     [ClientRpc]
     void RpcOverwatch()
     {
-        Debug.Log($"{name} Overwatcher RpcOverwatch");
+        //Debug.Log($"{name} Overwatcher RpcOverwatch");
         _isOverwatching = true;
         InvokeActionConfirmed(this);
         Deactivate();
@@ -112,16 +112,11 @@ public class Overwatcher : BattleAction
 
     void OverwatchShoot(GridEntity target)
     {
-        Debug.Log($"OverwatchShoot {name} in position {_gridEntity.CurrentNode.X},{_gridEntity.CurrentNode.Y},{_gridEntity.CurrentNode.Z}");
+        //Debug.Log($"OverwatchShoot {name} in position {_gridEntity.CurrentNode.X},{_gridEntity.CurrentNode.Y},{_gridEntity.CurrentNode.Z}");
         ShotStats shotStats = GridCoverManager.Instance.GetShotStats(_gridEntity, _gridEntity.CurrentNode, new List<GridEntity>() { target })[0];
-        shotStats.HitChance = 100 + _shooter.Weapon.HitChanceBonus(shotStats.Target);
-        Walker walker = target.GetComponent<Walker>();
-        shotStats.HitChance -= 15;
-        if (_gridEntity.CurrentNode.Y > target.CurrentNode.Y)
-            shotStats.HitChance += 20;
-        shotStats.HitChance = Mathf.Clamp(shotStats.HitChance, 0, 100);
-        BattleEventOverwatchShot shot = new BattleEventOverwatchShot(_shooter, shotStats);
-        NetworkMatchManager.Instance.AddBattleEvent(shot, true, 2);
+        ShotStatsHelper.UpdateShotStats(shotStats,_gridEntity.CurrentNode, _shooter,  ShotStatsHelper.OverwatchShot);
+        BattleEventOverwatchShot shotEvent = new BattleEventOverwatchShot(_shooter, shotStats);
+        NetworkMatchManager.Instance.AddBattleEvent(shotEvent, 2, BattleEvent.CreateNewGroup);
         OnShoot(_shooter, target);
         ClearOverwatch();
         OnOverwatchShot(this);

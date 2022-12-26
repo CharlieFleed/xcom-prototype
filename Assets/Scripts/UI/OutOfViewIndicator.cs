@@ -48,7 +48,7 @@ public class OutOfViewIndicator : MonoBehaviour
         {
             if (unit.Team != null)
             {
-                _indicator.color = NetworkMatchManager.Instance.TeamColors[int.Parse(unit.Team.Name)];
+                _indicator.color = Team.TeamColors[int.Parse(unit.Team.Name)];
                 _initialized = true;
             }
             else

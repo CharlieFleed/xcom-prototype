@@ -17,7 +17,7 @@ public class WallChecker : MonoBehaviour
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(transform.position - Vector3.up, transform.lossyScale);
-            Debug.Log($"{hits[0].collider.name}");
+            //Debug.Log($"{hits[0].collider.name}");
         }
         else
         {

@@ -92,7 +92,7 @@ public class BattleEventThrow : BattleEvent
                             {
                                 bool hit = false;
                                 bool crit = false;
-                                DamageDealer.DealDamage(
+                                DamageHelper.DealDamage(
                                     health,
                                     health.GetComponent<Armor>(),
                                     _grenade.Damage,
@@ -100,7 +100,7 @@ public class BattleEventThrow : BattleEvent
                                     50,
                                     out hit,
                                     out crit);
-                                NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false, 0);
+                                NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage());
                             }
                             OnThrowingEnd(_thrower, _target);
                             End();

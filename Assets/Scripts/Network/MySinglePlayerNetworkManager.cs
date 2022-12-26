@@ -8,6 +8,12 @@ public class MySinglePlayerNetworkManager : NetworkManager
     [SerializeField] GameObject _networkRandomGeneratorPrefab;
     MyGamePlayer _player;
 
+    public override void Awake()
+    {
+        base.Awake();
+        //Debug.Log("MySinglePlayerNetworkManager Awake");
+    }
+
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
         //Debug.Log("MySinglePlayerNetworkManager OnServerAddPlayer");
@@ -17,7 +23,7 @@ public class MySinglePlayerNetworkManager : NetworkManager
         {
             _player.MatchSettings.unitClasses[i] = i;
         }
-        NetworkMatchManager.Instance.SinglePlayerMatchSetup(_player);
+        MatchBuilder.Instance.SinglePlayerMatchSetup(_player);
         NetworkMatchManager.Instance.RpcStartMatch();
         GameObject networkRandomGenerator = Instantiate(_networkRandomGeneratorPrefab, Vector3.zero, Quaternion.identity);
         NetworkServer.Spawn(networkRandomGenerator);

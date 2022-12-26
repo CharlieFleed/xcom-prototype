@@ -10,7 +10,7 @@ public class PanCameraController : MonoBehaviour
 
     [SerializeField] bool _useScreenBorders = false;
 
-    float _panSpeed = 20f;
+    [SerializeField] float _panSpeed = 30f;
     float _panBorderThickness = 10f;
 
     GameObject _followTarget;

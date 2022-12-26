@@ -8,14 +8,14 @@ public class Highlight : MonoBehaviour
     public bool Silhouetted;
     [SerializeField] Material _highlightMaterial;
     [SerializeField] Material _silhouetteMaterial;
-    Outline _outline;
+    Outline[] _outlines;
 
     Renderer[] _renderers;
     Material[] _originalMaterials;
 
     private void Awake()
     {
-        _outline = GetComponentInChildren<Outline>();
+        _outlines = GetComponentsInChildren<Outline>();
     }
 
     // Start is called before the first frame update
@@ -34,9 +34,14 @@ public class Highlight : MonoBehaviour
         if (Highlighted)
         {
             //Debug.Log($"{name} is highlighted.");
-            if (_outline) _outline.enabled = false;
+            for (int i = 0; i < _outlines.Length; i++)
+            {
+                _outlines[i].enabled = false;
+            }
             foreach (var renderer in _renderers)
             {
+                //renderer.materials[0] = _highlightMaterial;
+                //renderer.materials = new Material[] { _highlightMaterial };
                 renderer.material = _highlightMaterial;
             }
             Highlighted = false;
@@ -44,18 +49,28 @@ public class Highlight : MonoBehaviour
         else if (Silhouetted)
         {
             //Debug.Log($"{name} is silhouetted.");
-            if (_outline) _outline.enabled = false;
+            for (int i = 0; i < _outlines.Length; i++)
+            {
+                _outlines[i].enabled = false;
+            }
             foreach (var renderer in _renderers)
             {
+                //renderer.materials[0] = _silhouetteMaterial;
+                //renderer.materials = new Material[] { _silhouetteMaterial };
                 renderer.material = _silhouetteMaterial;
             }
             Silhouetted = false;
         }
         else
         {
-            if (_outline) _outline.enabled = true;
+            for (int i = 0; i < _outlines.Length; i++)
+            {
+                _outlines[i].enabled = true;
+            }
             for (int i = 0; i < _renderers.Length; i++)
             {
+                //_renderers[i].materials[0] = _originalMaterials[i];
+                //_renderers[i].materials = new Material[] { _originalMaterials[i] };
                 _renderers[i].material = _originalMaterials[i];
             }
         }

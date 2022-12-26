@@ -34,7 +34,8 @@ public class OverwatchFreezer : MonoBehaviour
         {
             _overwatchLocks++;
             _movement.enabled = false;
-            _animator.enabled = false;
+            _animator.speed = 0;
+            _animator.keepAnimatorControllerStateOnDisable = true;
         }
     }
 
@@ -47,7 +48,7 @@ public class OverwatchFreezer : MonoBehaviour
         if (_overwatchLocks == 0)
         {
             _movement.enabled = true;
-            _animator.enabled = true;
+            _animator.speed = 1;
         }
     }
 }

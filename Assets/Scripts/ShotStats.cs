@@ -12,7 +12,7 @@ public class ShotStats
     public bool Cover;
     public int HitChance;
     public int CritChance;
-    public int BaseDamage;
-    public int MaxDamage;
+    public int BaseDamagePreview; // not used for damage calculations
+    public int MaxDamagePreview; // not used for damage calculations
     public bool Friendly;
 }

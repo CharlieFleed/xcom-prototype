@@ -36,6 +36,7 @@ public class BattleEventShot : BattleEvent
     public override void Run()
     {
         base.Run();
+        //Debug.Log($"Run battle event shot");
         switch (_phase)
         {
             case Phase.Camera:
@@ -61,7 +62,7 @@ public class BattleEventShot : BattleEvent
                 {
                     bool hit = false;
                     bool crit = false;
-                    DamageDealer.DealDamage(
+                    DamageHelper.DealDamage(
                         _shotStats.Target.GetComponent<Health>(),
                         _shotStats.Target.GetComponent<Armor>(),
                         _shooter.Weapon.Damage,
@@ -76,7 +77,7 @@ public class BattleEventShot : BattleEvent
                         if (_shooter.Weapon.HitFXPrefab)
                             GameObject.Instantiate(_shooter.Weapon.HitFXPrefab, _shotStats.Target.transform.position, Quaternion.identity);                        
                     }
-                    NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false, 0);
+                    NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage());
                     _waitTimeout = 1.5f;
                     _phase = Phase.Wait2;
                 }

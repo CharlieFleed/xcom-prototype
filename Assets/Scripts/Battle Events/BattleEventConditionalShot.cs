@@ -8,12 +8,16 @@ public class BattleEventConditionalShot : BattleEventShot
 
     public override void Run()
     {
+        //Debug.Log($"Run BattleEventConditionalShot");
         if (_shooter.GetComponent<Health>().IsDead || _shotStats.Target.GetComponent<Health>().IsDead)
         {
-            Debug.Log("Canceling shot.");
+            //Debug.Log("Canceling shot.");
             End();
         }
         else
+        {
+            //Debug.Log("Confirm shot.");
             base.Run();
+        }
     }
 }

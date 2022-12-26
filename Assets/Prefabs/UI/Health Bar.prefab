@@ -465,7 +465,7 @@ MonoBehaviour:
   _segments: {fileID: 5877274583087195176}
   _fill: {fileID: 9062163309397563043}
   _text: {fileID: 3100031451109436524}
-  _animationTime: 5
+  _animationTime: 3
 --- !u!1 &9062163309397563041
 GameObject:
   m_ObjectHideFlags: 0

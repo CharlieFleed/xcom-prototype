@@ -19,7 +19,7 @@ public class Explosive : MonoBehaviour, IDescription
     private void HandleExplosive_OnDied()
     {
         BattleEventExplosion explosion = new BattleEventExplosion(this);
-        NetworkMatchManager.Instance.AddBattleEvent(explosion, true, 2);
+        NetworkMatchManager.Instance.AddBattleEvent(explosion, 2, BattleEvent.CreateNewGroup);
     }
 
     public void Detonate()

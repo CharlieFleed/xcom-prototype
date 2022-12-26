@@ -5,21 +5,12 @@ using Mirror;
 
 public class UnitLocalController : NetworkBehaviour
 {
-    #region Fields
+    #region Events
 
     public static event Action<UnitLocalController> OnUnitLocalControllerAdded = delegate { };
     public static event Action<UnitLocalController> OnUnitLocalControllerRemoved = delegate { };
 
-    Walker _walker;
-    BattleAction[] _battleActions;
-    ActionsController _actionsController;
-    bool _isActionActive;
-
-    private bool _isActive;
-    public bool IsActive { get { return _isActive; } private set { _isActive = value; OnActiveChanged(this, _isActive); } }
     public static event Action<UnitLocalController, bool> OnActiveChanged = delegate { };
-
-    Coroutine _activateControlsCoroutine;
 
     public event Action<BattleAction> OnActionAdded = delegate { };
     public event Action OnActionsCleared = delegate { };
@@ -33,6 +24,21 @@ public class UnitLocalController : NetworkBehaviour
 
     public event Action<ShotStats> OnMouseOverTarget = delegate { };
     public event Action<ShotStats> OnMouseExitTarget = delegate { };
+
+    #endregion
+
+    #region Fields
+
+    Walker _walker;
+    BattleAction[] _battleActions;
+    ActionsController _actionsController;
+
+    bool _isActionActive;
+
+    private bool _isActive;
+    public bool IsActive { get { return _isActive; } private set { _isActive = value; OnActiveChanged(this, _isActive); } }
+
+    Coroutine _activateControlsCoroutine;
 
     public Weapon Weapon
     {

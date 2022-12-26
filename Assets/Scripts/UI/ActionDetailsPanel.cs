@@ -48,7 +48,7 @@ public class ActionDetailsPanel : MonoBehaviour
     {
         _hitChanceText.text = shot.HitChance + "%";
         _critChanceText.text = shot.CritChance + "%";
-        _damageText.text = shot.BaseDamage + "-" + shot.MaxDamage; 
+        _damageText.text = shot.BaseDamagePreview + "-" + shot.MaxDamagePreview; 
         _hitChanceText.GetComponent<CanvasGroup>().alpha = 1;
         _critChanceText.GetComponent<CanvasGroup>().alpha = 1;
         _damageText.GetComponent<CanvasGroup>().alpha = 1;

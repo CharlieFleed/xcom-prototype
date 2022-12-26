@@ -16,7 +16,7 @@ MonoBehaviour:
   - m_From: '**ANY CAMERA**'
     m_To: CM vcam Action Camera
     m_Blend:
-      m_Style: 5
+      m_Style: 3
       m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
@@ -27,7 +27,7 @@ MonoBehaviour:
   - m_From: CM vcam Action Camera
     m_To: '**ANY CAMERA**'
     m_Blend:
-      m_Style: 5
+      m_Style: 3
       m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
@@ -60,7 +60,7 @@ MonoBehaviour:
   - m_From: '**ANY CAMERA**'
     m_To: CM vcam World Camera
     m_Blend:
-      m_Style: 5
+      m_Style: 3
       m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
@@ -71,7 +71,7 @@ MonoBehaviour:
   - m_From: CM vcam World Camera
     m_To: '**ANY CAMERA**'
     m_Blend:
-      m_Style: 5
+      m_Style: 3
       m_Time: 1
       m_CustomCurve:
         serializedVersion: 2

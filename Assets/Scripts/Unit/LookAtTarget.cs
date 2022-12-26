@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Rotates the transform to look at the target selected by any shooter/overwatcher/thrower
+/// </summary>
 public class LookAtTarget : MonoBehaviour
 {
     Vector3 _direction;

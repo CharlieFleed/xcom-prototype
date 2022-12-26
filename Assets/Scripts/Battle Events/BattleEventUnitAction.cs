@@ -8,12 +8,12 @@ public class BattleEventUnitAction : BattleEvent
     public BattleEventUnitAction(NetworkMatchManager networkMatchManager)
     {
         _networkMatchManager = networkMatchManager;
-        _networkMatchManager.OnActionComplete += _networkMatchManager_OnActionComplete;
+        _networkMatchManager.OnCompleteUnitAction += _networkMatchManager_OnActionComplete;
     }
 
     private void _networkMatchManager_OnActionComplete()
     {
-        _networkMatchManager.OnActionComplete -= _networkMatchManager_OnActionComplete;
+        _networkMatchManager.OnCompleteUnitAction -= _networkMatchManager_OnActionComplete;
         End();
     }
 }

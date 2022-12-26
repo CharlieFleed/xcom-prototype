@@ -22,7 +22,7 @@ public class WeaponPoseController : MonoBehaviour
 
     void HandleBattleEventShot_OnShooting(Shooter shooter, GridEntity target)
     {
-        Debug.Log($"HandleBattleEventShot_OnShooting({shooter.name},{target.name})");
+        //Debug.Log($"HandleBattleEventShot_OnShooting({shooter.name},{target.name})");
         // if it's me shooting
         if (shooter.gameObject == gameObject.transform.root.gameObject)
         {
@@ -41,6 +41,9 @@ public class WeaponPoseController : MonoBehaviour
             case WeaponType.Gun:
                 _animator.SetBool("Gun Extract", true);
                 break;
+            case WeaponType.SniperRifle:
+                _animator.SetBool("Sniper Rifle Extract", true);
+                break;
         }
     }
 
@@ -50,6 +53,8 @@ public class WeaponPoseController : MonoBehaviour
         _animator.SetBool("Rifle Extract", false);
         _animator.SetBool("Gun Aim", false);
         _animator.SetBool("Gun Extract", false);
+        _animator.SetBool("Sniper Rifle Aim", false);
+        _animator.SetBool("Sniper Rifle Extract", false);
     }
 
     public void Aim(WeaponType weaponType)
@@ -65,6 +70,10 @@ public class WeaponPoseController : MonoBehaviour
             case WeaponType.Gun:
                 _animator.SetBool("Gun Extract", true);
                 _animator.SetBool("Gun Aim", true);
+                break;
+            case WeaponType.SniperRifle:
+                _animator.SetBool("Sniper Rifle Extract", true);
+                _animator.SetBool("Sniper Rifle Aim", true);
                 break;
         }
     }

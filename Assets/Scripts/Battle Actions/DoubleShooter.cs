@@ -20,7 +20,7 @@ public class DoubleShooter : Shooter
     [ClientRpc]
     protected override void RpcShoot(GameObject target)
     {
-        Debug.Log("DoubleShooter RpcShoot");
+        //Debug.Log("DoubleShooter RpcShoot");
         UpdateShots();
         ShotStats shotStats = null;
         foreach (var shot in _shots)
@@ -30,13 +30,13 @@ public class DoubleShooter : Shooter
                 shotStats = shot;
             }
         }
-        Debug.Log($"Double Shooter Shoot {shotStats.Target.name}");
+        //Debug.Log($"Double Shooter Shoot {shotStats.Target.name}");
         InvokeOnTargetSelected(this, shotStats.Target);
         InvokeOnTargetingEnd();
         BattleEventShot shotEvent1 = new BattleEventShot(this, shotStats);
-        NetworkMatchManager.Instance.AddBattleEvent(shotEvent1, true, 2);
+        NetworkMatchManager.Instance.AddBattleEvent(shotEvent1, 2, BattleEvent.CreateNewGroup);
         BattleEventConditionalShot shotEvent2 = new BattleEventConditionalShot(this, shotStats);
-        NetworkMatchManager.Instance.AddBattleEvent(shotEvent2, true, 2);
+        NetworkMatchManager.Instance.AddBattleEvent(shotEvent2, 2, BattleEvent.CreateNewGroup);
         InvokeActionConfirmed(this);
         Deactivate();
         InvokeActionComplete(this);

@@ -59,7 +59,7 @@ public class Thrower : BattleAction
         //Debug.Log($"{name} Throw");
         InvokeActionConfirmed(this);
         BattleEventThrow throwEvent = new BattleEventThrow(this, _target);
-        NetworkMatchManager.Instance.AddBattleEvent(throwEvent, true, 2);
+        NetworkMatchManager.Instance.AddBattleEvent(throwEvent, 2, BattleEvent.CreateNewGroup);
         Deactivate();
         InvokeActionComplete(this);
     }
@@ -73,10 +73,10 @@ public class Thrower : BattleAction
     [ClientRpc]
     void RpcThrow(Vector3Int target)
     {
-        Debug.Log($"{name} Thrower RpcThrow");
+        //Debug.Log($"{name} Thrower RpcThrow");
         InvokeActionConfirmed(this);
         BattleEventThrow throwEvent = new BattleEventThrow(this, _target);
-        NetworkMatchManager.Instance.AddBattleEvent(throwEvent, true, 2);
+        NetworkMatchManager.Instance.AddBattleEvent(throwEvent, 2, BattleEvent.CreateNewGroup);
         Deactivate();
         InvokeActionComplete(this);
     }

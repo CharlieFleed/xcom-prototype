@@ -6,7 +6,7 @@ MonoImporter:
   defaultReferences:
   - _highlightMaterial: {fileID: 2100000, guid: c9ffc795322d2c745850f72ca6fa214c, type: 2}
   - _silhouetteMaterial: {fileID: 2100000, guid: bec8fccf65ce4254795a04ffa49046c8, type: 2}
-  executionOrder: 0
+  executionOrder: -10
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

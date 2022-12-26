@@ -101,7 +101,7 @@ public class Shooter : BattleAction
     [ClientRpc]
     protected virtual void RpcShoot(GameObject target)
     {
-        Debug.Log($"{name} Shooter RpcShoot");
+        //Debug.Log($"{name} Shooter RpcShoot");
         UpdateShots();
         ShotStats shotStats = null;
         foreach (var shot in _shots)
@@ -114,9 +114,9 @@ public class Shooter : BattleAction
         //if (shotStats == null) Debug.Log($"PANIC! target {target.name} not found!");
         OnTargetSelected(this, shotStats.Target);
         OnTargetingEnd();
-        Debug.Log($"Shoot {shotStats.Target.name}");
+        //Debug.Log($"Shoot {shotStats.Target.name}");
         BattleEventShot shotEvent = new BattleEventShot(this, shotStats);
-        NetworkMatchManager.Instance.AddBattleEvent(shotEvent, true, 2);
+        NetworkMatchManager.Instance.AddBattleEvent(shotEvent, 2, BattleEvent.CreateNewGroup);
         InvokeActionConfirmed(this);
         Deactivate();
         InvokeActionComplete(this);
@@ -200,10 +200,7 @@ public class Shooter : BattleAction
                     ShotStats shotStats = new ShotStats();
                     shotStats.Target = gridEntity;
                     shotStats.Available = Vector3.Distance(transform.position, gridEntity.transform.position) <= _weapon.Range;
-                    shotStats.HitChance = 100;
-                    shotStats.CritChance = 0;
-                    shotStats.BaseDamage = Weapon.BaseDamage;
-                    shotStats.MaxDamage = Weapon.MaxDamage;
+                    ShotStatsHelper.UpdateMapEntityShotStats(shotStats, this);
                     _shots.Enqueue(shotStats);
                 }
             }
@@ -215,25 +212,7 @@ public class Shooter : BattleAction
         foreach (var shot in GridCoverManager.Instance.GetShotStats(_gridEntity, currentNode, enemies))
         {
             shot.Available = Vector3.Distance(currentNode.FloorPosition, shot.Target.CurrentNode.FloorPosition) <= _weapon.Range;
-            shot.HitChance = 100 + Weapon.HitChanceBonus(shot.Target);
-            if (shot.Cover)
-                shot.HitChance -= 40;
-            if (shot.HalfCover)
-                shot.HitChance -= 20;
-            if (shot.Flanked)
-                shot.CritChance += 50;
-            Hunkerer hunkerer = shot.Target.GetComponent<Hunkerer>();
-            if (hunkerer != null && hunkerer.IsHunkering)
-                shot.HitChance -= 30;
-            Walker walker = shot.Target.GetComponent<Walker>();
-            if (walker != null && walker.IsRunning)
-                shot.HitChance -= 15;
-            if (currentNode.Y > shot.Target.CurrentNode.Y)
-                shot.HitChance += 20;
-            shot.HitChance = Mathf.Clamp(shot.HitChance, 0, 100);
-            shot.CritChance = Mathf.Clamp(shot.CritChance, 0, 100);
-            shot.BaseDamage = Weapon.BaseDamage;
-            shot.MaxDamage = Weapon.MaxDamage;
+            ShotStatsHelper.UpdateShotStats(shot, currentNode, this, ShotStatsHelper.RegularShot);
             shots.Enqueue(shot);
         }
     }

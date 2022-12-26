@@ -45,7 +45,7 @@ public class DamageBarController : MonoBehaviour
         damageBar.SetDamage(damage, hit, crit);
         damageBar.OnEnd += HandleDamageBar_OnEnd;
         _damageBars[health].Add(damageBar);
-        Debug.Log("damage bar created");
+        //Debug.Log("damage bar created");
     }
 
     void HandleDamageBar_OnEnd(DamageBar damageBar)

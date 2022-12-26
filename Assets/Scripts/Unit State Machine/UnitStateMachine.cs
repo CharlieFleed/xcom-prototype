@@ -31,25 +31,25 @@ public class UnitStateMachine : MonoBehaviour
         State stateGuarding = new State(
             "Guarding",
             new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Guarding-Active"))*/ },
-            new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Guarding-Entry")), */new SetDecisionTreeAction(_unitDecisionTree, _unitDecisionTree.GuardingDecisionTree) },
+            new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Guarding-Entry")), */new ActionSetDecisionTree(_unitDecisionTree, _unitDecisionTree.GuardingDecisionTree) },
             new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Guarding-Exit"))*/ }
             );
         State statePatrolling = new State(
             "Patrolling",
             new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Patrolling-Active"))*/ },
-            new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Patrolling-Entry")), */new SetDecisionTreeAction(_unitDecisionTree, _unitDecisionTree.PatrollingDecisionTree) },
+            new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Patrolling-Entry")), */new ActionSetDecisionTree(_unitDecisionTree, _unitDecisionTree.PatrollingDecisionTree) },
             new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Patrolling-Exit"))*/ }
             );
         State stateFleeing = new State(
             "Fleeing",
             new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Fleeing-Active"))*/ },
-            new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Fleeing-Entry")), */new SetDecisionTreeAction(_unitDecisionTree, _unitDecisionTree.FleeingDecisionTree) },
+            new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Fleeing-Entry")), */new ActionSetDecisionTree(_unitDecisionTree, _unitDecisionTree.FleeingDecisionTree) },
             new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Fleeing-Exit"))*/ }
             );
         State stateFighting = new State(
             "Fighting",
             new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Fighting-Active"))*/ },
-            new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Fighting-Entry")), */new SetDecisionTreeAction(_unitDecisionTree, _unitDecisionTree.FightingDecisionTree) },
+            new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Fighting-Entry")), */new ActionSetDecisionTree(_unitDecisionTree, _unitDecisionTree.FightingDecisionTree) },
             new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Fighting-Exit"))*/ }
             );
         State stateNotEngaged = new HierarchicalStateMachine(
@@ -57,16 +57,16 @@ public class UnitStateMachine : MonoBehaviour
             new List<State>() { stateGuarding, statePatrolling },
             stateGuarding,
             new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Not Engaged-Active"))*/ },
-            new List<Action>() { new DelegateAction(() => Debug.Log($"{name} Not Engaged-Entry")) },
-            new List<Action>() { new DelegateAction(() => Debug.Log($"{name} Not Engaged-Exit")) }
+            new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Not Engaged-Entry"))*/ },
+            new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Not Engaged-Exit"))*/ }
             );
         State stateEngaged = new HierarchicalStateMachine(
             "Engaged",
             new List<State>() { stateFighting, stateFleeing },
             stateFighting,
             new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Engaged-Active"))*/ },
-            new List<Action>() { new DelegateAction(() => Debug.Log($"{name} Engaged-Entry")), new DelegateAction(() => { _squadUnit.Squad.Engaged = true; }) },
-            new List<Action>() { new DelegateAction(() => Debug.Log($"{name} Engaged-Exit")) }
+            new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Engaged-Entry")), */new DelegateAction(() => { _squadUnit.Squad.Engaged = true; }) },
+            new List<Action>() { /*new DelegateAction(() => Debug.Log($"{name} Engaged-Exit"))*/ }
             );
         _hsm = new HierarchicalStateMachine(
             "Top Level HSM",
@@ -78,9 +78,9 @@ public class UnitStateMachine : MonoBehaviour
             );
 
         stateNotEngaged.SetTransitions(new List<Transition>() {
-            new Transition(new OrCondition(new IsMySquadEngagedCondition(_squadUnit), new OrCondition(new DoISeeAnEnemyCondition(_viewer), new HaveIBeenShotCondition(_health))), stateEngaged, 0, new List<Action>() {
+            new Transition(new OrCondition(new ConditionIsMySquadEngaged(_squadUnit), new OrCondition(new ConditionDoISeeAnEnemy(_viewer), new ConditionHaveIBeenShot(_health))), stateEngaged, 0, new List<Action>() {
                 new DelegateAction(() => Debug.Log($"{name} Transition to {stateEngaged.Name}")),
-                new EngageAction(_unit) })
+                new ActionEngage(_unit) })
 
         });
     }    

@@ -26,7 +26,7 @@ public class HealthBar : MonoBehaviour
             {
                 if (unit.Team != null)
                 {
-                    _fill.color = NetworkMatchManager.Instance.TeamColors[int.Parse(unit.Team.Name)];
+                    _fill.color = Team.TeamColors[int.Parse(unit.Team.Name)];
                     _initialized = true;
                 }
                 else

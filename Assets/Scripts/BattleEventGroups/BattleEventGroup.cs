@@ -18,6 +18,7 @@ public class BattleEventGroup
 
     public void Run()
     {
+        //Debug.Log($"Running {_battleEvents.Count} events");
         foreach (var battleEvent in _battleEvents)
         {
             battleEvent.Run();
@@ -50,11 +51,11 @@ public class BattleEventGroup
         string s = "priority: " + _priority + "\n";
         for (int i = 0; i < _newBattleEvents.Count; i++)
         {
-            s += _newBattleEvents[i].GetType() + "\n";
+            s += "\t" + _newBattleEvents[i].GetType() + "\n";
         }
         for (int i = 0; i < _battleEvents.Count; i++)
         {
-            s += _battleEvents[i].GetType() + "\n";
+            s += "\t" + _battleEvents[i].GetType() + "\n";
         }
         return s;
     }

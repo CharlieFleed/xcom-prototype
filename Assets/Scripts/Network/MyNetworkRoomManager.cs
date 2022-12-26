@@ -80,7 +80,7 @@ public class MyNetworkRoomManager : NetworkRoomManager
         {
             foreach (var gp in GamePlayers)
             {
-                NetworkMatchManager.Instance.RpcRegisterPlayer(gp);
+                MatchBuilder.Instance.RpcRegisterPlayer(gp);
             }
             StartMatch();
         }

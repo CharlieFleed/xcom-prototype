@@ -8,6 +8,8 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera _virtualCamera;
     [SerializeField] CameraDirector _cameraDirector;
+    [SerializeField] float _rotationSpeed = 2f;
+    [SerializeField] float _smallRotationSpeed = 25f;
 
     public int Level
     {
@@ -28,10 +30,7 @@ public class CameraController : MonoBehaviour
 
     Quaternion _from;
     Quaternion _to;
-    float _speed = 2f;
     float _t = 1f;
-
-    float _smallSpeed = 25f;
 
     private void Awake()
     {
@@ -77,6 +76,9 @@ public class CameraController : MonoBehaviour
         ResetLevel();
     }
 
+    /// <summary>
+    /// Align the camera level to the target.
+    /// </summary>
     private void ResetLevel()
     {
         if (_cameraDirector.ThirdPersonCamera.m_Follow != null)
@@ -128,11 +130,12 @@ public class CameraController : MonoBehaviour
             // if the follow target changed, align with it
             if (_cameraDirector.ThirdPersonCamera.m_Follow != _savedTarget)
             {
-                Debug.Log($"CameraController.UpdateTarget - follow target changed, camera: {_cameraDirector.ThirdPersonCamera.name}, old target: {_savedTarget?.name}, new target: {_cameraDirector.ThirdPersonCamera.m_Follow?.name}");
+                //Debug.Log($"CameraController.UpdateTarget - follow target changed, camera: {_cameraDirector.ThirdPersonCamera.name}, old target: {_savedTarget?.name}, new target: {_cameraDirector.ThirdPersonCamera.m_Follow?.name}");
                 Level = GridManager.Instance.GetGridNodeFromWorldPosition(_cameraDirector.ThirdPersonCamera.m_Follow.transform.position).Y;
                 _savedTargetLevel = Level;
                 _levelOffset = 0;
             }
+            // if the follow target changed level
             else if (GridManager.Instance.GetGridNodeFromWorldPosition(_savedTarget.position).Y != _savedTargetLevel)
             {
                 Level = GridManager.Instance.GetGridNodeFromWorldPosition(_savedTarget.position).Y;
@@ -149,7 +152,7 @@ public class CameraController : MonoBehaviour
 
     private void UpdateRotation()
     {
-        _t += Time.deltaTime * _speed;
+        _t += Time.deltaTime * _rotationSpeed;
         _virtualCamera.transform.rotation = Quaternion.Lerp(_from, _to, _t);
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -190,7 +193,7 @@ public class CameraController : MonoBehaviour
     public void RotateLeftSmall()
     {
         Quaternion from = _virtualCamera.transform.rotation;
-        Quaternion rotation = Quaternion.AngleAxis(_smallSpeed * Time.deltaTime, new Vector3(0, 1, -1).normalized);
+        Quaternion rotation = Quaternion.AngleAxis(_smallRotationSpeed * Time.deltaTime, new Vector3(0, 1, -1).normalized);
         _virtualCamera.transform.rotation = from * rotation;
         CancelStepRotation();
     }
@@ -198,7 +201,7 @@ public class CameraController : MonoBehaviour
     public void RotateRightSmall()
     {
         Quaternion from = _virtualCamera.transform.rotation;
-        Quaternion rotation = Quaternion.AngleAxis(-_smallSpeed * Time.deltaTime, new Vector3(0, 1, -1).normalized);
+        Quaternion rotation = Quaternion.AngleAxis(-_smallRotationSpeed * Time.deltaTime, new Vector3(0, 1, -1).normalized);
         _virtualCamera.transform.rotation = from * rotation;
         CancelStepRotation();
     }

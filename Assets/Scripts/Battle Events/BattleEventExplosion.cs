@@ -63,7 +63,7 @@ public class BattleEventExplosion : BattleEvent
                             {
                                 bool hit = false;
                                 bool crit = false;
-                                DamageDealer.DealDamage(
+                                DamageHelper.DealDamage(
                                     health,
                                     health.GetComponent<Armor>(),
                                     _explosive.Damage,
@@ -71,7 +71,7 @@ public class BattleEventExplosion : BattleEvent
                                     50,
                                     out hit,
                                     out crit);
-                                NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage(), false, 0);
+                                NetworkMatchManager.Instance.AddBattleEvent(new BattleEventDamage());
                             }
                             _explosive.Detonate();
                             _waitTimeout = 1.0f;

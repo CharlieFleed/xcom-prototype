@@ -7,16 +7,16 @@ public class BattleEventEngageAction : BattleEvent
 {
     ActionsController _actionsController;
     GridEntity _gridEntity;
-    EngageAction _engageAction;
+    ActionEngage _engageAction;
     float _waitTimeout = 1;
 
-    enum Phase { Camera, Wait, Run, Wait2 }
+    enum Phase { Camera, Wait, Run, Wait2, Wait3 }
     Phase _phase;
 
     public static event Action<GridEntity> OnEngaging = delegate { };
     public static event Action<GridEntity> OnEngagingEnd = delegate { };
 
-    public BattleEventEngageAction(ActionsController actionsController, EngageAction engageAction, GridEntity gridEntity)
+    public BattleEventEngageAction(ActionsController actionsController, ActionEngage engageAction, GridEntity gridEntity)
     {
         _actionsController = actionsController;
         _engageAction = engageAction;
@@ -46,6 +46,15 @@ public class BattleEventEngageAction : BattleEvent
                 break;
             case Phase.Wait2:
                 break;
+
+            case Phase.Wait3:
+                _waitTimeout -= Time.deltaTime;
+                if (_waitTimeout <= 0)
+                {
+                    OnEngagingEnd(_gridEntity);
+                    End();
+                }
+                break;
             default:
                 break;
         }
@@ -53,8 +62,9 @@ public class BattleEventEngageAction : BattleEvent
 
     private void _actionsController_OnActionComplete(Unit obj)
     {
+        _phase = Phase.Wait3;
+        _waitTimeout = 2;
         _actionsController.OnActionComplete -= _actionsController_OnActionComplete;
-        OnEngagingEnd(_gridEntity);
-        End();
+        
     }
 }

@@ -5,17 +5,25 @@ using System;
 
 public class ActionsController : MonoBehaviour
 {
+    #region Events
+
     public static event Action<ActionsController> OnActionsControllerAdded = delegate { };
     public static event Action<ActionsController> OnActionsControllerRemoved = delegate { };
 
     public event Action<Unit> OnActionComplete = delegate { };
+    public event Action<int> OnNumActionsChanged = delegate { };
+
+    #endregion
+
+    #region Fields
 
     BattleAction[] _battleActions;
     Unit _unit;
 
     private int _numActions;
     public int NumActions { get { return _numActions; } set { _numActions = value; OnNumActionsChanged(_numActions); } }
-    public event Action<int> OnNumActionsChanged = delegate { };
+
+    #endregion
 
     private void Awake()
     {

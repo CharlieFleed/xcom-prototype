@@ -101,7 +101,7 @@ public class ItemUser : BattleAction
     [ClientRpc]
     protected virtual void RpcUse(GameObject target)
     {
-        Debug.Log(" ItemUser RpcUse");
+        //Debug.Log(" ItemUser RpcUse");
         UpdateTargets();
         ShotStats shotStats = null;
         foreach (var shot in _targets)
@@ -113,9 +113,9 @@ public class ItemUser : BattleAction
         }
         OnTargetSelected(this, shotStats.Target);
         OnTargetingEnd();
-        Debug.Log($"Use {_item.Name} on {shotStats.Target.name}");
+        //Debug.Log($"Use {_item.Name} on {shotStats.Target.name}");
         BattleEventItemUse itemUseEvent = new BattleEventItemUse(this, shotStats);
-        NetworkMatchManager.Instance.AddBattleEvent(itemUseEvent, true, 2);
+        NetworkMatchManager.Instance.AddBattleEvent(itemUseEvent, 2, BattleEvent.CreateNewGroup);
         InvokeActionConfirmed(this);
         Deactivate();
         InvokeActionComplete(this);
@@ -197,11 +197,7 @@ public class ItemUser : BattleAction
             if (Vector3.Distance(transform.position, shotStats.Target.CurrentNode.FloorPosition) <= _item.Range)
             {
                 shotStats.Available &= _item.IsApplicable(shotStats.Target);
-                shotStats.HitChance = 100;
-                shotStats.CritChance = 0;
-                shotStats.BaseDamage = 0;
-                shotStats.MaxDamage = 0;
-                shotStats.Friendly = true;
+                ShotStatsHelper.UpdateItemShotStats(shotStats);
                 _targets.Enqueue(shotStats);
             }
         }
@@ -212,7 +208,7 @@ public class ItemUser : BattleAction
         foreach (var target in _targets)
         {
             OnTargetAdded(target);
-            Debug.Log("ItemUser TargetAdded");
+            //Debug.Log("ItemUser TargetAdded");
         }
     }
 

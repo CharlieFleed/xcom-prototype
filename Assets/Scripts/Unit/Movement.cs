@@ -51,6 +51,8 @@ public class Movement : MonoBehaviour
     float _turnSmoothTime = .1f;
     Vector3 _lookAtDirection = Vector3.zero;
 
+    public Vector3 TargetPosition { get { return _targetPosition; } }
+
     private void Awake()
     {
         //_animator = gameObject.GetComponentInChildren<Animator>();

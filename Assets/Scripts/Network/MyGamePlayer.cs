@@ -8,13 +8,11 @@ public class MyGamePlayer : NetworkBehaviour
 {
     #region Fields
 
-    public MatchSettings MatchSettings = new MatchSettings() { unitClasses = new int[4] };
+    public MatchSettings MatchSettings = new MatchSettings() { unitClasses = new int[6] };
 
     public bool IsActive { set; get; }
 
     NetworkMatchManager _matchManager;
-    Pathfinder _pathfinder;
-    GridManager _gridManager;
     GridAgent _gridAgent;
     UnitDecisionTree _unitDecisionTree;
 
@@ -53,8 +51,6 @@ public class MyGamePlayer : NetworkBehaviour
     private void Start()
     {
         _matchManager = NetworkMatchManager.Instance;
-        _pathfinder = Pathfinder.Instance;
-        _gridManager = GridManager.Instance;
     }
 
     public void Activate()
@@ -85,10 +81,5 @@ public class MyGamePlayer : NetworkBehaviour
     public void Deactivate()
     {
         IsActive = false;
-    }
-
-    bool IsNodeAvailable(GridNode node)
-    {
-        return _gridManager.IsNodeAvailable(node, _gridAgent);
     }
 }

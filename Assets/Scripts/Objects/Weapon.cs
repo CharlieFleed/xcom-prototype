@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public enum WeaponType { Rifle, Gun };
+public enum WeaponType { Rifle, Gun, SniperRifle };
 
 public class Weapon : MonoBehaviour
 {
